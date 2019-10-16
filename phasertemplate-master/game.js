@@ -13,9 +13,9 @@ export default class Game extends Phaser.Scene {
     
     
     let image = this.add.image(400,300,'fondo');
-    let sprite = new Phaser.GameObjects.Sprite(this, 400, 400, 'sprite');
-    
-    this.add.existing(sprite);
+   // let sprite = new Phaser.GameObjects.Sprite(this, 400, 400, 'sprite');
+   let jugador = new Jugador(this,0,0)
+    this.add.existing(jugador);
     this.cameras.main.setViewport(0, 0, 800, 600);
   }
 
@@ -24,4 +24,19 @@ export default class Game extends Phaser.Scene {
   
   
   
+}
+class Jugador extends Phaser.GameObjects.sprite
+{
+  constructor(scene)
+  {
+    let x = 400;
+    let y = 400;
+    super(this, x,y,'sprite')
+  }
+
+  Preupdate(time,delta)
+  {
+    this.x =+ 10;
+
+  }
 }
