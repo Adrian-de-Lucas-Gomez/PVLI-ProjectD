@@ -22,20 +22,25 @@ export default class Game extends Phaser.Scene {
     //let sprite = new Phaser.GameObjects.Sprite(this, 400, 400, 'sprite');
 
     //llaves
-    let llave1 = new Phaser.GameObjects.Sprite(this, 250, 40, 'llave');
+    //let llave1 = new Phaser.GameObjects.Sprite(this, 250, 40, 'llave');
+   let llave1 = this.physics.add.sprite(250,40,'llave');
     this.add.existing(llave1);
     llave1.setScale(0.3);
     llave1.setAngle(90);
+    llave1.setCollideWorldBounds(true);
     
+   // camera
+    this.cameras.main.setViewport(0, 0, 800, 600);
+
     //player
     this.player = new Player(this);
     this.add.existing(this.player);
  
+    //physics
+    this.physics.add.existing(this);
+    this.physics.add.existing(this.player);
+   // this.physics.add.collider(player,llave1);
     
-    this.cameras.main.setViewport(0, 0, 800, 600);
-
-    //this.player.setCollideWorldBounds(true);
-    //this.player.setGravity(0,10);
 
       //teclasS
       this.w = this.input.keyboard.addKey('W');
@@ -47,7 +52,7 @@ export default class Game extends Phaser.Scene {
   update(time, delta) {
     if(this.w.isDown)
     {
-       this.player.y--;
+       this.player.y-=20;
     }
      if(this.a.isDown)
     {
@@ -62,8 +67,14 @@ export default class Game extends Phaser.Scene {
     {
         this.player.x++;
     }
+
+    //this.physics.arcade.collision(this.player,this.llave1);
+    //this.physics.add.collider(this.player,this.llave1)
+
+   
+  
+
+  
+
   }
-
-
-
 }
