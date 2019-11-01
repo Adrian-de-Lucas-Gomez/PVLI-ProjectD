@@ -1,17 +1,15 @@
-//export default class Player extends Phaser.GameObjects.Sprite
+
 export default class Player extends Phaser.Physics.Arcade.Sprite
 {
     constructor(scene)
     {
         super(scene,100,400,'sprite');
+        scene.add.existing(this);
+        scene.physics.world.enable(this);
     }
     create()
     {
-        
-        //this.setCollideWorldBounds(true);
-        //this.setAcceleration(10,0);
-
-        
+         
     }
 
     preUpdate()
