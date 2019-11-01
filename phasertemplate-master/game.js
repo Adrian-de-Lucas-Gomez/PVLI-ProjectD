@@ -5,12 +5,16 @@ export default class Game extends Phaser.Scene {
 
   constructor() {
     super({ key: 'main' });
+   
   }
+  
 
   preload() {
     this.load.image('fondo', './maze.jpg');
     this.load.image('sprite', './player.png');
     this.load.image('llave','./llave.png')
+     //variables del juego
+    this.puntos = 0;
 
    
 
@@ -23,6 +27,7 @@ export default class Game extends Phaser.Scene {
 
     //llaves
     this.llave1 = new Llave(this,300,200,'llave');
+    this.llave2 = new Llave(this, 400, 200, 'llave')
     //this.add.existing(llave1);
   
      // camera
@@ -34,10 +39,9 @@ export default class Game extends Phaser.Scene {
  
     //physics
     this.physics.add.existing(this);
-    //this.physics.add.existing(this.player);
-    this.physics.add.collider(this.player, this.llave1, this.choque, null, this);
-    //this.physics.add.collider(this.llave1, this.player, this.choque, null, this);
-    //this.llave1.setVelocityX(100);
+    //this.physics.add.collider(this.player, this.llave1, this.choque(10), null, this);
+   
+  
     
 
       //teclas
@@ -46,10 +50,13 @@ export default class Game extends Phaser.Scene {
       this.s = this.input.keyboard.addKey('S');
       this.d = this.input.keyboard.addKey('D');
       this.cursor = this.input.keyboard.createCursorKeys();
-      console.log(this.cursor);
+      //console.log(this.cursor);
   }
 
   update(time, delta) {
+    //controles
+    {
+
     if(this.w.isDown || this.cursor.up.isDown)
     {
        //this.player.y-=5;
@@ -76,11 +83,23 @@ export default class Game extends Phaser.Scene {
     else{
       this.player.body.setVelocityX(0)
     }
+   }
    
+   //colisiones
+   {
+     if(this.physics.collide(this.player,this.llave1))
+     {
+       this.choque(20, this.llave1)
+     }
+   }
 
   }
-  choque()
+  choque(puntos, object)
   {
+    this.puntos =+puntos;
+    //this.llave1.destroy();
+    object.destroy();
+    console.log(this.puntos)
 
   }
 }
