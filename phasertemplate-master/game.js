@@ -50,28 +50,31 @@ export default class Game extends Phaser.Scene {
   update(time, delta) {
     if(this.w.isDown)
     {
-       this.player.y-=5;
+       //this.player.y-=5;
+       this.player.body.setVelocityY(-100);
       
+    }
+    else if(this.s.isDown)
+    {
+      this.player.body.setVelocityY(100);
+    }
+    else
+    {
+      this.player.body.setVelocityY(0);
     }
      if(this.a.isDown)
     {
-        this.player.x-=5;
+       // this.player.x-=5;
+       this.player.body.setVelocityX(-100)
     }
-     if(this.s.isDown)
+    else if ( this.d.isDown)
     {
-        this.player.y+=5;
-
+      this.player.body.setVelocityX(100)
     }
-     if(this.d.isDown)
-    {
-        this.player.x+= 5;
+    else{
+      this.player.body.setVelocityX(0)
     }
-
-    
    
-  
-
-  
 
   }
   choque()
