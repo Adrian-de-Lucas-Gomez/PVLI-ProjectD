@@ -15,6 +15,8 @@ export default class Game extends Phaser.Scene {
     this.load.image('llave','./llave.png')
      //variables del juego
     this.puntos = 0;
+    this.llavesRecogidas = 0;
+    this.LLavesMax = 3
 
    
 
@@ -98,6 +100,7 @@ export default class Game extends Phaser.Scene {
   {
     this.puntos =+puntos;
     //this.llave1.destroy();
+    this.llavesRecogidas++;
     object.destroy();
     console.log(this.puntos)
 

@@ -6,6 +6,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         super(scene,100,400,'sprite');
         scene.add.existing(this);
         scene.physics.world.enable(this);
+        this.setCollideWorldBounds(true);
     }
     create()
     {
@@ -15,7 +16,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     preUpdate()
     {
         this.setScale(0.05);
-        this.setCollideWorldBounds(true);
+        //this.setCollideWorldBounds(true);
     
         
     
