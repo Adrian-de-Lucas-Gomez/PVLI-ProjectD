@@ -16,5 +16,8 @@ export default class Llave extends Phaser.Physics.Arcade.Sprite
         this.setScale(0.3);
         this.setAngle(90);
         this.setCollideWorldBounds(true);
+        this.setVelocityX(30);
+
+        //this.x++;
     }
 }
