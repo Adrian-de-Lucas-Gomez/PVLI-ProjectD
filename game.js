@@ -13,23 +13,29 @@ export default class Game extends Phaser.Scene {
     this.load.image('fondo', './maze.jpg');
     this.load.image('sprite', './player.png');
     this.load.image('llave','./llave.png')
-     //variables del juego
-    this.puntos = 0;
-    this.llavesRecogidas = 0;
-    this.LLavesMax = 3
 
-   
 
   }
 
   create() {
+    // variable
+    this.puntos = 0;
+    this.llavesRecogidas = 0;
+    this.LLavesMax = 3
+
 
     let image = this.add.image(400, 300, 'fondo');
     image.setScale(1.7);
 
     //llaves
+    this.llaves = this.add.group();
     this.llave1 = new Llave(this,300,200,'llave');
     this.llave2 = new Llave(this, 400, 200, 'llave')
+    this.llave3 = new Llave(this,100,100,'llave');
+    this.llaves.add(this.llave1);
+    this.llaves.add(this.llave2);
+    this.llaves.add(this.llave3);
+  
     //this.add.existing(llave1);
   
      // camera
@@ -41,7 +47,14 @@ export default class Game extends Phaser.Scene {
  
     //physics
     this.physics.add.existing(this);
-    //this.physics.add.collider(this.player, this.llave1, this.choque(10), null, this);
+    //this.physics.add.collider(this.player, this.llave2, this.choque(10), null, this);
+    //this.physics.add.collider(this.player, this.llave2);
+    // this.physics.add.collider(this.player, this.llaves, (o1,o2)=>{
+     // o2.destroy();
+    //});
+
+    this.physics.add.collider(this.player,this.llaves,this.choque);
+
    
   
     
@@ -89,20 +102,26 @@ export default class Game extends Phaser.Scene {
    
    //colisiones
    {
-     if(this.physics.collide(this.player,this.llave1))
-     {
-       this.choque(20, this.llave1)
-     }
+     //if(this.physics.collide(this.player,this.llave1))
+     //{
+       //this.choque(20, this.llave1)
+     //}
+    
    }
 
-  }
-  choque(puntos, object)
-  {
-    this.puntos =+puntos;
-    //this.llave1.destroy();
-    this.llavesRecogidas++;
-    object.destroy();
-    console.log(this.puntos)
 
   }
+  choque(object1, object2)
+  {
+    console.log(this.puntos);
+    this.puntos = 1 + this.puntos;
+    this.llavesRecogidas += 1;
+    object2.destroy();
+    console.log(this.puntos);
+
+  }
+  //colision(obj1,obj2)
+  //{
+    //obj2.destroy();
+  //}
 }
