@@ -1,4 +1,4 @@
-export default class Llave extends Phaser.Physics.Arcade.Sprite
+export default class Enemigo extends Phaser.Physics.Arcade.Sprite
 {
     constructor(scene, x, y, type)
     {
@@ -13,11 +13,11 @@ export default class Llave extends Phaser.Physics.Arcade.Sprite
     }
     preUpdate()
     {
-        this.setScale(0.3);
-        //this.setAngle(90);    //Ya no es necesario girarla
+        //this.setScale(0.3);
         this.setCollideWorldBounds(true);
-        //this.setVelocityX(30);
+    }
 
-        //this.x++;
+    mover(){
+        
     }
 }

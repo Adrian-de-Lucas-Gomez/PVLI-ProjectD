@@ -1,6 +1,8 @@
 
 import Player from './Player.js';
 import Llave from './Llave.js';
+import Enemigo from './Enemigo.js';
+
 export default class Game extends Phaser.Scene {
 
   constructor() {
@@ -13,6 +15,8 @@ export default class Game extends Phaser.Scene {
     this.load.image('fondo', './maze.jpg');
     this.load.image('sprite', './player.png');
     this.load.image('llave','./llave.png')
+    this.load.image('enemigo','./favicon.png')
+    //this.load.spritesheet('anim','./mago.png',291,513);
 
 
   }
@@ -35,6 +39,10 @@ export default class Game extends Phaser.Scene {
     this.llaves.add(this.llave1);
     this.llaves.add(this.llave2);
     this.llaves.add(this.llave3);
+
+    //enemigo
+    this.enemigo= new Enemigo(this, 200, 300 , 'enemigo');
+    //this.add.sprite(150,100,'anim');
   
     //this.add.existing(llave1);
   
@@ -54,7 +62,7 @@ export default class Game extends Phaser.Scene {
     //});
 
     this.physics.add.collider(this.player,this.llaves,this.choque);
-
+    this.physics.add.collider(this.player,this.enemigo,this.ColEnemigo);
    
   
     
@@ -68,14 +76,14 @@ export default class Game extends Phaser.Scene {
       //console.log(this.cursor);
   }
 
-  update(time, delta) {
+  update(time, delta){
     //controles
-    {
+  {
 
     if(this.w.isDown || this.cursor.up.isDown)
     {
-       //this.player.y-=5;
-       this.player.body.setVelocityY(-100);
+       
+      this.player.body.setVelocityY(-100);
       
     }
     else if(this.s.isDown || this.cursor.down.isDown)
@@ -88,8 +96,8 @@ export default class Game extends Phaser.Scene {
     }
      if(this.a.isDown || this.cursor.left.isDown)
     {
-       // this.player.x-=5;
-       this.player.body.setVelocityX(-100)
+    
+      this.player.body.setVelocityX(-100)
     }
     else if ( this.d.isDown || this.cursor.right.isDown)
     {
@@ -98,17 +106,8 @@ export default class Game extends Phaser.Scene {
     else{
       this.player.body.setVelocityX(0)
     }
-   }
-   
-   //colisiones
-   {
-     //if(this.physics.collide(this.player,this.llave1))
-     //{
-       //this.choque(20, this.llave1)
-     //}
-    
-   }
-
+  }
+ 
 
   }
   choque(object1, object2)
@@ -118,10 +117,11 @@ export default class Game extends Phaser.Scene {
     this.llavesRecogidas += 1;
     object2.destroy();
     console.log(this.puntos);
-
   }
-  //colision(obj1,obj2)
-  //{
-    //obj2.destroy();
-  //}
+
+  ColEnemigo(object1, object2)
+  {
+    console.log("Chocaste con el enemigo");
+    //this.object1.ReturnToSpawn();
+  }
 }
