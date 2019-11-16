@@ -2,12 +2,16 @@
 import Player from './Player.js';
 import Llave from './Llave.js';
 import Enemigo from './Enemigo.js';
+import Ataque from './Ataque.js';
 
 export default class Game extends Phaser.Scene {
 
   constructor() {
     super({ key: 'main' });
-   
+     // variable
+     this.puntos = 0;
+     this.llavesRecogidas = 0;
+     this.LLavesMax = 3
   }
   
 
@@ -15,7 +19,8 @@ export default class Game extends Phaser.Scene {
     this.load.image('fondo', './maze.jpg');
     this.load.image('sprite', './player.png');
     this.load.image('llave','./llave.png')
-    this.load.image('enemigo','./favicon.png')
+    this.load.image('enemigo','./Enemigo.png')
+    this.load.image('Deteccion', './triangulo.png')
     //this.load.spritesheet('anim','./mago.png',291,513);
     this.load.tilemapTiledJSON('tilemap', '/MapaJuego/MapaProvisionalJSON.json');
     this.load.image('patronesTilemap', '/MapaJuego/TileSet/0x72_16x16DungeonTileset.v4.png');
@@ -25,16 +30,15 @@ export default class Game extends Phaser.Scene {
 
     this.map.addTilesetImage('patrones', 'patronesTilemap');
 
+    
+
 
   }
 
   create() {
-    // variable
-    this.puntos = 0;
-    this.llavesRecogidas = 0;
-    this.LLavesMax = 3
+  
 
-
+console.log(Phaser.Input.Keyboard.KeyCodes)
     let image = this.add.image(400, 300, 'fondo');
     image.setScale(1.7);
 
@@ -48,8 +52,19 @@ export default class Game extends Phaser.Scene {
     this.llaves.add(this.llave3);
 
     //enemigo
-    this.enemigo= new Enemigo(this, 200, 300 , 'enemigo');
-    //this.add.sprite(150,100,'anim');
+    this.Enemigos = this.add.group();
+    this.enemigo1= new Enemigo(this, 200, 300 , 'enemigo');
+    this.enemigo2= new Enemigo(this, 300, 300 , 'enemigo');
+    this.enemigo3= new Enemigo(this, 400, 300 , 'enemigo');
+    this.Enemigos.add(this.enemigo1)
+    this.Enemigos.add(this.enemigo2)
+    this.Enemigos.add(this.enemigo3)
+    //this.ataque = new Ataque(this,200, 350, 'Deteccion');
+    
+   // this.Torreta = new Phaser.GameObjects.Container(this,200,300) ; 
+    //this.Torreta.add(this.enemigo);
+    //this.Torreta.add(this.ataque);
+
   
     //this.add.existing(llave1);
   
@@ -69,7 +84,8 @@ export default class Game extends Phaser.Scene {
     //});
 
     this.physics.add.collider(this.player,this.llaves,this.choque);
-    this.physics.add.collider(this.player,this.enemigo,this.ColEnemigo);
+    //this.physics.add.collider(this.player,this.enemigo,this.ColEnemigo);
+    //this.physics.add.collider(this.player,this.Enemigos,this.AtaqueEnemigo);
    
   
     
@@ -80,7 +96,8 @@ export default class Game extends Phaser.Scene {
       this.s = this.input.keyboard.addKey('S');
       this.d = this.input.keyboard.addKey('D');
       this.cursor = this.input.keyboard.createCursorKeys();
-      //console.log(this.cursor);
+      this.espacio = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+      console.log(this.espacio);
   }
 
   update(time, delta){
@@ -113,6 +130,8 @@ export default class Game extends Phaser.Scene {
     else{
       this.player.body.setVelocityX(0)
     }
+
+  
   }
  
 
@@ -131,4 +150,12 @@ export default class Game extends Phaser.Scene {
     console.log("Chocaste con el enemigo");
     //this.object1.ReturnToSpawn();
   }
+
+ // AtaqueEnemigo(object1,object2)
+ //{
+   // if(this.espacio.isDown)
+    //{
+      
+   // }
+  //}
 }
