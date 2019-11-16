@@ -17,6 +17,13 @@ export default class Game extends Phaser.Scene {
     this.load.image('llave','./llave.png')
     this.load.image('enemigo','./favicon.png')
     //this.load.spritesheet('anim','./mago.png',291,513);
+    this.load.tilemapTiledJSON('tilemap', '/MapaJuego/MapaProvisionalJSON.json');
+    this.load.image('patronesTilemap', '/MapaJuego/TileSet/0x72_16x16DungeonTileset.v4.png');
+
+    //carga del mapa
+    this.map = this.make.tilemap({ key: 'tilemap', tileWidth: 16, tileHeight: 16 });
+
+    this.map.addTilesetImage('patrones', 'patronesTilemap');
 
 
   }
