@@ -23,12 +23,9 @@ export default class Game extends Phaser.Scene {
     this.load.image('Deteccion', './triangulo.png')
     //this.load.spritesheet('anim','./mago.png',291,513);
     this.load.tilemapTiledJSON('tilemap', '/MapaJuego/MapaProvisionalJSON.json');
-    this.load.image('patronesTilemap', '/MapaJuego/TileSet/0x72_16x16DungeonTileset.v4.png');
+    this.load.image('Dungeon', '/MapaJuego/TileSet/0x72_16x16DungeonTileset.v4.png');
 
-    //carga del mapa
-    this.map = this.make.tilemap({ key: 'tilemap', tileWidth: 16, tileHeight: 16 });
-
-    this.map.addTilesetImage('patrones', 'patronesTilemap');
+    
 
     
 
@@ -41,6 +38,11 @@ export default class Game extends Phaser.Scene {
 console.log(Phaser.Input.Keyboard.KeyCodes)
     let image = this.add.image(400, 300, 'fondo');
     image.setScale(1.7);
+
+    //carga del mapa
+    this.map = this.make.tilemap({ key: 'tilemap', tileWidth: 16, tileHeight: 16 });
+
+    this.map.addTilesetImage('Dungeon', 'Dungeon');
 
     //llaves
     this.llaves = this.add.group();
