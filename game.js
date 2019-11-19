@@ -16,7 +16,7 @@ export default class Game extends Phaser.Scene {
   
 
   preload() {
-    this.load.image('fondo', './maze.jpg');
+    this.load.image('fondo', './MapaProvisional.png');
     this.load.image('sprite', './player.png');
     this.load.image('llave','./llave.png')
     this.load.image('enemigo','./Enemigo.png')
@@ -24,12 +24,7 @@ export default class Game extends Phaser.Scene {
     //this.load.spritesheet('anim','./mago.png',291,513);
     this.load.tilemapTiledJSON('tilemap', '/MapaJuego/MapaProvisionalJSON.json');
     this.load.image('Dungeon', '/MapaJuego/TileSet/0x72_16x16DungeonTileset.v4.png');
-
-    
-
-    
-
-
+    this.load.audio('level_music','./Sounds/Dangerous Dungeon.ogg')
   }
 
   create() {
@@ -37,7 +32,7 @@ export default class Game extends Phaser.Scene {
 
 console.log(Phaser.Input.Keyboard.KeyCodes)
     let image = this.add.image(400, 300, 'fondo');
-    image.setScale(1.7);
+    image.setScale(0.7);
 
     //carga del mapa
     this.map = this.make.tilemap({ key: 'tilemap', tileWidth: 16, tileHeight: 16 });
@@ -108,7 +103,10 @@ console.log(Phaser.Input.Keyboard.KeyCodes)
       this.scoreText = this.add.text(16, 16, 'score:' + this.score, { fontSize: '40px', fill: '#0bfc03' });
       this.livesText = this.add.text(700, 25, 'lives:' + this.lives, { fontSize: '15px', fill: '#0bfc03' });
       this.keysText = this.add.text(525, 20, 'Pieces:'+ this.pieces+'/3', { fontSize: '22px', fill: '#0bfc03' });
-  }
+  
+      this.sound.play("level_music",{loop: true , volume: 0.05})
+  
+    }
 
   update(time, delta){
     //controles
