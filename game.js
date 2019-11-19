@@ -9,7 +9,7 @@ export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'main' });
      // variable
-     this.puntos = 0;
+     
      this.llavesRecogidas = 0;
      this.LLavesMax = 3
   }
@@ -98,6 +98,14 @@ console.log(Phaser.Input.Keyboard.KeyCodes)
       this.cursor = this.input.keyboard.createCursorKeys();
       this.espacio = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
       console.log(this.espacio);
+
+      this.score = 0;
+      this.pieces = 0;
+      this.lives = 3;
+      this.scoreText;
+      this.scoreText = this.add.text(16, 16, 'score:' + this.score, { fontSize: '40px', fill: '#0bfc03' });
+      this.livesText = this.add.text(700, 25, 'lives:' + this.lives, { fontSize: '15px', fill: '#0bfc03' });
+      this.keysText = this.add.text(525, 20, 'Pieces:'+ this.pieces+'/3', { fontSize: '22px', fill: '#0bfc03' });
   }
 
   update(time, delta){
@@ -130,18 +138,24 @@ console.log(Phaser.Input.Keyboard.KeyCodes)
     else{
       this.player.body.setVelocityX(0)
     }
-
-  
+    //this.score =this.score+1;
+    this.scoreText.text="Score=" + this.score;
+    this.livesText.text="lives:" + this.lives;
+    this.keysText.text="Pieces:"+ this.pieces+"/3";
   }
  
 
   }
   choque(object1, object2)
   {
-    console.log(this.puntos);
-    this.puntos = 1 + this.puntos;
+    
+    console.log(this.score);
+    //this.puntos = 1 + this.puntos;
+    this.score += 10;
+    //this.scoreText = this.add.text('Score: ' + this.score);
     this.llavesRecogidas += 1;
     object2.destroy();
+    // object2.disableBody(true,true);   Otra forma de hacerlo si no quisieramos destruirlo
     console.log(this.puntos);
   }
 
