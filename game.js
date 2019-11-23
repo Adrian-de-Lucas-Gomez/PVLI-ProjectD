@@ -9,8 +9,9 @@ export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'main' });
      // variable
-    
-    
+     
+     this.llavesRecogidas = 0;
+     this.LLavesMax = 3
   }
   
 
@@ -93,7 +94,6 @@ console.log(Phaser.Input.Keyboard.KeyCodes)
       this.score = 0;
       this.pieces = 0;
       this.lives = 3;
-      
       this.scoreText;
       this.scoreText = this.add.text(16, 16, 'score:' + this.score, { fontSize: '40px', fill: '#0bfc03' });
       this.livesText = this.add.text(700, 25, 'lives:' + this.lives, { fontSize: '15px', fill: '#0bfc03' });
@@ -139,6 +139,10 @@ console.log(Phaser.Input.Keyboard.KeyCodes)
     else{
       this.player.body.setVelocityX(0)
     }
+    //this.score =this.score+1;
+    this.scoreText.text="Score=" + this.score;
+    this.livesText.text="lives:" + this.lives;
+    this.keysText.text="Pieces:"+ this.pieces+"/3";
   }
  
   ColLlave(object1, object2)
