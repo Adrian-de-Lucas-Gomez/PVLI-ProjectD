@@ -1,12 +1,15 @@
 
 export default class Player extends Phaser.Physics.Arcade.Sprite
 {
-    constructor(scene)
+    constructor(scene,x,y,type)
     {
-        super(scene,100,400,'sprite');
+        super(scene,x,y,type);
         scene.add.existing(this);
         scene.physics.world.enable(this);
         this.setCollideWorldBounds(true);
+
+        this.posX=this.x;
+        this.posY=this.y;
     }
     create()
     {
@@ -17,13 +20,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     {
         this.setScale(0.05);
         //this.setCollideWorldBounds(true);
-        //this.posX=x;
-        //this.posY=y;
+        
     }
     
     ReturnToSpawn(){
-        //this.x=posX;
-        //this.y=posY;
+        this.x=this.posX;
+        this.y=this.posY;
         console.log("Deberia de volver al punto de inicio");
+    }
+
+    ChangeSpawn(){
+        this.posX=this.x;
+        this.posY=this.y;
     }
 }

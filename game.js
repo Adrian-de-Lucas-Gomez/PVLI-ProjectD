@@ -9,30 +9,21 @@ export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'main' });
      // variable
-     this.puntos = 0;
-     this.llavesRecogidas = 0;
-     this.LLavesMax = 3
+    
+    
   }
   
 
   preload() {
-    this.load.image('fondo', './maze.jpg');
+    this.load.image('fondo', './MapaProvisional.png');
     this.load.image('sprite', './player.png');
     this.load.image('llave','./llave.png')
     this.load.image('enemigo','./Enemigo.png')
     this.load.image('Deteccion', './triangulo.png')
     //this.load.spritesheet('anim','./mago.png',291,513);
     this.load.tilemapTiledJSON('tilemap', '/MapaJuego/MapaProvisionalJSON.json');
-    this.load.image('patronesTilemap', '/MapaJuego/TileSet/0x72_16x16DungeonTileset.v4.png');
-
-    //carga del mapa
-    this.map = this.make.tilemap({ key: 'tilemap', tileWidth: 16, tileHeight: 16 });
-
-    this.map.addTilesetImage('patrones', 'patronesTilemap');
-
-    
-
-
+    this.load.image('Dungeon', '/MapaJuego/TileSet/0x72_16x16DungeonTileset.v4.png');
+    this.load.audio('level_music','./Sounds/Dangerous Dungeon.ogg')
   }
 
   create() {
@@ -40,70 +31,80 @@ export default class Game extends Phaser.Scene {
 
 console.log(Phaser.Input.Keyboard.KeyCodes)
     let image = this.add.image(400, 300, 'fondo');
-    image.setScale(1.7);
+    image.setScale(0.7);
+
+    //carga del mapa
+    this.map = this.make.tilemap({ key: 'tilemap', tileWidth: 16, tileHeight: 16 });
+
+    this.map.addTilesetImage('Dungeon', 'Dungeon');
 
     //llaves
     this.llaves = this.add.group();
-    this.llave1 = new Llave(this,300,200,'llave');
-    this.llave2 = new Llave(this, 400, 200, 'llave')
-    this.llave3 = new Llave(this,100,100,'llave');
+    this.llave1 = new Llave(this,100,350,'llave');
+    this.llave2 = new Llave(this, 400, 300, 'llave')
+    this.llave3 = new Llave(this,500,550,'llave');
     this.llaves.add(this.llave1);
     this.llaves.add(this.llave2);
     this.llaves.add(this.llave3);
 
     //enemigo
     this.Enemigos = this.add.group();
-    this.enemigo1= new Enemigo(this, 200, 300 , 'enemigo');
-    this.enemigo2= new Enemigo(this, 300, 300 , 'enemigo');
-    this.enemigo3= new Enemigo(this, 400, 300 , 'enemigo');
+    this.enemigo1= new Enemigo(this, 200, 100 , 'enemigo');
+    this.enemigo2= new Enemigo(this, 300, 100 , 'enemigo');
+    this.enemigo3= new Enemigo(this, 400, 100 , 'enemigo');
     this.Enemigos.add(this.enemigo1)
     this.Enemigos.add(this.enemigo2)
     this.Enemigos.add(this.enemigo3)
+
+    
     //this.ataque = new Ataque(this,200, 350, 'Deteccion');
     
-   // this.Torreta = new Phaser.GameObjects.Container(this,200,300) ; 
+    // this.Torreta = new Phaser.GameObjects.Container(this,200,300) ; 
     //this.Torreta.add(this.enemigo);
     //this.Torreta.add(this.ataque);
 
   
-    //this.add.existing(llave1);
-  
-     // camera
+    // camera
+    
+    this.cameras.main.setSize(1600,1200);
     this.cameras.main.setViewport(0, 0, 800, 600);
-
+    
     //player
-    this.player = new Player(this);
-    //this.add.existing(this.player);
- 
+    this.player = new Player(this,100,100,'sprite');
+
     //physics
     this.physics.add.existing(this);
-    //this.physics.add.collider(this.player, this.llave2, this.choque(10), null, this);
-    //this.physics.add.collider(this.player, this.llave2);
-    // this.physics.add.collider(this.player, this.llaves, (o1,o2)=>{
-     // o2.destroy();
-    //});
-
-    this.physics.add.collider(this.player,this.llaves,this.choque);
-    //this.physics.add.collider(this.player,this.enemigo,this.ColEnemigo);
-    //this.physics.add.collider(this.player,this.Enemigos,this.AtaqueEnemigo);
-   
-  
     
+    this.physics.add.collider(this.player,this.Enemigos,this.ColEnemigo, null, this);
 
+    this.physics.add.collider(this.player,this.llaves,this.ColLlave, null, this);
+    
       //teclas
       this.w = this.input.keyboard.addKey('W');
       this.a = this.input.keyboard.addKey('A');
       this.s = this.input.keyboard.addKey('S');
       this.d = this.input.keyboard.addKey('D');
+      this.r = this.input.keyboard.addKey('R');
+      this.t = this.input.keyboard.addKey('T');
       this.cursor = this.input.keyboard.createCursorKeys();
       this.espacio = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
       console.log(this.espacio);
-  }
+
+      this.score = 0;
+      this.pieces = 0;
+      this.lives = 3;
+      
+      this.scoreText;
+      this.scoreText = this.add.text(16, 16, 'score:' + this.score, { fontSize: '40px', fill: '#0bfc03' });
+      this.livesText = this.add.text(700, 25, 'lives:' + this.lives, { fontSize: '15px', fill: '#0bfc03' });
+      this.keysText = this.add.text(525, 20, 'Pieces:'+ this.pieces+'/3', { fontSize: '22px', fill: '#0bfc03' });
+  
+      this.sound.play("level_music",{loop: true , volume: 0.05})
+  
+    }
 
   update(time, delta){
     //controles
-  {
-
     if(this.w.isDown || this.cursor.up.isDown)
     {
        
@@ -127,28 +128,47 @@ console.log(Phaser.Input.Keyboard.KeyCodes)
     {
       this.player.body.setVelocityX(100)
     }
+
+    //Teclas para probar el guadado de spawn y la reaparicion
+    else if( this.r.isDown){
+      this.player.ReturnToSpawn();
+    }
+    else if( this.t.isDown){
+      this.player.ChangeSpawn();
+    }
     else{
       this.player.body.setVelocityX(0)
     }
-
-  
   }
  
-
-  }
-  choque(object1, object2)
+  ColLlave(object1, object2)
   {
-    console.log(this.puntos);
-    this.puntos = 1 + this.puntos;
-    this.llavesRecogidas += 1;
+    this.score=this.score + 5;
+    this.pieces=this.pieces+1;
+    this.ActualizaHUD();
+    object1.ChangeSpawn();
     object2.destroy();
-    console.log(this.puntos);
   }
 
   ColEnemigo(object1, object2)
   {
     console.log("Chocaste con el enemigo");
-    //this.object1.ReturnToSpawn();
+    this.lives--;
+    this.ActualizaHUD();
+    if(this.lives>=0){
+      object1.ReturnToSpawn();
+      //console.log(this.lives);
+    }
+    else{
+      this.scene.start('GameOver')
+    }
+    
+  }
+
+  ActualizaHUD(){
+    this.scoreText.text="Score=" + this.score;
+    this.livesText.text="lives:" + this.lives;
+    this.keysText.text="Pieces:"+ this.pieces+"/3";
   }
 
  // AtaqueEnemigo(object1,object2)
