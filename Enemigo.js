@@ -6,7 +6,7 @@ export default class Enemigo extends Phaser.Physics.Arcade.Sprite
         scene.add.existing(this);
         scene.physics.world.enable(this);
         this.setCollideWorldBounds(true);
-        this.setScale(0.05);
+        this.setScale(1.2);
         this.setAngle(0);
         
     }
