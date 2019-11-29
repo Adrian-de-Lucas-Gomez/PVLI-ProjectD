@@ -139,7 +139,9 @@ console.log(Phaser.Input.Keyboard.KeyCodes)
     else{
       this.player.body.setVelocityX(0)
     }
-    //this.score =this.score+1;
+
+    //this.enemigo1.mover();
+    
     this.scoreText.text="Score=" + this.score;
     this.livesText.text="lives:" + this.lives;
     this.keysText.text="Pieces:"+ this.pieces+"/3";
