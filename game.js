@@ -31,15 +31,19 @@ export default class Game extends Phaser.Scene {
   create() {
   
 
-console.log(Phaser.Input.Keyboard.KeyCodes)
-    let image = this.add.image(400, 300, 'fondo');
-    image.setScale(0.7);
+    console.log(Phaser.Input.Keyboard.KeyCodes)
 
     //carga del mapa
     this.map = this.make.tilemap({ key: 'tilemap', tileWidth: 16, tileHeight: 16 });
 
-    this.map.addTilesetImage('Dungeon', 'Dungeon');
+    this.tiles=this.map.addTilesetImage('Dungeon', 'Dungeon');
 
+    this.backgroundLayer = this.map.createStaticLayer('suelo',[this.tiles]);
+    this.wallLayer = this.map.createStaticLayer('paredes',[this.tiles]);
+    this.TopWallLayer = this.map.createStaticLayer('TopesMuros',[this.tiles]);
+
+
+    
     //llaves
     this.llaves = this.add.group();
     this.llave1 = new Llave(this,100,350,'llave');
@@ -65,17 +69,28 @@ console.log(Phaser.Input.Keyboard.KeyCodes)
     this.Ataques.add(this.torreta2.ataque);
     this.Ataques.add(this.torreta3.ataque);
 
-    // camera
     
-    this.cameras.main.setSize(1600,1200);
-    this.cameras.main.setViewport(0, 0, 800, 600);
+    
+    
+    //this.camera.follow(this.player);
+    //this.camera.follow(this.player);
     
     //player
     this.player = new Player(this,100,100,'sprite');
 
+    
+
     //physics
     this.physics.add.existing(this);
+    //Colisiones con Layers del Tilemap
     
+    this.wallLayer.setCollisionByExclusion([18], false);
+    //this.wallLayer.setCollisionByProperty({ Colision: true });
+    this.physics.add.existing(this.wallLayer);
+    
+    this.physics.add.collider(this.player, this.wallLayer);
+    
+    //Colisiones con entidades
     this.physics.add.collider(this.player,this.Enemigos,this.ColEnemigo, null, this);
     this.physics.add.collider(this.player,this.Ataques,this.ColAtaque,null,this);
 
@@ -103,7 +118,13 @@ console.log(Phaser.Input.Keyboard.KeyCodes)
       this.keysText = this.add.text(525, 20, 'Pieces:'+ this.pieces+'/3', { fontSize: '22px', fill: '#0bfc03' });
   
       this.sound.play("level_music",{loop: true , volume: 0.05})
-  
+
+
+      // camera
+    this.camera=this.cameras.main.setSize(100,100);
+    this.cameras.main.setViewport(0, 0, 800, 600);
+    this.cameras.main.startFollow(this.player);
+    this.camera.setBounds(0, 0, 800, 600);
     }
 
   update(time, delta){
