@@ -3,6 +3,7 @@ import Player from './Player.js';
 import Llave from './Llave.js';
 import Enemigo from './Enemigo.js';
 import Ataque from './Ataque.js';
+import Enemy from './Enemy.js';
 
 export default class Game extends Phaser.Scene {
 
@@ -20,7 +21,7 @@ export default class Game extends Phaser.Scene {
     this.load.image('sprite', './player.png');
     this.load.image('llave','./llave.png')
     this.load.image('enemigo','./Enemigo.png')
-    this.load.image('Deteccion', './triangulo.png')
+    this.load.image('Deteccion', './Deteccion.png')
     //this.load.spritesheet('anim','./mago.png',291,513);
     this.load.tilemapTiledJSON('tilemap', '/MapaJuego/MapaProvisionalJSON.json');
     this.load.image('Dungeon', '/MapaJuego/TileSet/0x72_16x16DungeonTileset.v4.png');
@@ -50,21 +51,20 @@ console.log(Phaser.Input.Keyboard.KeyCodes)
 
     //enemigo
     this.Enemigos = this.add.group();
-    this.enemigo1= new Enemigo(this, 200, 100 , 'enemigo');
-    this.enemigo2= new Enemigo(this, 300, 100 , 'enemigo');
-    this.enemigo3= new Enemigo(this, 400, 100 , 'enemigo');
-    this.Enemigos.add(this.enemigo1)
-    this.Enemigos.add(this.enemigo2)
-    this.Enemigos.add(this.enemigo3)
+    this.Ataques = this.add.group();
+    //this.enemigo1= new Enemigo(this, 0, 0 , 'enemigo');
+    //this.enemigo2= new Enemigo(this, 300, 100 , 'enemigo');
+    //this.enemigo3= new Enemigo(this, 400, 100 , 'enemigo');
+    this.torreta1 = new Enemy(this,100,200);
+    this.torreta2 = new Enemy(this,100,300);
+    this.torreta3 = new Enemy(this,100,400);
+    this.Enemigos.add(this.torreta1.enemigo);
+    this.Enemigos.add(this.torreta2.enemigo);
+    this.Enemigos.add(this.torreta3.enemigo);
+    this.Ataques.add(this.torreta1.ataque);
+    this.Ataques.add(this.torreta2.ataque);
+    this.Ataques.add(this.torreta3.ataque);
 
-    
-    //this.ataque = new Ataque(this,200, 350, 'Deteccion');
-    
-    // this.Torreta = new Phaser.GameObjects.Container(this,200,300) ; 
-    //this.Torreta.add(this.enemigo);
-    //this.Torreta.add(this.ataque);
-
-  
     // camera
     
     this.cameras.main.setSize(1600,1200);
@@ -77,8 +77,11 @@ console.log(Phaser.Input.Keyboard.KeyCodes)
     this.physics.add.existing(this);
     
     this.physics.add.collider(this.player,this.Enemigos,this.ColEnemigo, null, this);
+    this.physics.add.collider(this.player,this.Ataques,this.ColAtaque,null,this);
 
     this.physics.add.collider(this.player,this.llaves,this.ColLlave, null, this);
+
+    
     
       //teclas
       this.w = this.input.keyboard.addKey('W');
@@ -157,6 +160,14 @@ console.log(Phaser.Input.Keyboard.KeyCodes)
   }
 
   ColEnemigo(object1, object2)
+  {
+    if(this.espacio.isDown)
+    {
+
+    }
+    
+  }
+  ColAtaque(object1,object2)
   {
     console.log("Chocaste con el enemigo");
     this.lives--;

@@ -5,6 +5,8 @@ export default class Ataque extends Phaser.Physics.Arcade.Sprite
         super(scene, x, y , type);
         scene.add.existing(this);
         scene.physics.world.enable(this);
+        this.body.immovable = true;
+        this.setAngle(-90);
         
     }
     create()
@@ -14,7 +16,7 @@ export default class Ataque extends Phaser.Physics.Arcade.Sprite
     }
     preUpdate()
     {
-        this.setScale(0.3);
+        this.setScale(0.03);
         this.setCollideWorldBounds(true);
     }
 

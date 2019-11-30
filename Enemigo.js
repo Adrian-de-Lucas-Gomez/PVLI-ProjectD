@@ -8,6 +8,10 @@ export default class Enemigo extends Phaser.Physics.Arcade.Sprite
         this.setCollideWorldBounds(true);
         this.setScale(1.2);
         this.setAngle(0);
+        this.body.immovable = true;
+       
+
+
         
         this.incremento=1;
         this.OriPosX=this.x;
@@ -21,16 +25,16 @@ export default class Enemigo extends Phaser.Physics.Arcade.Sprite
     }
     preUpdate()
     {
-       this.mover();
+      // this.mover();
        
        
     }
 
-    mover(){
-        if(this.x < this.OriPosX || this.x > this.OriPosX+200){
-            this.incremento=this.incremento* -1;
-        }
-        this.x=this.x+this.incremento;
-        this.y= this.OriPosY;
-    }
+    //mover(){
+      //  if(this.x < this.OriPosX || this.x > this.OriPosX+200){
+          //  this.incremento=this.incremento* -1;
+        //}
+       // this.x=this.x+this.incremento;
+        //this.y= this.OriPosY;
+   // }
 }
