@@ -4,6 +4,7 @@ import Llave from './Llave.js';
 import Enemigo from './Enemigo.js';
 import Ataque from './Ataque.js';
 import Enemy from './Enemy.js';
+import Torreta from './Torreta.js';
 
 export default class Game extends Phaser.Scene {
 
@@ -53,21 +54,23 @@ export default class Game extends Phaser.Scene {
     this.llaves.add(this.llave2);
     this.llaves.add(this.llave3);
 
-    //enemigo
+    //enemigos
+    //grupos
     this.Enemigos = this.add.group();
     this.Ataques = this.add.group();
-    //this.enemigo1= new Enemigo(this, 0, 0 , 'enemigo');
-    //this.enemigo2= new Enemigo(this, 300, 100 , 'enemigo');
-    //this.enemigo3= new Enemigo(this, 400, 100 , 'enemigo');
-    this.torreta1 = new Enemy(this,100,200);
-    this.torreta2 = new Enemy(this,100,300);
-    this.torreta3 = new Enemy(this,100,400);
-    this.Enemigos.add(this.torreta1.enemigo);
-    this.Enemigos.add(this.torreta2.enemigo);
-    this.Enemigos.add(this.torreta3.enemigo);
-    this.Ataques.add(this.torreta1.ataque);
-    this.Ataques.add(this.torreta2.ataque);
-    this.Ataques.add(this.torreta3.ataque);
+  
+    this.patrulla1 = new Enemy(this,100,200);
+    this.patrulla2 = new Enemy(this,100,300);
+    this.patrulla3 = new Enemy(this,100,400);
+    this.torreta = new Torreta(this,400,400);
+    this.Enemigos.add(this.patrulla1.enemigo);
+    this.Enemigos.add(this.patrulla2.enemigo);
+    this.Enemigos.add(this.patrulla3.enemigo);
+    this.Enemigos.add(this.torreta.enemigo)
+    this.Ataques.add(this.patrulla1.ataque);
+    this.Ataques.add(this.patrulla2.ataque);
+    this.Ataques.add(this.patrulla3.ataque);
+    this.Ataques.add(this.torreta.ataque);
 
     
     
