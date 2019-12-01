@@ -60,6 +60,7 @@ export default class Game extends Phaser.Scene {
     //grupos
     this.Enemigos = this.add.group();
     this.Detecciones = this.add.group();
+    this.Containers=this.add.group();
   
     this.patrulla1 = new Enemy(this,100,200);
     this.patrulla2 = new Enemy(this,100,300);
@@ -73,6 +74,10 @@ export default class Game extends Phaser.Scene {
     this.Detecciones.add(this.patrulla2.deteccion);
     this.Detecciones.add(this.patrulla3.deteccion);
     this.Detecciones.add(this.torreta.deteccion);
+    this.Containers.add(this.patrulla1);
+    this.Containers.add(this.patrulla2);
+    this.Containers.add(this.patrulla3);
+    this.Containers.add(this.torreta);
 
     //puerta
     this.puerta = new Puerta(this,750,300,'puerta')
@@ -97,10 +102,11 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, this.wallLayer);
     
     //Colisiones con entidades
-    this.physics.add.collider(this.player,this.Enemigos,this.ColEnemigo, null, this);
+    this.physics.add.collider(this.player,this.Enemigos,);
     this.physics.add.collider(this.player,this.Detecciones,this.ColAtaque,null,this);
     this.physics.add.collider(this.player,this.puerta,this.ColPuerta,null,this);
     this.physics.add.collider(this.player,this.llaves,this.ColLlave, null, this);
+    this.physics.add.overlap(this.player,this.Containers,this.ColEnemigo,null,this)
 
     
     

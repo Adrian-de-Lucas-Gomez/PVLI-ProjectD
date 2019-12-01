@@ -8,6 +8,7 @@ export default class Torreta extends Phaser.GameObjects.Container
         super(scene,x,y);
         scene.add.existing(this);
         scene.physics.world.enable(this);
+        //this.setInteractive(new Phaser.Geom.Circle(0, 0, 50), Phaser.Geom.Circle.Contains);
 
         
         this.enemigo = new Enemigo(scene,0,0,'enemigo');
@@ -17,6 +18,8 @@ export default class Torreta extends Phaser.GameObjects.Container
         
         this.giro=true;
         this.body.setAngularVelocity(50);
+        //this.body.center = new Vector2([300],[50]);
+        //this.body.setSize(100,100,new Vector2([50],[50]));
     }
     create()
     {
