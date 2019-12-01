@@ -2,9 +2,10 @@
 import Player from './Player.js';
 import Llave from './Llave.js';
 import Enemigo from './Enemigo.js';
-import Ataque from './Ataque.js';
+import Deteccion from './Ataque.js';
 import Enemy from './Enemy.js';
 import Torreta from './Torreta.js';
+import Puerta from './Puerta.js';
 
 export default class Game extends Phaser.Scene {
 
@@ -12,7 +13,7 @@ export default class Game extends Phaser.Scene {
     super({ key: 'main' });
      // variable
      
-     this.llavesRecogidas = 0;
+     //this.llavesRecogidas = 0;
      this.LLavesMax = 3
   }
   
@@ -23,6 +24,7 @@ export default class Game extends Phaser.Scene {
     this.load.image('llave','./llave.png')
     this.load.image('enemigo','./Enemigo.png')
     this.load.image('Deteccion', './Deteccion.png')
+    this.load.image('puerta', './puerta.png')
     //this.load.spritesheet('anim','./mago.png',291,513);
     this.load.tilemapTiledJSON('tilemap', '/MapaJuego/MapaProvisionalJSON.json');
     this.load.image('Dungeon', '/MapaJuego/TileSet/0x72_16x16DungeonTileset.v4.png');
@@ -57,7 +59,7 @@ export default class Game extends Phaser.Scene {
     //enemigos
     //grupos
     this.Enemigos = this.add.group();
-    this.Ataques = this.add.group();
+    this.Detecciones = this.add.group();
   
     this.patrulla1 = new Enemy(this,100,200);
     this.patrulla2 = new Enemy(this,100,300);
@@ -67,14 +69,15 @@ export default class Game extends Phaser.Scene {
     this.Enemigos.add(this.patrulla2.enemigo);
     this.Enemigos.add(this.patrulla3.enemigo);
     this.Enemigos.add(this.torreta.enemigo)
-    this.Ataques.add(this.patrulla1.ataque);
-    this.Ataques.add(this.patrulla2.ataque);
-    this.Ataques.add(this.patrulla3.ataque);
-    this.Ataques.add(this.torreta.ataque);
+    this.Detecciones.add(this.patrulla1.deteccion);
+    this.Detecciones.add(this.patrulla2.deteccion);
+    this.Detecciones.add(this.patrulla3.deteccion);
+    this.Detecciones.add(this.torreta.deteccion);
 
-    
-    
-    
+    //puerta
+    this.puerta = new Puerta(this,750,300,'puerta')
+
+
     //this.camera.follow(this.player);
     //this.camera.follow(this.player);
     
@@ -95,8 +98,8 @@ export default class Game extends Phaser.Scene {
     
     //Colisiones con entidades
     this.physics.add.collider(this.player,this.Enemigos,this.ColEnemigo, null, this);
-    this.physics.add.collider(this.player,this.Ataques,this.ColAtaque,null,this);
-
+    this.physics.add.collider(this.player,this.Detecciones,this.ColAtaque,null,this);
+    this.physics.add.collider(this.player,this.puerta,this.ColPuerta,null,this);
     this.physics.add.collider(this.player,this.llaves,this.ColLlave, null, this);
 
     
@@ -112,6 +115,7 @@ export default class Game extends Phaser.Scene {
       this.espacio = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
       console.log(this.espacio);
 
+      // HUD
       this.score = 0;
       this.pieces = 0;
       this.lives = 3;
@@ -167,11 +171,17 @@ export default class Game extends Phaser.Scene {
       this.player.body.setVelocityX(0)
     }
 
-    //this.enemigo1.mover();
+    //Ataque del jugador al enemigo
+    if(this.physics.collide(this.player,this.Enemigos) || this.espacio.isDown )
+    {
+      this.Ataque = true;
+    }
+
+    
     
     this.scoreText.text="Score=" + this.score;
     this.livesText.text="lives:" + this.lives;
-    this.keysText.text="Pieces:"+ this.pieces+"/3";
+    this.keysText.text="Pieces:"+ this.pieces+"/" + this.LLavesMax;
   }
  
   ColLlave(object1, object2)
@@ -185,9 +195,9 @@ export default class Game extends Phaser.Scene {
 
   ColEnemigo(object1, object2)
   {
-    if(this.espacio.isDown)
+    if(this.Ataque)
     {
-
+      object2.body.stop();
     }
     
   }
@@ -209,14 +219,21 @@ export default class Game extends Phaser.Scene {
   ActualizaHUD(){
     this.scoreText.text="Score=" + this.score;
     this.livesText.text="lives:" + this.lives;
-    this.keysText.text="Pieces:"+ this.pieces+"/3";
+    this.keysText.text="Pieces:"+ this.pieces+"/" + this.LLavesMax;
   }
 
- // AtaqueEnemigo(object1,object2)
- //{
-   // if(this.espacio.isDown)
-    //{
+  ColPuerta(objet1,object2)
+  {
+    if(!object2.open)// si la puerta no esta abierta
+    {
+      this.puerta.AbrePuerta();
       
-   // }
-  //}
+    }
+    else// si ya esta abierta
+    {
+      object2.body.enable = false;
+      //collider.active = false;
+      //scene.physics.world.removeCollider(collider);
+    }
+  }
 }

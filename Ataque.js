@@ -1,4 +1,4 @@
-export default class Ataque extends Phaser.Physics.Arcade.Sprite
+export default class Deteccion extends Phaser.Physics.Arcade.Sprite
 {
     constructor(scene, x, y, type)
     {
