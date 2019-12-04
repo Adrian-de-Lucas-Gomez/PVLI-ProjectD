@@ -37,15 +37,29 @@ export default class Game extends Phaser.Scene {
     console.log(Phaser.Input.Keyboard.KeyCodes)
 
     //carga del mapa
-    this.map = this.make.tilemap({ key: 'tilemap', tileWidth: 16, tileHeight: 16 });
-
+    //this.map = this.make.tilemap({ key: 'tilemap', tileWidth: 16, tileHeight: 16 });
+    this.map = this.add.tilemap("tilemap");
     this.tiles=this.map.addTilesetImage('Dungeon', 'Dungeon');
 
     this.backgroundLayer = this.map.createStaticLayer('suelo',[this.tiles]);
     this.wallLayer = this.map.createStaticLayer('paredes',[this.tiles]);
     this.TopWallLayer = this.map.createStaticLayer('TopesMuros',[this.tiles]);
 
+    //player
+    this.player = new Player(this,50,50,'sprite');
 
+    
+
+    //physics
+    //this.physics.add.existing(this);
+    //Colisiones con Layers del Tilemap
+    
+    //this.wallLayer.setCollisionByExclusion([19], false);
+    this.physics.add.collider(this.player, this.wallLayer);
+
+    this.wallLayer.setCollisionByProperty({ Colision: true });
+    this.wallLayer.setCollision([17,18,19]);
+    //this.physics.add.existing(this.wallLayer);
     
     //llaves
     this.llaves = this.add.group();
@@ -84,22 +98,10 @@ export default class Game extends Phaser.Scene {
 
 
     //this.camera.follow(this.player);
-    //this.camera.follow(this.player);
     
-    //player
-    this.player = new Player(this,100,100,'sprite');
-
     
-
-    //physics
-    this.physics.add.existing(this);
-    //Colisiones con Layers del Tilemap
     
-    this.wallLayer.setCollisionByExclusion([18], false);
-    //this.wallLayer.setCollisionByProperty({ Colision: true });
-    this.physics.add.existing(this.wallLayer);
     
-    this.physics.add.collider(this.player, this.wallLayer);
     
     //Colisiones con entidades
     this.physics.add.collider(this.player,this.Enemigos,);
@@ -108,7 +110,7 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player,this.llaves,this.ColLlave, null, this);
     this.physics.add.overlap(this.player,this.Containers,this.ColEnemigo,null,this)
 
-    
+    this.physics.add.collider(this.player,this.map,);
     
       //teclas
       this.w = this.input.keyboard.addKey('W');
@@ -167,15 +169,18 @@ export default class Game extends Phaser.Scene {
     }
 
     //Teclas para probar el guadado de spawn y la reaparicion
+    /*
     else if( this.r.isDown){
       this.player.ReturnToSpawn();
     }
     else if( this.t.isDown){
       this.player.ChangeSpawn();
     }
+    */
     else{
       this.player.body.setVelocityX(0)
     }
+    
 
     //Ataque del jugador al enemigo
     if(this.physics.collide(this.player,this.Enemigos) || this.espacio.isDown )
