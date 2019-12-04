@@ -32,8 +32,6 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-  
-
     console.log(Phaser.Input.Keyboard.KeyCodes)
 
     //carga del mapa
@@ -45,10 +43,9 @@ export default class Game extends Phaser.Scene {
     this.wallLayer = this.map.createStaticLayer('paredes',[this.tiles]);
     this.TopWallLayer = this.map.createStaticLayer('TopesMuros',[this.tiles]);
 
+    
     //player
     this.player = new Player(this,50,50,'sprite');
-
-    
 
     //physics
     //this.physics.add.existing(this);

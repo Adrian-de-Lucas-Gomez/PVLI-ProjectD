@@ -4,7 +4,8 @@ export default class GameOver extends Phaser.Scene {
   }
   preload(){
       this.load.image('fondico','./FondoMenu.jpg');
-      this.load.image('boton','./Play.png');
+      this.load.image('gameover','./GAMEover.png')
+      this.load.image('botonfin','./ReturnButton.png');
       this.load.audio('GO_music','./Sounds/GameOver.ogg')
       //this.load.image('fondico','./FondoMenu.jpg');
   }
@@ -15,9 +16,11 @@ export default class GameOver extends Phaser.Scene {
     let image = this.add.image(400, 300, 'fondico');
     image.setScale(0.80);
 
-    this.GOText = this.add.text(225, 150, 'GameOver' , { fontSize: '80px', fill: '#0bfc03'});
+    //this.GOText = this.add.text(225, 150, 'GameOver' , { fontSize: '80px', fill: '#0bfc03'});
+    let image2 = this.add.image(400, 200, 'gameover');
+    image2.setScale(0.60);
 
-    let boton = this.add.image(400, 500, 'boton');
+    let boton = this.add.image(400, 500, 'botonfin');
     boton.setScale(0.10);
     //let image = this.add.image(400, 300, 'fondo');
 

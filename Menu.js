@@ -4,8 +4,9 @@ export default class Menu extends Phaser.Scene {
   }
   preload(){
       this.load.image('fondico','./FondoMenu.jpg');
-      this.load.image('boton','./Play.png');
-      this.load.audio('title_music','./Sounds/Biological Weapon.ogg')
+      this.load.image('boton','./StartButton.png');
+      this.load.image('Logo','./D-proyectLogoWhite.png');
+      this.load.audio('title_music','./Sounds/Menu.ogg')
       //this.load.image('fondico','./FondoMenu.jpg');
   }
 
@@ -13,7 +14,10 @@ export default class Menu extends Phaser.Scene {
     let image = this.add.image(400, 300, 'fondico');
     image.setScale(0.80);
 
-    let boton = this.add.image(400, 300, 'boton');
+    let Logotipo= this.add.image(410, 200, 'Logo');
+    Logotipo.setScale(0.5);
+
+    let boton = this.add.image(400, 450, 'boton');
     boton.setScale(0.10);
     //let image = this.add.image(400, 300, 'fondo');
 
