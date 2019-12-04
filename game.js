@@ -26,8 +26,8 @@ export default class Game extends Phaser.Scene {
     this.load.image('Deteccion', './Deteccion.png')
     this.load.image('puerta', './puerta.png')
     //this.load.spritesheet('anim','./mago.png',291,513);
-    this.load.tilemapTiledJSON('tilemap', './MapaJuego/MapaProvisionalJSON.json');
-    this.load.image('Dungeon', './MapaJuego/TileSet/0x72_16x16DungeonTileset.v4.png');
+    this.load.tilemapTiledJSON('tilemap', './MapaProvisionalJSON.json');
+    this.load.image('Dungeon', './0x72_16x16DungeonTileset.v4.png');
     this.load.audio('level_music','./Sounds/Dangerous Dungeon.ogg')
   }
 
