@@ -21,6 +21,7 @@ export default class Menu extends Phaser.Scene {
     boton.setScale(0.10);
     //let image = this.add.image(400, 300, 'fondo');
 
+    this.sound.stopAll();
     this.sound.play("title_music",{loop: true , volume: 0.05})
 
     boton.setInteractive();
@@ -30,7 +31,7 @@ export default class Menu extends Phaser.Scene {
     boton.on("pointerup", ()=>{
       boton.setScale(0.08),
       this.sound.stopAll(),
-      this.scene.start('Level2')
+      this.scene.start('Level1')
     })
 
     

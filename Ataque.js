@@ -16,7 +16,7 @@ export default class Deteccion extends Phaser.Physics.Arcade.Sprite
     }
     preUpdate()
     {
-        this.setScale(0.03);
+        this.setScale(0.02);
         this.setCollideWorldBounds(true);
     }
 

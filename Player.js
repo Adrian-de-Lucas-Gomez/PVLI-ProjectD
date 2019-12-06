@@ -18,7 +18,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     preUpdate()
     {
-        this.setScale(0.05);
+        this.setScale(2);
         //this.setCollideWorldBounds(true);
         
     }

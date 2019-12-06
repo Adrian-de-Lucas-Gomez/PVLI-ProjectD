@@ -20,15 +20,14 @@ export default class Level2 extends Phaser.Scene {
 
   preload() {
     //this.load.image('fondo', './MapaProvisional.png');
-    this.load.image('sprite', './player.png');
-    this.load.image('llave','./llave.png')
-    this.load.image('enemigo','./enemigo.png')
-    this.load.image('Deteccion', './Deteccion.png')
-    this.load.image('puerta', './puerta.png')
-    //this.load.spritesheet('anim','./mago.png',291,513);
+    this.load.image('sprite', './D.png');
+    this.load.image('llave','./llave.png');
+    this.load.image('enemigo','./enemigo.png');
+    this.load.image('Deteccion', './Deteccion.png');
+    this.load.image('puerta', './puerta.png');
     this.load.tilemapTiledJSON('tilemap2', './Level2.json');
-    this.load.image('Dungeon2', './0x72_16x16DungeonTileset(Sand).png');
-    this.load.audio('level_music','./Sounds/Dangerous Dungeon.ogg')
+    this.load.image('Dungeon2', './MapaJuego/TileSet/0x72_16x16DungeonTileset(Sand).png');
+    this.load.audio('level2_music','./Sounds/Level2.mp3')
   }
 
   create() {
@@ -40,6 +39,7 @@ export default class Level2 extends Phaser.Scene {
     this.tiles=this.map.addTilesetImage('Dungeon2', 'Dungeon2');
 
     this.backgroundLayer = this.map.createStaticLayer('suelo',[this.tiles]);
+    this.coinLayer= this.map.createStaticLayer('monedas', [this.tiles]);
     this.wallLayer = this.map.createStaticLayer('paredes',[this.tiles]);
     this.TopWallLayer = this.map.createStaticLayer('TopesMuros',[this.tiles]);
 
@@ -48,15 +48,15 @@ export default class Level2 extends Phaser.Scene {
     this.player = new Player(this,50,50,'sprite');
 
     //physics
-    //this.physics.add.existing(this);
-    //Colisiones con Layers del Tilemap
-    
-    //this.wallLayer.setCollisionByExclusion([19], false);
     this.physics.add.collider(this.player, this.wallLayer);
 
     this.wallLayer.setCollisionByProperty({ Colision: true });
     this.wallLayer.setCollision([17,18,19]);
-    //this.physics.add.existing(this.wallLayer);
+
+    this.coinLayer.setCollisionByProperty({ Colision: true });
+    this.coinLayer.setCollision([221]);
+    //this.physics.add.collider(this.player, this.coinLayer, this.ColCoin,null,this);
+    
     
     //llaves
     this.llaves = this.add.group();
@@ -76,7 +76,7 @@ export default class Level2 extends Phaser.Scene {
     this.patrulla1 = new Enemy(this,100,200);
     this.patrulla2 = new Enemy(this,100,300);
     this.patrulla3 = new Enemy(this,100,400);
-    this.torreta = new Torreta(this,400,400);
+    this.torreta = new Torreta(this,400,315);
     this.Enemigos.add(this.patrulla1.enemigo);
     this.Enemigos.add(this.patrulla2.enemigo);
     this.Enemigos.add(this.patrulla3.enemigo);
@@ -128,8 +128,9 @@ export default class Level2 extends Phaser.Scene {
       this.scoreText = this.add.text(16, 16, 'score:' + this.score, { fontSize: '40px', fill: '#0bfc03' });
       this.livesText = this.add.text(700, 25, 'lives:' + this.lives, { fontSize: '15px', fill: '#0bfc03' });
       this.keysText = this.add.text(525, 20, 'Pieces:'+ this.pieces+'/3', { fontSize: '22px', fill: '#0bfc03' });
-  
-      this.sound.play("level_music",{loop: true , volume: 0.05})
+
+      this.sound.stopAll();
+      this.sound.play("level2_music",{loop: true , volume: 0.05})
 
 
       // camera
@@ -201,6 +202,15 @@ export default class Level2 extends Phaser.Scene {
     object2.destroy();
   }
 
+  ColCoin(object1, object2)
+  {
+    this.score=this.score + 1;
+    //this.pieces=this.pieces+1;
+    this.ActualizaHUD();
+    //object1.ChangeSpawn();
+    object2.destroy();
+  }
+
   ColEnemigo(object1, object2)
   {
     if(this.Ataque)
@@ -235,11 +245,15 @@ export default class Level2 extends Phaser.Scene {
     if(!object2.open)// si la puerta no esta abierta
     {
       this.puerta.AbrePuerta();
+      //sonido cuqui
+      
       
     }
     else// si ya esta abierta
     {
       object2.body.enable = false;
+      this.sound.stopAll();
+      this.scene.start('GameOver');
       //collider.active = false;
       //scene.physics.world.removeCollider(collider);
     }
