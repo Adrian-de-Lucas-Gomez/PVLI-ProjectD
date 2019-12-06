@@ -30,7 +30,7 @@ export default class Menu extends Phaser.Scene {
     boton.on("pointerup", ()=>{
       boton.setScale(0.08),
       this.sound.stopAll(),
-      this.scene.start('main')
+      this.scene.start('Level2')
     })
 
     
