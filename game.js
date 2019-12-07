@@ -6,6 +6,7 @@ import Deteccion from './Ataque.js';
 import Enemy from './Enemy.js';
 import Torreta from './Torreta.js';
 import Puerta from './Puerta.js';
+import Trigger from './Trigger.js';
 
 export default class Game extends Phaser.Scene {
 
@@ -72,11 +73,11 @@ export default class Game extends Phaser.Scene {
     //grupos
     this.Enemigos = this.add.group();
     this.Detecciones = this.add.group();
-    this.Containers=this.add.group();
+    this.Triggers=this.add.group();
   
-    this.patrulla1 = new Enemy(this,100,200);
-    this.patrulla2 = new Enemy(this,100,300);
-    this.patrulla3 = new Enemy(this,100,400);
+    this.patrulla1 = new Enemy(this,100,200,200,200);
+    this.patrulla2 = new Enemy(this,100,300,200,300);
+    this.patrulla3 = new Enemy(this,100,400,200,400);
     this.torreta = new Torreta(this,400,400);
     this.Enemigos.add(this.patrulla1.enemigo);
     this.Enemigos.add(this.patrulla2.enemigo);
@@ -86,10 +87,10 @@ export default class Game extends Phaser.Scene {
     this.Detecciones.add(this.patrulla2.deteccion);
     this.Detecciones.add(this.patrulla3.deteccion);
     this.Detecciones.add(this.torreta.deteccion);
-    this.Containers.add(this.patrulla1);
-    this.Containers.add(this.patrulla2);
-    this.Containers.add(this.patrulla3);
-    this.Containers.add(this.torreta);
+    this.Triggers.add(this.patrulla1);
+    this.Triggers.add(this.patrulla2);
+    this.Triggers.add(this.patrulla3);
+    this.Triggers.add(this.torreta);
 
     //puerta
     this.puerta = new Puerta(this,750,300,'puerta')
@@ -102,11 +103,11 @@ export default class Game extends Phaser.Scene {
     
     
     //Colisiones con entidades
-    this.physics.add.collider(this.player,this.Enemigos,);
+    this.physics.add.collider(this.player,this.Enemigos);
     this.physics.add.collider(this.player,this.Detecciones,this.ColAtaque,null,this);
     this.physics.add.collider(this.player,this.puerta,this.ColPuerta,null,this);
     this.physics.add.collider(this.player,this.llaves,this.ColLlave, null, this);
-    this.physics.add.overlap(this.player,this.Containers,this.ColEnemigo,null,this)
+    this.physics.add.overlap(this.player,this.Triggers,this.ColEnemigo,null,this)
 
     this.physics.add.collider(this.player,this.map,);
     
@@ -125,7 +126,7 @@ export default class Game extends Phaser.Scene {
       this.score = 0;
       this.pieces = 0;
       this.lives = 3;
-      this.scoreText = this.add.text(16, 16, 'score:' + this.score, { fontSize: '40px', fill: '#0bfc03' });
+      this.scoreText = this.add.text(16, 16, 'score:' + this.score, {font:'40px Arial',fontSize: '40px', fill: '#0bfc03' });
       this.livesText = this.add.text(700, 50, 'lives:' + this.lives, { fontSize: '15px', fill: '#0bfc03' });
       this.keysText = this.add.text(650, 20, 'Pieces:'+ this.pieces+'/3', { fontSize: '22px', fill: '#0bfc03' });
       this.TimeText = this.add.text(300, 16, ' ', { fontSize: '40px', fill: '#0bfc03' });
@@ -235,7 +236,7 @@ export default class Game extends Phaser.Scene {
   {
     if(this.Ataque)
     {
-      object2.body.stop();
+      object2.Atacado();
     }
     
   }
