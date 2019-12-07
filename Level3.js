@@ -7,10 +7,10 @@ import Enemy from './Enemy.js';
 import Torreta from './Torreta.js';
 import Puerta from './Puerta.js';
 
-export default class Level2 extends Phaser.Scene {
+export default class Level3 extends Phaser.Scene {
 
   constructor() {
-    super({ key: 'Level2' });
+    super({ key: 'Level3' });
      // variable
      
      //this.llavesRecogidas = 0;
@@ -20,15 +20,16 @@ export default class Level2 extends Phaser.Scene {
   
 
   preload() {
-    //this.load.image('fondo', './MapaProvisional.png');
+    this.load.image('fondo', './MapaProvisional.png');
     this.load.image('sprite', './D.png');
-    this.load.image('llave','./llave.png');
-    this.load.image('enemigo','./enemigo.png');
-    this.load.image('Deteccion', './Deteccion.png');
-    this.load.image('puerta', './puerta.png');
-    this.load.tilemapTiledJSON('tilemap2', './Level2.json');
-    this.load.image('Dungeon2', './MapaJuego/TileSet/0x72_16x16DungeonTileset(Sand).png');
-    this.load.audio('level2_music','./Sounds/Level2.mp3')
+    this.load.image('llave','./llave.png')
+    this.load.image('enemigo','./enemigo.png')
+    this.load.image('Deteccion', './Deteccion.png')
+    this.load.image('puerta', './puerta.png')
+    //this.load.spritesheet('anim','./mago.png',291,513);
+    this.load.tilemapTiledJSON('tilemap', './MapaProvisionalJSON.json');
+    this.load.image('Dungeon', './MapaJuego/TileSet/0x72_16x16DungeonTileset(Blue).png');
+    this.load.audio('level1_music','./Sounds/Dangerous Dungeon.ogg')
   }
 
   create() {
@@ -36,11 +37,10 @@ export default class Level2 extends Phaser.Scene {
 
     //carga del mapa
     //this.map = this.make.tilemap({ key: 'tilemap', tileWidth: 16, tileHeight: 16 });
-    this.map = this.add.tilemap("tilemap2");
-    this.tiles=this.map.addTilesetImage('Dungeon2', 'Dungeon2');
+    this.map = this.add.tilemap("tilemap");
+    this.tiles=this.map.addTilesetImage('Dungeon', 'Dungeon');
 
     this.backgroundLayer = this.map.createStaticLayer('suelo',[this.tiles]);
-    this.coinLayer= this.map.createStaticLayer('monedas', [this.tiles]);
     this.wallLayer = this.map.createStaticLayer('paredes',[this.tiles]);
     this.TopWallLayer = this.map.createStaticLayer('TopesMuros',[this.tiles]);
 
@@ -49,15 +49,15 @@ export default class Level2 extends Phaser.Scene {
     this.player = new Player(this,50,50,'sprite');
 
     //physics
+    //this.physics.add.existing(this);
+    //Colisiones con Layers del Tilemap
+    
+    //this.wallLayer.setCollisionByExclusion([19], false);
     this.physics.add.collider(this.player, this.wallLayer);
 
     this.wallLayer.setCollisionByProperty({ Colision: true });
     this.wallLayer.setCollision([17,18,19]);
-
-    this.coinLayer.setCollisionByProperty({ Colision: true });
-    this.coinLayer.setCollision([221]);
-    //this.physics.add.collider(this.player, this.coinLayer, this.ColCoin,null,this);
-    
+    //this.physics.add.existing(this.wallLayer);
     
     //llaves
     this.llaves = this.add.group();
@@ -77,7 +77,7 @@ export default class Level2 extends Phaser.Scene {
     this.patrulla1 = new Enemy(this,100,200);
     this.patrulla2 = new Enemy(this,100,300);
     this.patrulla3 = new Enemy(this,100,400);
-    this.torreta = new Torreta(this,400,315);
+    this.torreta = new Torreta(this,400,400);
     this.Enemigos.add(this.patrulla1.enemigo);
     this.Enemigos.add(this.patrulla2.enemigo);
     this.Enemigos.add(this.patrulla3.enemigo);
@@ -134,7 +134,7 @@ export default class Level2 extends Phaser.Scene {
       this.actSec=0;
 
       this.sound.stopAll();
-      this.sound.play("level2_music",{loop: true , volume: 0.05})
+      this.sound.play("level1_music",{loop: true , volume: 0.05})
 
 
       // camera
@@ -142,6 +142,11 @@ export default class Level2 extends Phaser.Scene {
     this.cameras.main.setViewport(0, 0, 800, 600);
     this.cameras.main.startFollow(this.player);
     this.camera.setBounds(0, 0, 800, 600);
+
+
+
+    this.timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this , loop: true});
+    function onEvent(){this.actSec++;}
     }
 
   update(time, delta){
@@ -190,8 +195,6 @@ export default class Level2 extends Phaser.Scene {
       this.Ataque = true;
     }
 
-    
-    
     this.scoreText.text="Score=" + this.score;
     this.livesText.text="lives:" + this.lives;
     this.keysText.text="Pieces:"+ this.pieces+"/" + this.LLavesMax;
@@ -215,15 +218,6 @@ export default class Level2 extends Phaser.Scene {
     this.pieces=this.pieces+1;
     this.ActualizaHUD();
     object1.ChangeSpawn();
-    object2.destroy();
-  }
-
-  ColCoin(object1, object2)
-  {
-    this.score=this.score + 1;
-    //this.pieces=this.pieces+1;
-    this.ActualizaHUD();
-    //object1.ChangeSpawn();
     object2.destroy();
   }
 
@@ -269,9 +263,13 @@ export default class Level2 extends Phaser.Scene {
     {
       object2.body.enable = false;
       this.sound.stopAll();
-      this.scene.start('Level3');
+      this.scene.start('Level2');
       //collider.active = false;
       //scene.physics.world.removeCollider(collider);
     }
+  }
+
+  onEvent(){
+    this.scene.start('Menu');
   }
 }

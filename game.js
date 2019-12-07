@@ -15,6 +15,7 @@ export default class Game extends Phaser.Scene {
      
      //this.llavesRecogidas = 0;
      this.LLavesMax = 3
+     this.MaxTime= '1:00';
   }
   
 
@@ -124,10 +125,13 @@ export default class Game extends Phaser.Scene {
       this.score = 0;
       this.pieces = 0;
       this.lives = 3;
-      this.scoreText;
       this.scoreText = this.add.text(16, 16, 'score:' + this.score, { fontSize: '40px', fill: '#0bfc03' });
-      this.livesText = this.add.text(700, 25, 'lives:' + this.lives, { fontSize: '15px', fill: '#0bfc03' });
-      this.keysText = this.add.text(525, 20, 'Pieces:'+ this.pieces+'/3', { fontSize: '22px', fill: '#0bfc03' });
+      this.livesText = this.add.text(700, 50, 'lives:' + this.lives, { fontSize: '15px', fill: '#0bfc03' });
+      this.keysText = this.add.text(650, 20, 'Pieces:'+ this.pieces+'/3', { fontSize: '22px', fill: '#0bfc03' });
+      this.TimeText = this.add.text(300, 16, ' ', { fontSize: '40px', fill: '#0bfc03' });
+
+      this.actMin=0;
+      this.actSec=0;
 
       this.sound.stopAll();
       this.sound.play("level1_music",{loop: true , volume: 0.05})
@@ -138,6 +142,11 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.setViewport(0, 0, 800, 600);
     this.cameras.main.startFollow(this.player);
     this.camera.setBounds(0, 0, 800, 600);
+
+
+
+    this.timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this , loop: true});
+    function onEvent(){this.actSec++;}
     }
 
   update(time, delta){
@@ -186,11 +195,21 @@ export default class Game extends Phaser.Scene {
       this.Ataque = true;
     }
 
-    
-    
     this.scoreText.text="Score=" + this.score;
     this.livesText.text="lives:" + this.lives;
     this.keysText.text="Pieces:"+ this.pieces+"/" + this.LLavesMax;
+    //this.TimeText.text= this.timedEvent.getProgress().toString().substr(0, 4); 
+    if(this.actSec==60){
+      this.actSec=0;
+      this.actMin++;
+    }
+
+    this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + this.actSec; 
+
+    
+    if(this.actMin + ':' + this.actSec+'0' == this.MaxTime){
+        this.scene.start('Menu');
+    }
   }
  
   ColLlave(object1, object2)
@@ -248,5 +267,9 @@ export default class Game extends Phaser.Scene {
       //collider.active = false;
       //scene.physics.world.removeCollider(collider);
     }
+  }
+
+  onEvent(){
+    this.scene.start('Level2');
   }
 }
