@@ -46,5 +46,15 @@ export default class Torreta extends Phaser.GameObjects.Container
         },2000);
     }
 
+    SubirDificultad(x)
+    {
+        this.velocidad =+ x;
+    }
+
+    Reset()
+    {
+        this.velocidad = 40;
+    }
+
     
 }

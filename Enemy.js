@@ -84,18 +84,7 @@ export default class Enemy extends Phaser.GameObjects.Container
         //this.escena.physics.moveTo(this,300,300,20)
     }
 
-   /* mover(){
-        
-        if(this.x < this.OriPosX || this.x > this.OriPosX+200){
-           this.incremento=this.incremento* -1;
-            this.giro=!this.giro;
 
-            this.enemigo.flipX=this.giro;
-            this.deteccion.x= this.deteccion.x * -1;
-        }
-        this.x=this.x+this.incremento;
-        this.y= this.OriPosY;
-    }*/
     Atacado()
     {
        
@@ -104,5 +93,15 @@ export default class Enemy extends Phaser.GameObjects.Container
             this.velocidad = 40;
 
         },2000);
+    }
+
+    SubirDificultad(x)
+    {
+        this.velocidad =+ x;
+    }
+
+    Reset()
+    {
+        this.velocidad = 40;
     }
 }
