@@ -15,7 +15,7 @@ export default class Game extends Phaser.Scene {
      
      //this.llavesRecogidas = 0;
      this.LLavesMax = 3
-     this.MaxTime= '1:00';
+     this.MaxTime= '0:30';
   }
   
 
@@ -145,6 +145,7 @@ export default class Game extends Phaser.Scene {
 
 
 
+    //Contador de un segundo
     this.timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this , loop: true});
     function onEvent(){this.actSec++;}
     }
@@ -204,14 +205,23 @@ export default class Game extends Phaser.Scene {
       this.actMin++;
     }
 
-    this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + this.actSec; 
+    //this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + this.actSec; 
 
-    
-    if(this.actMin + ':' + this.actSec+'0' == this.MaxTime){
-        this.scene.start('Menu');
+    this.hudTimer();
+  }
+  hudTimer(){
+    if(this.actSec<10){
+      this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + '0'+this.actSec;
+    }
+    else{
+      this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + this.actSec;
+    }
+    //Si ya es el tiempo maximo se termina el nivel
+    if(this.actMin + ':' + this.actSec == this.MaxTime){
+      this.scene.start('Menu');
     }
   }
- 
+
   ColLlave(object1, object2)
   {
     this.score=this.score + 5;
@@ -267,9 +277,5 @@ export default class Game extends Phaser.Scene {
       //collider.active = false;
       //scene.physics.world.removeCollider(collider);
     }
-  }
-
-  onEvent(){
-    this.scene.start('Level2');
   }
 }

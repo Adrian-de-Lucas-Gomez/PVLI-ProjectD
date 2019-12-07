@@ -142,6 +142,10 @@ export default class Level2 extends Phaser.Scene {
     this.cameras.main.setViewport(0, 0, 800, 600);
     this.cameras.main.startFollow(this.player);
     this.camera.setBounds(0, 0, 800, 600);
+
+    //Contador de un segundo
+    this.timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this , loop: true});
+    function onEvent(){this.actSec++;}
     }
 
   update(time, delta){
@@ -201,14 +205,20 @@ export default class Level2 extends Phaser.Scene {
       this.actMin++;
     }
 
-    this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + this.actSec; 
-
-    
-    if(this.actMin + ':' + this.actSec+'0' == this.MaxTime){
-        this.scene.start('Menu');
+    this.hudTimer();
+  }
+  hudTimer(){
+    if(this.actSec<10){
+      this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + '0'+this.actSec;
+    }
+    else{
+      this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + this.actSec;
+    }
+    //Si ya es el tiempo maximo se termina el nivel
+    if(this.actMin + ':' + this.actSec == this.MaxTime){
+      this.scene.start('Menu');
     }
   }
- 
   ColLlave(object1, object2)
   {
     this.score=this.score + 5;

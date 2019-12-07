@@ -27,9 +27,9 @@ export default class Level3 extends Phaser.Scene {
     this.load.image('Deteccion', './Deteccion.png')
     this.load.image('puerta', './puerta.png')
     //this.load.spritesheet('anim','./mago.png',291,513);
-    this.load.tilemapTiledJSON('tilemap', './MapaProvisionalJSON.json');
-    this.load.image('Dungeon', './MapaJuego/TileSet/0x72_16x16DungeonTileset(Blue).png');
-    this.load.audio('level1_music','./Sounds/Dangerous Dungeon.ogg')
+    this.load.tilemapTiledJSON('tilemap3', './Level3.json');
+    this.load.image('Dungeon3', './MapaJuego/TileSet/0x72_16x16DungeonTileset(Blue).png');
+    this.load.audio('level3_music','./Sounds/BiologicalWeapon.ogg')
   }
 
   create() {
@@ -37,8 +37,8 @@ export default class Level3 extends Phaser.Scene {
 
     //carga del mapa
     //this.map = this.make.tilemap({ key: 'tilemap', tileWidth: 16, tileHeight: 16 });
-    this.map = this.add.tilemap("tilemap");
-    this.tiles=this.map.addTilesetImage('Dungeon', 'Dungeon');
+    this.map = this.add.tilemap("tilemap3");
+    this.tiles=this.map.addTilesetImage('Dungeon3', 'Dungeon3');
 
     this.backgroundLayer = this.map.createStaticLayer('suelo',[this.tiles]);
     this.wallLayer = this.map.createStaticLayer('paredes',[this.tiles]);
@@ -134,7 +134,7 @@ export default class Level3 extends Phaser.Scene {
       this.actSec=0;
 
       this.sound.stopAll();
-      this.sound.play("level1_music",{loop: true , volume: 0.05})
+      this.sound.play("level3_music",{loop: true , volume: 0.05})
 
 
       // camera
@@ -144,7 +144,7 @@ export default class Level3 extends Phaser.Scene {
     this.camera.setBounds(0, 0, 800, 600);
 
 
-
+    //Contador de un segundo
     this.timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this , loop: true});
     function onEvent(){this.actSec++;}
     }
@@ -204,14 +204,20 @@ export default class Level3 extends Phaser.Scene {
       this.actMin++;
     }
 
-    this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + this.actSec; 
-
-    
-    if(this.actMin + ':' + this.actSec+'0' == this.MaxTime){
-        this.scene.start('Menu');
+    this.hudTimer();
+  }
+  hudTimer(){
+    if(this.actSec<10){
+      this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + '0'+this.actSec;
+    }
+    else{
+      this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + this.actSec;
+    }
+    //Si ya es el tiempo maximo se termina el nivel
+    if(this.actMin + ':' + this.actSec == this.MaxTime){
+      this.scene.start('Menu');
     }
   }
- 
   ColLlave(object1, object2)
   {
     this.score=this.score + 5;
@@ -263,13 +269,9 @@ export default class Level3 extends Phaser.Scene {
     {
       object2.body.enable = false;
       this.sound.stopAll();
-      this.scene.start('Level2');
+      this.scene.start('Menu');
       //collider.active = false;
       //scene.physics.world.removeCollider(collider);
     }
-  }
-
-  onEvent(){
-    this.scene.start('Menu');
   }
 }
