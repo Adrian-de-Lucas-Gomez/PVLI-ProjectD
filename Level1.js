@@ -8,7 +8,7 @@ import Torreta from './Torreta.js';
 import Puerta from './Puerta.js';
 import Trigger from './Trigger.js';
 
-export default class Game extends Phaser.Scene {
+export default class Level1 extends Phaser.Scene {
 
   constructor() {
     super({ key: 'Level1' });
@@ -16,38 +16,39 @@ export default class Game extends Phaser.Scene {
      
      //this.llavesRecogidas = 0;
      this.LLavesMax = 3
-     this.MaxTime= '0:30';
+     this.MaxTime= '1:00';
   }
   
 
   preload() {
-    this.load.image('fondo', './MapaProvisional.png');
+    
     this.load.image('sprite', './D.png');
     this.load.image('llave','./llave.png')
     this.load.image('enemigo','./enemigo.png')
     this.load.image('Deteccion', './Deteccion.png')
     this.load.image('puerta', './puerta.png')
     //this.load.spritesheet('anim','./mago.png',291,513);
-    this.load.tilemapTiledJSON('tilemap', './MapaProvisionalJSON.json');
+    this.load.tilemapTiledJSON('tilemap1', './Level1.json');
     this.load.image('Dungeon', './MapaJuego/TileSet/0x72_16x16DungeonTileset.v4.png');
     this.load.audio('level1_music','./Sounds/Dangerous Dungeon.ogg')
   }
 
   create() {
-    console.log(Phaser.Input.Keyboard.KeyCodes)
+    //console.log(Phaser.Input.Keyboard.KeyCodes)
 
     //carga del mapa
     //this.map = this.make.tilemap({ key: 'tilemap', tileWidth: 16, tileHeight: 16 });
-    this.map = this.add.tilemap("tilemap");
+    this.map = this.add.tilemap("tilemap1");
     this.tiles=this.map.addTilesetImage('Dungeon', 'Dungeon');
 
     this.backgroundLayer = this.map.createStaticLayer('suelo',[this.tiles]);
     this.wallLayer = this.map.createStaticLayer('paredes',[this.tiles]);
+    this.coinLayer = this.map.createStaticLayer('monedas',[this.tiles]);
     this.TopWallLayer = this.map.createStaticLayer('TopesMuros',[this.tiles]);
 
     
     //player
-    this.player = new Player(this,50,50,'sprite');
+    this.player = new Player(this,50,100,'sprite');
 
     //physics
     //this.physics.add.existing(this);
@@ -75,10 +76,11 @@ export default class Game extends Phaser.Scene {
     this.Detecciones = this.add.group();
     this.Triggers=this.add.group();
   
-    this.patrulla1 = new Enemy(this,100,200,200,200);
-    this.patrulla2 = new Enemy(this,100,300,200,300);
-    this.patrulla3 = new Enemy(this,100,400,200,400);
-    this.torreta = new Torreta(this,400,400);
+    this.patrulla1 = new Enemy(this,150,120,350,120);
+    this.patrulla2 = new Enemy(this,135,150,135,300);
+    this.patrulla3 = new Enemy(this,150,370,320,370);
+    this.patrulla4 = new Enemy(this,440,470,580,470);
+    this.torreta = new Torreta(this,540,270);
     this.Enemigos.add(this.patrulla1.enemigo);
     this.Enemigos.add(this.patrulla2.enemigo);
     this.Enemigos.add(this.patrulla3.enemigo);
@@ -213,13 +215,17 @@ export default class Game extends Phaser.Scene {
   hudTimer(){
     if(this.actSec<10){
       this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + '0'+this.actSec;
+      //Si ya es el tiempo maximo se termina el nivel
+      if(this.actMin + ':' + '0'+this.actSec == this.MaxTime){
+        this.scene.start('Menu');
+      }
     }
     else{
       this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + this.actSec;
-    }
-    //Si ya es el tiempo maximo se termina el nivel
-    if(this.actMin + ':' + this.actSec == this.MaxTime){
-      this.scene.start('Menu');
+      //Si ya es el tiempo maximo se termina el nivel
+      if(this.actMin + ':' + this.actSec == this.MaxTime){
+        this.scene.start('Menu');
+      }
     }
   }
 

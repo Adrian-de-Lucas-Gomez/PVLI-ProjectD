@@ -27,7 +27,7 @@ export default class Level2 extends Phaser.Scene {
     this.load.image('Deteccion', './Deteccion.png');
     this.load.image('puerta', './puerta.png');
     this.load.tilemapTiledJSON('tilemap2', './Level2.json');
-    this.load.image('Dungeon2', './MapaJuego/TileSet/0x72_16x16DungeonTileset(Sand).png');
+    this.load.image('Dungeon2', './MapaJuego/TileSet/0x72_16x16DungeonTileset_Sand.PNG');
     this.load.audio('level2_music','./Sounds/Level2.mp3')
   }
 
@@ -46,7 +46,7 @@ export default class Level2 extends Phaser.Scene {
 
     
     //player
-    this.player = new Player(this,50,50,'sprite');
+    this.player = new Player(this,50,100,'sprite');
 
     //physics
     this.physics.add.collider(this.player, this.wallLayer);
@@ -210,14 +210,19 @@ export default class Level2 extends Phaser.Scene {
   hudTimer(){
     if(this.actSec<10){
       this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + '0'+this.actSec;
+       //Si ya es el tiempo maximo se termina el nivel
+    if(this.actMin + ':' + '0'+this.actSec == this.MaxTime){
+      this.scene.start('Menu');
+    }
     }
     else{
       this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + this.actSec;
-    }
-    //Si ya es el tiempo maximo se termina el nivel
+       //Si ya es el tiempo maximo se termina el nivel
     if(this.actMin + ':' + this.actSec == this.MaxTime){
       this.scene.start('Menu');
     }
+    }
+   
   }
   ColLlave(object1, object2)
   {

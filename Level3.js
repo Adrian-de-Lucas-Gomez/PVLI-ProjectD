@@ -42,11 +42,12 @@ export default class Level3 extends Phaser.Scene {
 
     this.backgroundLayer = this.map.createStaticLayer('suelo',[this.tiles]);
     this.wallLayer = this.map.createStaticLayer('paredes',[this.tiles]);
+    this.coinLayer = this.map.createStaticLayer('monedas',[this.tiles]);
     this.TopWallLayer = this.map.createStaticLayer('TopesMuros',[this.tiles]);
 
     
     //player
-    this.player = new Player(this,50,50,'sprite');
+    this.player = new Player(this,50,550,'sprite');
 
     //physics
     //this.physics.add.existing(this);
@@ -209,13 +210,17 @@ export default class Level3 extends Phaser.Scene {
   hudTimer(){
     if(this.actSec<10){
       this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + '0'+this.actSec;
+      //Si ya es el tiempo maximo se termina el nivel
+      if(this.actMin + ':' + '0'+this.actSec == this.MaxTime){
+        this.scene.start('Menu');
+      }
     }
     else{
       this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + this.actSec;
-    }
-    //Si ya es el tiempo maximo se termina el nivel
-    if(this.actMin + ':' + this.actSec == this.MaxTime){
-      this.scene.start('Menu');
+      //Si ya es el tiempo maximo se termina el nivel
+      if(this.actMin + ':' + this.actSec == this.MaxTime){
+        this.scene.start('Menu');
+      }
     }
   }
   ColLlave(object1, object2)
