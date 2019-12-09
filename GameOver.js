@@ -1,6 +1,7 @@
 export default class GameOver extends Phaser.Scene {
      constructor() {
     super({ key: 'GameOver' });
+    this.FinalScore=0;
   }
   preload(){
       this.load.image('fondico','./FondoMenu.jpg');
@@ -8,6 +9,10 @@ export default class GameOver extends Phaser.Scene {
       this.load.image('botonfin','./ReturnButton.png');
       this.load.audio('GO_music','./Sounds/GameOver.ogg')
       //this.load.image('fondico','./FondoMenu.jpg');
+  }
+  init(data){
+        this.FinalScore=data.puntuacion;
+        console.log(data.puntuacion);
   }
 
   create(){
@@ -23,6 +28,7 @@ export default class GameOver extends Phaser.Scene {
     let boton = this.add.image(400, 500, 'botonfin');
     boton.setScale(0.10);
     //let image = this.add.image(400, 300, 'fondo');
+    this.ScoreText = this.add.text(225, 250, 'Puntuacion: ' + this.FinalScore, { fontSize: '40px', fill: '#FFFFFF'});
 
     this.sound.play("GO_music",{loop: true , volume: 0.05})
 

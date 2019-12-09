@@ -17,6 +17,9 @@ export default class Level1 extends Phaser.Scene {
      //this.llavesRecogidas = 0;
      this.LLavesMax = 3
      this.MaxTime= '1:00';
+     this.score = 0;
+     this.pieces = 0;
+     this.lives = 3;
   }
   
 
@@ -63,7 +66,7 @@ export default class Level1 extends Phaser.Scene {
     
     //llaves
     this.llaves = this.add.group();
-    this.llave1 = new Llave(this,100,350,'llave');
+    this.llave1 = new Llave(this,50,530,'llave');
     this.llave2 = new Llave(this, 400, 300, 'llave')
     this.llave3 = new Llave(this,500,550,'llave');
     this.llaves.add(this.llave1);
@@ -95,7 +98,7 @@ export default class Level1 extends Phaser.Scene {
     this.Triggers.add(this.torreta);
 
     //puerta
-    this.puerta = new Puerta(this,750,300,'puerta')
+    this.puerta = new Puerta(this,752,150,'puerta')
 
 
     //this.camera.follow(this.player);
@@ -125,12 +128,9 @@ export default class Level1 extends Phaser.Scene {
       console.log(this.espacio);
 
       // HUD
-      this.score = 0;
-      this.pieces = 0;
-      this.lives = 3;
       this.scoreText = this.add.text(16, 16, 'score:' + this.score, {font:'40px Arial',fontSize: '40px', fill: '#0bfc03' });
-      this.livesText = this.add.text(700, 50, 'lives:' + this.lives, { fontSize: '15px', fill: '#0bfc03' });
-      this.keysText = this.add.text(650, 20, 'Pieces:'+ this.pieces+'/3', { fontSize: '22px', fill: '#0bfc03' });
+      this.livesText = this.add.text(700, 40, 'lives:' + this.lives, { fontSize: '15px', fill: '#0bfc03' });
+      this.keysText = this.add.text(650, 10, 'Pieces:'+ this.pieces+'/' + this.LLavesMax, { fontSize: '22px', fill: '#0bfc03' });
       this.TimeText = this.add.text(300, 16, ' ', { fontSize: '40px', fill: '#0bfc03' });
 
       this.actMin=0;
@@ -256,7 +256,7 @@ export default class Level1 extends Phaser.Scene {
       //console.log(this.lives);
     }
     else{
-      this.scene.start('GameOver')
+      this.scene.start('GameOver',{puntuacion: this.score})
     }
     
   }
@@ -280,7 +280,7 @@ export default class Level1 extends Phaser.Scene {
     {
       object2.body.enable = false;
       this.sound.stopAll();
-      this.scene.start('Level2');
+      this.scene.start('Level2',{puntuacion : this.score});
       //collider.active = false;
       //scene.physics.world.removeCollider(collider);
     }

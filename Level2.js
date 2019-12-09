@@ -16,6 +16,9 @@ export default class Level2 extends Phaser.Scene {
      //this.llavesRecogidas = 0;
      this.LLavesMax = 3
      this.MaxTime= '1:00';
+     this.score = 0;
+     this.pieces = 0;
+     this.lives = 3;
   }
   
 
@@ -31,8 +34,13 @@ export default class Level2 extends Phaser.Scene {
     this.load.audio('level2_music','./Sounds/Level2.mp3')
   }
 
+  init(data){
+    this.score=data.puntuacion;
+        console.log(data.puntuacion);
+  }
+
   create() {
-    console.log(Phaser.Input.Keyboard.KeyCodes)
+    console.log(Phaser.Input.Keyboard.KeyCodes);
 
     //carga del mapa
     //this.map = this.make.tilemap({ key: 'tilemap', tileWidth: 16, tileHeight: 16 });
@@ -122,14 +130,11 @@ export default class Level2 extends Phaser.Scene {
       console.log(this.espacio);
 
       // HUD
-      this.score = 0;
-      this.pieces = 0;
-      this.lives = 3;
       this.scoreText = this.add.text(16, 16, 'score:' + this.score, { fontSize: '40px', fill: '#0bfc03' });
-      this.livesText = this.add.text(700, 50, 'lives:' + this.lives, { fontSize: '15px', fill: '#0bfc03' });
-      this.keysText = this.add.text(650, 20, 'Pieces:'+ this.pieces+'/3', { fontSize: '22px', fill: '#0bfc03' });
+      this.livesText = this.add.text(700, 40, 'lives:' + this.lives, { fontSize: '15px', fill: '#0bfc03' });
+      this.keysText = this.add.text(650, 10, 'Pieces:'+ this.pieces+'/3', { fontSize: '22px', fill: '#0bfc03' });
       this.TimeText = this.add.text(300, 16, ' ', { fontSize: '40px', fill: '#0bfc03' });
-
+      //Variables de tiempo
       this.actMin=0;
       this.actSec=0;
 
@@ -260,7 +265,7 @@ export default class Level2 extends Phaser.Scene {
       //console.log(this.lives);
     }
     else{
-      this.scene.start('GameOver')
+      this.scene.start('GameOver',{puntuacion: this.score})
     }
     
   }
@@ -284,7 +289,7 @@ export default class Level2 extends Phaser.Scene {
     {
       object2.body.enable = false;
       this.sound.stopAll();
-      this.scene.start('Level3');
+      this.scene.start('Level3',{puntuacion: this.score});
       //collider.active = false;
       //scene.physics.world.removeCollider(collider);
     }

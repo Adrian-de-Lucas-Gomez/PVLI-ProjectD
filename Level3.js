@@ -16,6 +16,9 @@ export default class Level3 extends Phaser.Scene {
      //this.llavesRecogidas = 0;
      this.LLavesMax = 3
      this.MaxTime= '1:00';
+     this.score = 0;
+     this.pieces = 0;
+     this.lives = 3;
   }
   
 
@@ -30,6 +33,11 @@ export default class Level3 extends Phaser.Scene {
     this.load.tilemapTiledJSON('tilemap3', './Level3.json');
     this.load.image('Dungeon3', './MapaJuego/TileSet/0x72_16x16DungeonTileset(Blue).png');
     this.load.audio('level3_music','./Sounds/BiologicalWeapon.ogg')
+  }
+
+  init(data){
+    this.score=data.puntuacion;
+        console.log(data.puntuacion);
   }
 
   create() {
@@ -123,12 +131,9 @@ export default class Level3 extends Phaser.Scene {
       console.log(this.espacio);
 
       // HUD
-      this.score = 0;
-      this.pieces = 0;
-      this.lives = 3;
       this.scoreText = this.add.text(16, 16, 'score:' + this.score, { fontSize: '40px', fill: '#0bfc03' });
-      this.livesText = this.add.text(700, 50, 'lives:' + this.lives, { fontSize: '15px', fill: '#0bfc03' });
-      this.keysText = this.add.text(650, 20, 'Pieces:'+ this.pieces+'/3', { fontSize: '22px', fill: '#0bfc03' });
+      this.livesText = this.add.text(700, 40, 'lives:' + this.lives, { fontSize: '15px', fill: '#0bfc03' });
+      this.keysText = this.add.text(650, 10, 'Pieces:'+ this.pieces+'/' + this.LLavesMax, { fontSize: '22px', fill: '#0bfc03' });
       this.TimeText = this.add.text(300, 16, ' ', { fontSize: '40px', fill: '#0bfc03' });
 
       this.actMin=0;
@@ -250,7 +255,7 @@ export default class Level3 extends Phaser.Scene {
       //console.log(this.lives);
     }
     else{
-      this.scene.start('GameOver')
+      this.scene.start('GameOver',{puntuacion: this.score})
     }
     
   }

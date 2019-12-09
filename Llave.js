@@ -13,9 +13,9 @@ export default class Llave extends Phaser.Physics.Arcade.Sprite
     }
     preUpdate()
     {
-        this.setScale(0.3);
+        this.setScale(0.8);
         //this.setAngle(90);    //Ya no es necesario girarla
-        this.setCollideWorldBounds(true);
+        //this.setCollideWorldBounds(true);
         //this.setVelocityX(30);
 
         //this.x++;

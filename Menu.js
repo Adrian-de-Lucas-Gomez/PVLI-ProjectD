@@ -5,7 +5,7 @@ export default class Menu extends Phaser.Scene {
   preload(){
       this.load.image('fondico','./FondoMenu.jpg');
       this.load.image('boton','./StartButton.png');
-      this.load.image('Logo','./D-proyectLogoWhite.png');
+      this.load.image('Logo','./DproyectLogoWhite.png');
       this.load.audio('title_music','./Sounds/Menu.ogg')
       //this.load.image('fondico','./FondoMenu.jpg');
   }
