@@ -1,6 +1,6 @@
 export default class Llave extends Phaser.Physics.Arcade.Sprite
 {
-    constructor(scene, x, y, type)
+    constructor(scene, x, y, type, points)
     {
         super(scene, x, y , type);
         scene.add.existing(this);
@@ -8,16 +8,15 @@ export default class Llave extends Phaser.Physics.Arcade.Sprite
     }
     create()
     {
-       
+        this.setScale(0.8);
         
     }
     preUpdate()
     {
-        this.setScale(0.8);
-        //this.setAngle(90);    //Ya no es necesario girarla
-        //this.setCollideWorldBounds(true);
-        //this.setVelocityX(30);
-
-        //this.x++;
+        
+    }
+    AddPoints(score){
+        score += this.points;
+        return score;
     }
 }

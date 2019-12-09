@@ -29,6 +29,8 @@ export default class Enemy extends Phaser.GameObjects.Container
         this.velocidad = 40;
         this.escena = scene;
         //scene.physics.moveTo(this,0,0,20)
+
+        this.knockOutTime=3000; //3 segundos de estar KO
     }
     create()
     {
@@ -92,7 +94,7 @@ export default class Enemy extends Phaser.GameObjects.Container
         setTimeout(() => {
             this.velocidad = 40;
 
-        },2000);
+        },this.knockOutTime);
     }
 
     SubirDificultad(x)

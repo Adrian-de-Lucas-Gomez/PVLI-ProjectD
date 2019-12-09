@@ -20,6 +20,10 @@ export default class Level1 extends Phaser.Scene {
      this.score = 0;
      this.pieces = 0;
      this.lives = 3;
+
+     this.POINTS_PER_KEY=15;
+     this.POINTS_PER_COIN=5;
+     this.POINTS_PER_BONUS=50;
   }
   
 
@@ -66,9 +70,9 @@ export default class Level1 extends Phaser.Scene {
     
     //llaves
     this.llaves = this.add.group();
-    this.llave1 = new Llave(this,50,530,'llave');
-    this.llave2 = new Llave(this, 400, 300, 'llave')
-    this.llave3 = new Llave(this,500,550,'llave');
+    this.llave1 = new Llave(this,50,530,'llave',this.POINTS_PER_KEY);
+    this.llave2 = new Llave(this, 400, 300, 'llave',this.POINTS_PER_KEY);
+    this.llave3 = new Llave(this,500,550,'llave',this.POINTS_PER_KEY);
     this.llaves.add(this.llave1);
     this.llaves.add(this.llave2);
     this.llaves.add(this.llave3);
@@ -231,7 +235,8 @@ export default class Level1 extends Phaser.Scene {
 
   ColLlave(object1, object2)
   {
-    this.score=this.score + 5;
+    this.score=this.score + this.POINTS_PER_KEY;
+    //this.score= object2.AddPoints(this.score);
     this.pieces=this.pieces+1;
     this.ActualizaHUD();
     object1.ChangeSpawn();
@@ -243,6 +248,7 @@ export default class Level1 extends Phaser.Scene {
     if(this.Ataque)
     {
       object2.Atacado();
+      //object2.SubirDificultad(50);
     }
     
   }
