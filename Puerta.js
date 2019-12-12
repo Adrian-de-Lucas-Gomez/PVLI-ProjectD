@@ -20,7 +20,7 @@ export default class Puerta extends Phaser.Physics.Arcade.Sprite
 
     AbrePuerta()
     {
-        if(this.escena.pieces == this.escena.LLavesMax)
+        if(this.escena.pieces >= this.escena.LLavesMax)
         {
             this.open = true;
             //this.destroy();

@@ -16,7 +16,6 @@ export default class Level2 extends Phaser.Scene {
      //this.llavesRecogidas = 0;
      this.LLavesMax = 3
      this.MaxTime= '1:00';
-     this.score = 0;
      this.pieces = 0;
      this.lives = 3;
   }
@@ -24,11 +23,11 @@ export default class Level2 extends Phaser.Scene {
 
   preload() {
     //this.load.image('fondo', './MapaProvisional.png');
-    this.load.image('sprite', './D.png');
-    this.load.image('llave','./llave.png');
-    this.load.image('enemigo','./enemigo.png');
-    this.load.image('Deteccion', './Deteccion.png');
-    this.load.image('puerta', './puerta.png');
+    //this.load.image('sprite', './D.png');
+    //this.load.image('llave','./llave.png');
+    //this.load.image('enemigo','./enemigo.png');
+    //this.load.image('Deteccion', './Deteccion.png');
+    //this.load.image('puerta', './puerta.png');
     this.load.tilemapTiledJSON('tilemap2', './Level2.json');
     this.load.image('Dungeon2', './MapaJuego/TileSet/0x72_16x16DungeonTileset_Sand.PNG');
     this.load.audio('level2_music','./Sounds/Level2.mp3')
@@ -48,9 +47,9 @@ export default class Level2 extends Phaser.Scene {
     this.tiles=this.map.addTilesetImage('Dungeon2', 'Dungeon2');
 
     this.backgroundLayer = this.map.createStaticLayer('suelo',[this.tiles]);
-    this.coinLayer= this.map.createStaticLayer('monedas', [this.tiles]);
     this.wallLayer = this.map.createStaticLayer('paredes',[this.tiles]);
     this.TopWallLayer = this.map.createStaticLayer('TopesMuros',[this.tiles]);
+    this.coinLayer = this.map.createDynamicLayer('monedas',[this.tiles]);
 
     
     //player
@@ -62,9 +61,15 @@ export default class Level2 extends Phaser.Scene {
     this.wallLayer.setCollisionByProperty({ Colision: true });
     this.wallLayer.setCollision([17,18,19]);
 
-    this.coinLayer.setCollisionByProperty({ Colision: true });
-    this.coinLayer.setCollision([221]);
-    //this.physics.add.collider(this.player, this.coinLayer, this.ColCoin,null,this);
+      //monedas
+      this.coinLayer.setCollisionByProperty({ Colision: true });
+      this.coinLayer.setCollision([220,221]);
+  
+      this.coins=this.add.group();
+      this.coins.add(this.coinLayer);
+  
+      this.physics.add.overlap(this.player, this.coins, this.ColCoin,null,this);
+      
     
     
     //llaves
@@ -151,6 +156,8 @@ export default class Level2 extends Phaser.Scene {
     //Contador de un segundo
     this.timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this , loop: true});
     function onEvent(){this.actSec++;}
+
+    this.ActualizaHUD();
     }
 
   update(time, delta){
@@ -199,12 +206,6 @@ export default class Level2 extends Phaser.Scene {
       this.Ataque = true;
     }
 
-    
-    
-    this.scoreText.text="Score=" + this.score;
-    this.livesText.text="lives:" + this.lives;
-    this.keysText.text="Pieces:"+ this.pieces+"/" + this.LLavesMax;
-    //this.TimeText.text= this.timedEvent.getProgress().toString().substr(0, 4); 
     if(this.actSec==60){
       this.actSec=0;
       this.actMin++;
@@ -212,6 +213,8 @@ export default class Level2 extends Phaser.Scene {
 
     this.hudTimer();
   }
+
+
   hudTimer(){
     if(this.actSec<10){
       this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + '0'+this.actSec;
@@ -240,23 +243,27 @@ export default class Level2 extends Phaser.Scene {
 
   ColCoin(object1, object2)
   {
-    this.score=this.score + 1;
-    //this.pieces=this.pieces+1;
+    if(object2.index==221 && object2.visible==true){
+      object2.visible = false;
+      this.score=this.score + this.POINTS_PER_COIN;
+      this.sound.play("coin_sound",{loop: false , volume: 0.15});
+      //this.ActualizaHUD();
+    }
     this.ActualizaHUD();
-    //object1.ChangeSpawn();
-    object2.destroy();
   }
 
   ColEnemigo(object1, object2)
   {
     if(this.Ataque)
     {
-      object2.body.stop();
+      object2.Atacado();
+      //object2.SubirDificultad(50);
     }
     
   }
   ColAtaque(object1,object2)
   {
+    this.sound.play("catch_sound",{loop: false , volume: 0.15});
     console.log("Chocaste con el enemigo");
     this.lives--;
     this.ActualizaHUD();
