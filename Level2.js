@@ -18,6 +18,12 @@ export default class Level2 extends Phaser.Scene {
      this.MaxTime= '1:00';
      this.pieces = 0;
      this.lives = 3;
+     this.score=0;
+     
+    //Constantes del juego
+    this.POINTS_PER_KEY=15;
+    this.POINTS_PER_COIN=5;
+    this.POINTS_PER_BONUS=50;
   }
   
 
@@ -201,7 +207,7 @@ export default class Level2 extends Phaser.Scene {
     
 
     //Ataque del jugador al enemigo
-    if(this.physics.collide(this.player,this.Enemigos) || this.espacio.isDown )
+    if(this.physics.collide(this.player,this.Enemigos) && this.espacio.isDown )
     {
       this.Ataque = true;
     }
@@ -212,6 +218,8 @@ export default class Level2 extends Phaser.Scene {
     }
 
     this.hudTimer();
+
+    
   }
 
 
@@ -236,6 +244,7 @@ export default class Level2 extends Phaser.Scene {
   {
     this.score=this.score + 5;
     this.pieces=this.pieces+1;
+    this.sound.play("key_sound",{loop: false , volume: 0.50});
     this.ActualizaHUD();
     object1.ChangeSpawn();
     object2.destroy();

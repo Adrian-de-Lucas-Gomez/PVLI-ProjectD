@@ -7,6 +7,7 @@ import Enemy from './Enemy.js';
 import Torreta from './Torreta.js';
 import Puerta from './Puerta.js';
 import Trigger from './Trigger.js';
+import Bonus from './Bonus.js';
 
 export default class Level1 extends Phaser.Scene {
 
@@ -34,12 +35,14 @@ export default class Level1 extends Phaser.Scene {
     this.load.image('enemigo','./enemigo.png')
     this.load.image('Deteccion', './Deteccion.png')
     this.load.image('puerta', './puerta.png')
+    this.load.image('bonus', './Bonus.png')
     //this.load.spritesheet('anim','./mago.png',291,513);
     this.load.tilemapTiledJSON('tilemap1', './Level1.json');
     this.load.image('Dungeon', './MapaJuego/TileSet/0x72_16x16DungeonTileset.v4.png');
-    this.load.audio('level1_music','./Sounds/DangerousDungeon.ogg')
-    this.load.audio('coin_sound','./Sounds/Pickup_Coin.wav')
-    this.load.audio('catch_sound','./Sounds/Powerup2.wav')
+    this.load.audio('level1_music','./Sounds/DangerousDungeon.ogg');
+    this.load.audio('coin_sound','./Sounds/Pickup_Coin.wav');
+    this.load.audio('catch_sound','./Sounds/Powerup2.wav');
+    this.load.audio('key_sound','./Sounds/KeyPick.wav');
   }
 
   create() {
@@ -89,6 +92,10 @@ export default class Level1 extends Phaser.Scene {
     this.llaves.add(this.llave2);
     this.llaves.add(this.llave3);
 
+
+    this.bonus1= new Bonus(this, 40, 408, 'bonus', this.POINTS_PER_BONUS);
+
+
     //enemigos
     //grupos
     this.Enemigos = this.add.group();
@@ -124,7 +131,8 @@ export default class Level1 extends Phaser.Scene {
     this.physics.add.collider(this.player,this.Detecciones,this.ColAtaque,null,this);
     this.physics.add.collider(this.player,this.puerta,this.ColPuerta,null,this);
     this.physics.add.collider(this.player,this.llaves,this.ColLlave, null, this);
-    this.physics.add.overlap(this.player,this.Triggers,this.ColEnemigo,null,this)
+    this.physics.add.overlap(this.player,this.Triggers,this.ColEnemigo,null,this);
+    this.physics.add.collider(this.player,this.bonus1,this.ColBonus,null, this);
     
       //teclas
       this.w = this.input.keyboard.addKey('W');
@@ -244,6 +252,7 @@ export default class Level1 extends Phaser.Scene {
     this.score=this.score + this.POINTS_PER_KEY;
     //this.score= object2.AddPoints(this.score);
     this.pieces=this.pieces+1;
+    this.sound.play("key_sound",{loop: false , volume: 0.50});
     this.ActualizaHUD();
     object1.ChangeSpawn();
     object2.destroy();
@@ -254,7 +263,7 @@ export default class Level1 extends Phaser.Scene {
     if(object2.index==221 && object2.visible==true){
       object2.visible = false;
       this.score=this.score + this.POINTS_PER_COIN;
-      this.sound.play("coin_sound",{loop: false , volume: 0.15});
+      this.sound.play("coin_sound",{loop: false , volume: 0.05});
       this.ActualizaHUD();
     }
   }
@@ -282,6 +291,15 @@ export default class Level1 extends Phaser.Scene {
       this.scene.start('GameOver',{puntuacion: this.score})
     }
     
+  }
+  ColBonus(object1, object2){
+    this.score=this.score + this.POINTS_PER_BONUS;
+    //this.score= object2.AddPoints(this.score);
+    //this.pieces=this.pieces+1;
+    this.sound.play("key_sound",{loop: false , volume: 0.50});
+    this.ActualizaHUD();
+    //object1.ChangeSpawn();
+    object2.destroy();
   }
 
   ActualizaHUD(){
