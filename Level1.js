@@ -204,17 +204,28 @@ export default class Level1 extends Phaser.Scene {
     this.timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this , loop: true});
     function onEvent(){this.actSec++;}
 
-    this.timer = this.time.addEvent({
+    //contador para mover al mago
+    this.timerMago = this.time.addEvent({
       delay: 5000,  
       callback: ChangePosition,
       callbackScope: this,
       loop: true
-  });
-  function ChangePosition(){this.mago.ChangePosition()}
+      });
+     function ChangePosition(){this.mago.ChangePosition()}
+  //contador para cambiar de baldosa
+        //contador para mover al mago
+    this.timerBaldosa = this.time.addEvent({
+      delay: 1000,  
+      callback: ChangeBaldosa,
+      callbackScope: this,
+      loop: true
+      });
+     function ChangeBaldosa(){this.baldosa = this.rnd.pick(this.Baldosas);}
+  
 
-
+  //Actualizacion del HUD
     this.ActualizaHUD();
-    }
+  }
 
 
 
@@ -275,7 +286,7 @@ export default class Level1 extends Phaser.Scene {
       this.hudTimer();
 
       // baldosas
-      this.CambiaBaldosa();
+      //this.CambiaBaldosa();
   }
 
 
@@ -392,13 +403,13 @@ export default class Level1 extends Phaser.Scene {
    
   }
 
-  CambiaBaldosa()
-  {
-    setTimeout(() => {
-      this.baldosa = this.rnd.pick(this.Baldosas);
+  //CambiaBaldosa()
+  //{
+    //setTimeout(() => {
+    //  this.baldosa = this.rnd.pick(this.Baldosas);
 
-  },this.TimeBaldosa);
+ // },this.TimeBaldosa);
 
   
-  }
+  //}
 }
