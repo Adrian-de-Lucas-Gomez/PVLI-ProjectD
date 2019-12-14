@@ -95,10 +95,10 @@ export default class Level1 extends Phaser.Scene {
     this.Detecciones = this.add.group();
     this.Triggers=this.add.group();
   
-    this.patrulla1 = new Enemy(this,150,120,350,120);
-    this.patrulla2 = new Enemy(this,135,150,135,300);
-    this.patrulla3 = new Enemy(this,150,370,320,370);
-    this.patrulla4 = new Enemy(this,440,470,580,470);
+    this.patrulla1 = new Enemy(this,150,120,350,120,true);
+    this.patrulla2 = new Enemy(this,135,150,135,300,false);
+    this.patrulla3 = new Enemy(this,150,370,320,370,true);
+    this.patrulla4 = new Enemy(this,440,470,580,470,true);
     this.torreta = new Torreta(this,540,270);
     this.Enemigos.add(this.patrulla1.enemigo);
     this.Enemigos.add(this.patrulla2.enemigo);
@@ -120,7 +120,7 @@ export default class Level1 extends Phaser.Scene {
     this.puerta = new Puerta(this,752,150,'puerta')
 
     //Colisiones con entidades
-    this.physics.add.collider(this.player,this.Enemigos);
+    //this.physics.add.collider(this.player,this.Enemigos);
     this.physics.add.collider(this.player,this.Detecciones,this.ColAtaque,null,this);
     this.physics.add.collider(this.player,this.puerta,this.ColPuerta,null,this);
     this.physics.add.collider(this.player,this.llaves,this.ColLlave, null, this);
@@ -207,10 +207,11 @@ export default class Level1 extends Phaser.Scene {
     
 
     //Ataque del jugador al enemigo
-    if(this.physics.collide(this.player,this.Enemigos) || this.espacio.isDown )
+    if(this.physics.collide(this.player,this.Enemigos) && this.espacio.isDown )
     {
       this.Ataque = true;
     }
+    else{this.Ataque = false}
 
     if(this.actSec==60){
       this.actSec=0;

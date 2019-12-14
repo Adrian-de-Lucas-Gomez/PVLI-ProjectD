@@ -43,7 +43,7 @@ export default class Torreta extends Phaser.GameObjects.Container
         setTimeout(() => {
             this.velocidad = 40;
 
-        },2000);
+        },3000);
     }
 
     SubirDificultad(x)

@@ -4,7 +4,7 @@ import Trigger from './Trigger.js';
 
 export default class Enemy extends Phaser.GameObjects.Container
 {
-    constructor(scene,x,y,x2,y2)
+    constructor(scene,x,y,x2,y2,horizontal)
     {
         super(scene,x,y);
         scene.add.existing(this);
@@ -21,14 +21,15 @@ export default class Enemy extends Phaser.GameObjects.Container
         this.PosY = this.Pos2Y;
         this.enemigo = new Enemigo(scene,20,20,'enemigo');
         this.deteccion = new Deteccion(scene,60,20,'Deteccion');
-        //this.trigger = new Trigger(scene,0,0,100,100);
+       
         this.add(this.enemigo);
         this.add(this.deteccion);
-        //this.add(this.trigger);
+     
         this.giro=true;
+        this.horizontal = horizontal;
         this.velocidad = 40;
         this.escena = scene;
-        //scene.physics.moveTo(this,0,0,20)
+     
 
         this.knockOutTime=3000; //3 segundos de estar KO
     }
@@ -38,52 +39,69 @@ export default class Enemy extends Phaser.GameObjects.Container
     }
     preUpdate()
     {
-       this.mover();
+         //suponemos que siempre empieza a moverse hacia la derecha y arriba
+        //pos1x < pos2x
+        this.escena.physics.moveTo(this,this.PosX,this.PosY,this.velocidad)
+        this.enemigo.flipX=this.giro;
+        
+        if(this.horizontal)
+        {
+            this.deteccion.y = this.enemigo.y;
+            this.deteccion.setAngle(-90);
+            this.moverH();
+        }
+        else
+        {
+            this.deteccion.setAngle(0);
+            this.deteccion.x = this.enemigo.x
+            this.moverV();
+        }
+       
       
        
        
     }
 
-    mover()
+    moverH()
     {
-        //suponemos que siempre empieza a moverse hacia la derecha y arriba
-        //pos1x < pos2x
-        this.escena.physics.moveTo(this,this.PosX,this.PosY,this.velocidad)
-        this.enemigo.flipX=this.giro;
+
+        this.deteccion.flipY= !this.giro;
         //scene.physics.moveTo(scene,x,y,speed,maxtime)
-        if(this.x != this.Pos2X)
-        {
             if(this.x <= this.Pos1X)
             {
                 this.PosX = this.Pos2X
                 this.PosY = this.Pos2Y 
-                this.giro=!this.giro;
+                this.giro = !this.giro;
+                this.deteccion.x = 60;
+                
             }
             if(this.x >= this.Pos2X)
             {
                 this.PosX = this.Pos1X
                 this.PosY = this.Pos1Y 
                 this.giro=!this.giro;
+                this.deteccion.x = -20;
+                
             }
-        }
-        else
-        {
-            if(this.y <= this.Pos1Y)
-            {
-                this.PosX = this.Pos2X
-                this.PosY = this.Pos2Y 
-                this.giro=!this.giro;
-            }
-            if(this.y >= this.Pos2Y)
-            {
-                this.PosX = this.Pos1X
-                this.PosY = this.Pos1Y 
-                this.giro=!this.giro;
-            }
-        }
-      
-        
         //this.escena.physics.moveTo(this,300,300,20)
+    }
+    moverV()
+    {
+        this.deteccion.flipY= this.giro;
+        if(this.y <= this.Pos1Y)
+        {
+            this.PosX = this.Pos2X
+            this.PosY = this.Pos2Y 
+            this.giro=!this.giro;
+            this.deteccion.y = 60;
+        }
+        if(this.y >= this.Pos2Y)
+        {
+            this.PosX = this.Pos1X
+            this.PosY = this.Pos1Y 
+            this.giro=!this.giro;
+            this.deteccion.y = -20;
+        }
     }
 
 
