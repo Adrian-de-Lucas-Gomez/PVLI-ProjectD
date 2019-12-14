@@ -57,6 +57,12 @@ export default class Level1 extends Phaser.Scene {
     this.load.audio('key_sound','./Sounds/KeyPick.wav');
   }
 
+  init(data){
+    this.score=data.puntuacion;
+    this.pieces=data.piezas;
+    this.lives=data.vidas;
+  }
+
   create() {
     //console.log(Phaser.Input.Keyboard.KeyCodes)
 
@@ -387,9 +393,10 @@ export default class Level1 extends Phaser.Scene {
     {
       object2.body.enable = false;
       this.sound.stopAll();
-      this.scene.start('Level2',{puntuacion : this.score});
-      //collider.active = false;
-      //scene.physics.world.removeCollider(collider);
+      this.scene.start('Level2',
+      { puntuacion: this.score ,
+        vidas: this.lives ,
+        piezas: 0 });
     }
   }
 

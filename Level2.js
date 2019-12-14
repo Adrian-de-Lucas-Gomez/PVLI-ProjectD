@@ -40,7 +40,8 @@ export default class Level2 extends Phaser.Scene {
 
   init(data){
     this.score=data.puntuacion;
-        console.log(data.puntuacion);
+    this.pieces=data.piezas;
+    this.lives=data.vidas;
   }
 
   create() {
@@ -317,7 +318,10 @@ export default class Level2 extends Phaser.Scene {
     {
       object2.body.enable = false;
       this.sound.stopAll();
-      this.scene.start('Level3',{puntuacion: this.score});
+      this.scene.start('Level3',
+      { puntuacion: this.score ,
+        vidas: this.lives ,
+        piezas: 0 });
       //collider.active = false;
       //scene.physics.world.removeCollider(collider);
     }
