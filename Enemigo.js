@@ -9,19 +9,8 @@ export default class Enemigo extends Phaser.Physics.Arcade.Sprite
         this.setScale(1.2);
         this.setAngle(0);
         this.body.immovable = true;
-       
 
-
-        
-        this.incremento=1;
-        this.OriPosX=this.x;
-        this.OriPosY=this.y;
     }
-    create()
-    {
-        
-        
-        
-    }
+  
    
 }

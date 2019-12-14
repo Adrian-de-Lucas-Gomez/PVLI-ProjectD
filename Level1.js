@@ -7,6 +7,8 @@ import Enemy from './Enemy.js';
 import Torreta from './Torreta.js';
 import Puerta from './Puerta.js';
 import Trigger from './Trigger.js';
+import Ojo from './Ojo.js';
+
 
 export default class Level1 extends Phaser.Scene {
 
@@ -34,6 +36,7 @@ export default class Level1 extends Phaser.Scene {
     this.load.image('enemigo','./enemigo.png')
     this.load.image('Deteccion', './Deteccion.png')
     this.load.image('puerta', './puerta.png')
+    this.load.image('ojo', './Ojo.png')
     //this.load.spritesheet('anim','./mago.png',291,513);
     this.load.tilemapTiledJSON('tilemap1', './Level1.json');
     this.load.image('Dungeon', './MapaJuego/TileSet/0x72_16x16DungeonTileset.v4.png');
@@ -94,17 +97,18 @@ export default class Level1 extends Phaser.Scene {
     this.Enemigos = this.add.group();
     this.Detecciones = this.add.group();
     this.Triggers=this.add.group();
+    this.Cuerpos = this.add.group();
   
     this.patrulla1 = new Enemy(this,150,120,350,120,true);
     this.patrulla2 = new Enemy(this,135,150,135,300,false);
     this.patrulla3 = new Enemy(this,150,370,320,370,true);
     this.patrulla4 = new Enemy(this,440,470,580,470,true);
-    this.torreta = new Torreta(this,540,270);
+    this.torreta = new Torreta(this,540,270,'enemigo');
+    this.ojo = new Ojo(this,300,100,'ojo',500,120)
     this.Enemigos.add(this.patrulla1.enemigo);
     this.Enemigos.add(this.patrulla2.enemigo);
     this.Enemigos.add(this.patrulla3.enemigo);
     this.Enemigos.add(this.patrulla4.enemigo);
-    this.Enemigos.add(this.torreta.enemigo)
     this.Detecciones.add(this.patrulla1.deteccion);
     this.Detecciones.add(this.patrulla2.deteccion);
     this.Detecciones.add(this.patrulla3.deteccion);
@@ -115,6 +119,7 @@ export default class Level1 extends Phaser.Scene {
     this.Triggers.add(this.patrulla3);
     this.Triggers.add(this.patrulla4);
     this.Triggers.add(this.torreta);
+    this.Cuerpos.add(this.ojo.cuerpo);
 
     //puerta
     this.puerta = new Puerta(this,752,150,'puerta')
@@ -124,7 +129,8 @@ export default class Level1 extends Phaser.Scene {
     this.physics.add.collider(this.player,this.Detecciones,this.ColAtaque,null,this);
     this.physics.add.collider(this.player,this.puerta,this.ColPuerta,null,this);
     this.physics.add.collider(this.player,this.llaves,this.ColLlave, null, this);
-    this.physics.add.overlap(this.player,this.Triggers,this.ColEnemigo,null,this)
+    this.physics.add.overlap(this.player,this.Triggers,this.ColEnemigo,null,this);
+    this.physics.add.collider(this.player,this.Cuerpos,this.colCuerpos,null,this);
     
       //teclas
       this.w = this.input.keyboard.addKey('W');
@@ -165,6 +171,8 @@ export default class Level1 extends Phaser.Scene {
 
     this.ActualizaHUD();
     }
+
+
 
   update(time, delta){
     //controles
@@ -212,6 +220,11 @@ export default class Level1 extends Phaser.Scene {
       this.Ataque = true;
     }
     else{this.Ataque = false}
+    if(this.espacio.isDown)
+    {
+      this.AtaqueOjo= true;
+    }
+    else{this.AtaqueOjo = false;}
 
     if(this.actSec==60){
       this.actSec=0;
@@ -222,6 +235,12 @@ export default class Level1 extends Phaser.Scene {
 
     this.hudTimer();
   }
+
+
+
+  //Metodos Auxiliares;
+
+
   hudTimer(){
     if(this.actSec<10){
       this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + '0'+this.actSec;
@@ -308,5 +327,15 @@ export default class Level1 extends Phaser.Scene {
       //collider.active = false;
       //scene.physics.world.removeCollider(collider);
     }
+  }
+
+  colCuerpos(object1,object2)
+  { //console.log("ataque: " + this.AtaqueOjo)
+    if(this.AtaqueOjo)
+    {
+      object2.atacado = true;
+      //console.log("Atacado: " + object2.atacado)
+    }
+   
   }
 }

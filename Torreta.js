@@ -4,16 +4,17 @@ import Trigger from './Trigger.js';
 
 export default class Torreta extends Phaser.GameObjects.Container
 {
-    constructor(scene,x,y)
+    constructor(scene,x,y, type)
     {
         super(scene,x,y);
         scene.add.existing(this);
         scene.physics.world.enable(this);
         this.velocidad = 50;
+        this.knockOutTime=3000;
         //this.setInteractive(new Phaser.Geom.Circle(0, 0, 50), Phaser.Geom.Circle.Contains);
 
         
-        this.enemigo = new Enemigo(scene,0,0,'enemigo');
+        this.enemigo = new Enemigo(scene,0,0,type);
         this.deteccion = new Deteccion(scene,50,0,'Deteccion');
         //this.trigger = new Trigger(scene,0,0,100,100);
         this.add(this.enemigo);
@@ -21,9 +22,8 @@ export default class Torreta extends Phaser.GameObjects.Container
         //this.add(this.trigger);
         
         this.giro=true;
-        this.body.setAngularVelocity(this.velocidad);
-        //this.body.center = new Vector2([300],[50]);
-        //this.body.setSize(100,100,new Vector2([50],[50]));
+        //this.body.setAngularVelocity(this.velocidad);
+       
     }
     create()
     {
@@ -31,8 +31,8 @@ export default class Torreta extends Phaser.GameObjects.Container
     }
     preUpdate()
     {
-       //this.angle++;
-       
+      
+        this.body.setAngularVelocity(this.velocidad);
        
     }
 
@@ -40,10 +40,11 @@ export default class Torreta extends Phaser.GameObjects.Container
     {
        
         this.velocidad = 0;
+        console.log("velocidad: " + this.velocidad)
         setTimeout(() => {
             this.velocidad = 40;
 
-        },3000);
+        },this.knockOutTime);
     }
 
     SubirDificultad(x)
