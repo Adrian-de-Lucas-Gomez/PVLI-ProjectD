@@ -1,14 +1,17 @@
 
 import Player from './Player.js';
 import Llave from './Llave.js';
-import Enemigo from './Enemigo.js';
-import Deteccion from './Ataque.js';
+//import Enemigo from './Enemigo.js';
+//import Deteccion from './Ataque.js';
 import Enemy from './Enemy.js';
 import Torreta from './Torreta.js';
 import Puerta from './Puerta.js';
-import Trigger from './Trigger.js';
+//import Trigger from './Trigger.js';
 import Ojo from './Ojo.js';
 import Bonus from './Bonus.js';
+import Baldosa from './Baldosa.js';
+import PatrullaPasillo from './PatrullaPasillo.js';
+import Mago from './Mago.js';
 
 
 export default class Level1 extends Phaser.Scene {
@@ -23,10 +26,12 @@ export default class Level1 extends Phaser.Scene {
      this.score = 0;
      this.pieces = 3;
      this.lives = 3;
+     this.TimeBaldosa = 1000;
     //Constantes del juego
      this.POINTS_PER_KEY=15;
      this.POINTS_PER_COIN=5;
      this.POINTS_PER_BONUS=50;
+     
   }
   
 
@@ -40,6 +45,8 @@ export default class Level1 extends Phaser.Scene {
     this.load.image('puerta', './puerta.png')
     this.load.image('ojo', './Ojo.png')
     this.load.image('bonus', './Bonus.png');
+    this.load.image('baldosa', './Baldosa.jpg')
+    this.load.image('mago','./mago.png');
 
     //this.load.spritesheet('anim','./mago.png',291,513);
     this.load.tilemapTiledJSON('tilemap1', './Level1.json');
@@ -52,6 +59,9 @@ export default class Level1 extends Phaser.Scene {
 
   create() {
     //console.log(Phaser.Input.Keyboard.KeyCodes)
+
+    // generador de randoms
+    this.rnd = Phaser.Math.RND;
 
     //carga del mapa
     //this.map = this.make.tilemap({ key: 'tilemap', tileWidth: 16, tileHeight: 16 });
@@ -97,6 +107,13 @@ export default class Level1 extends Phaser.Scene {
     this.llaves.add(this.llave2);
     this.llaves.add(this.llave3);
 
+    //baldosas del nivel
+    this.baldosa1 = new Baldosa(this,600,100,'baldosa')
+    this.baldosa2 = new Baldosa(this,700,100,'baldosa')
+    this.baldosa3 = new Baldosa(this,600,300,'baldosa')
+    //array de baldosas
+    this.Baldosas = [this.baldosa1,this.baldosa2,this.baldosa3]
+
     //Bonus
     this.bonus1= new Bonus(this, 40, 408, 'bonus', this.POINTS_PER_BONUS);
 
@@ -106,13 +123,18 @@ export default class Level1 extends Phaser.Scene {
     this.Detecciones = this.add.group();
     this.Triggers=this.add.group();
     this.Cuerpos = this.add.group();
-  
-    this.patrulla1 = new Enemy(this,150,120,350,120,true);
-    this.patrulla2 = new Enemy(this,135,150,135,300,false);
-    this.patrulla3 = new Enemy(this,150,370,320,370,true);
-    this.patrulla4 = new Enemy(this,440,470,580,470,true);
+
+    //declaracion de enemigos
+    this.patrulla1 = new PatrullaPasillo(this,150,120,350,120,true);
+    this.patrulla2 = new PatrullaPasillo(this,135,150,135,300,false);
+    this.patrulla3 = new PatrullaPasillo(this,150,370,320,370,true);
+    this.patrulla4 = new PatrullaPasillo(this,440,470,580,470,true);
     this.torreta = new Torreta(this,540,270,'enemigo');
-    this.ojo = new Ojo(this,300,100,'ojo',500,120)
+    this.ojo = new Ojo(this,300,100,'ojo',500,120);
+    this.mago = new Mago(this,this.baldosa1.x, this.baldosa1.y,'mago')
+
+  
+    // Añadir los enemigos a los grupos
     this.Enemigos.add(this.patrulla1.enemigo);
     this.Enemigos.add(this.patrulla2.enemigo);
     this.Enemigos.add(this.patrulla3.enemigo);
@@ -128,6 +150,8 @@ export default class Level1 extends Phaser.Scene {
     this.Triggers.add(this.patrulla4);
     this.Triggers.add(this.torreta);
     this.Cuerpos.add(this.ojo.cuerpo);
+
+    
 
     //puerta
     this.puerta = new Puerta(this,752,150,'puerta')
@@ -189,9 +213,7 @@ export default class Level1 extends Phaser.Scene {
     //controles
     if(this.w.isDown || this.cursor.up.isDown)
     {
-       
-      this.player.body.setVelocityY(-100);
-      
+      this.player.body.setVelocityY(-100); 
     }
     else if(this.s.isDown || this.cursor.down.isDown)
     {
@@ -202,15 +224,13 @@ export default class Level1 extends Phaser.Scene {
       this.player.body.setVelocityY(0);
     }
      if(this.a.isDown || this.cursor.left.isDown)
-    {
-    
+     {
       this.player.body.setVelocityX(-100)
     }
     else if ( this.d.isDown || this.cursor.right.isDown)
     {
       this.player.body.setVelocityX(100)
     }
-
     //Teclas para probar el guadado de spawn y la reaparicion
     /*
     else if( this.r.isDown){
@@ -237,14 +257,16 @@ export default class Level1 extends Phaser.Scene {
     }
     else{this.AtaqueOjo = false;}
 
+    //tiempo
     if(this.actSec==60){
       this.actSec=0;
       this.actMin++;
     }
+      //this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + this.actSec; 
+      this.hudTimer();
 
-    //this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + this.actSec; 
-
-    this.hudTimer();
+      // baldosas
+      this.CambiaBaldosa();
   }
 
 
@@ -359,5 +381,15 @@ export default class Level1 extends Phaser.Scene {
       //console.log("Atacado: " + object2.atacado)
     }
    
+  }
+
+  CambiaBaldosa()
+  {
+    setTimeout(() => {
+      this.baldosa = this.rnd.pick(this.Baldosas);
+
+  },this.TimeBaldosa);
+
+  
   }
 }

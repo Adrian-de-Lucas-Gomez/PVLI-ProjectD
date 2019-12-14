@@ -7,17 +7,28 @@ export default class Ojo extends Torreta
         super(scene,x,y,type);
         this.cuerpo = new Cuerpo(scene,cx,cy,"enemigo");
         this.enemigo.setScale(0.05);
+        this.knockOutTime=3000;
 
     }
 
     preUpdate()
     {
         this.body.setAngularVelocity(this.velocidad);
-        console.log(this.cuerpo.atacado);
+        
         if(this.cuerpo.atacado == true)
         {
             this.Atacado();
             this.cuerpo.atacado = false;
         }
+    }
+    Atacado()
+    {
+       
+        this.velocidad = 0;
+        console.log("velocidad: " + this.velocidad)
+        setTimeout(() => {
+            this.velocidad = 40;
+
+        },this.knockOutTime);
     }
 }
