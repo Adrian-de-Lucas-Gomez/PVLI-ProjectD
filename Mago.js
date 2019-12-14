@@ -6,13 +6,14 @@ export default class Mago extends Enemy
         super(scene,x,y,type);
         this.TimeChangePosition = 5000;
         this.enemigo.setScale(0.06)
+        this.ChangePosition();
       
 
     }
     preUpdate()
     {
         this.baldosa = this.escena.baldosa;
-        this.ChangePosition()
+
     }
 
     ChangePosition()
