@@ -4,24 +4,32 @@ export default class Mago extends Enemy
     constructor(scene,x,y,type)
     {
         super(scene,x,y,type);
-        this.TimeChangePosition = 5000;
+        this.baldosa = scene.baldosa;
+        this.TimeChangePosition = 3000;
         this.enemigo.setScale(0.06)
-        this.ChangePosition();
+        //this.timer = scene.time.addEvent({
+          //  delay: 3000,  
+           // callback: ChangePosition,
+            //args: [],
+            //callbackScope: this,
+           // repeat: 4
+       // });
+        
       
 
     }
+   
     preUpdate()
     {
+       // console.log(this.baldosa)
         this.baldosa = this.escena.baldosa;
 
     }
 
     ChangePosition()
     {
-        setTimeout(() => {
-           this.body.reset(this.baldosa.x,this.baldosa.y)
-      
-        },this.TimeChangePosition);
+        console.log(this.baldosa)
+        this.body.reset(this.baldosa.x,this.baldosa.y)
     }
 
 }

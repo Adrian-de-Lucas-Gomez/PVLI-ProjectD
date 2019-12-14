@@ -111,6 +111,7 @@ export default class Level1 extends Phaser.Scene {
     this.baldosa1 = new Baldosa(this,600,100,'baldosa')
     this.baldosa2 = new Baldosa(this,700,100,'baldosa')
     this.baldosa3 = new Baldosa(this,600,300,'baldosa')
+    this.baldosa = this.baldosa1;
     //array de baldosas
     this.Baldosas = [this.baldosa1,this.baldosa2,this.baldosa3]
 
@@ -176,7 +177,7 @@ export default class Level1 extends Phaser.Scene {
       this.t = this.input.keyboard.addKey('T');
       this.cursor = this.input.keyboard.createCursorKeys();
       this.espacio = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
-      console.log(this.espacio);
+      
 
       // HUD
       this.scoreText = this.add.text(16, 16, 'score:' + this.score, {font:'40px Arial',fontSize: '40px', fill: '#0bfc03' });
@@ -202,6 +203,14 @@ export default class Level1 extends Phaser.Scene {
     //Contador de un segundo
     this.timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this , loop: true});
     function onEvent(){this.actSec++;}
+
+    this.timer = this.time.addEvent({
+      delay: 5000,  
+      callback: ChangePosition,
+      callbackScope: this,
+      loop: true
+  });
+  function ChangePosition(){this.mago.ChangePosition()}
 
 
     this.ActualizaHUD();
