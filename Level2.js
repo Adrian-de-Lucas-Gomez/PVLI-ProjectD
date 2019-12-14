@@ -6,6 +6,7 @@ import Deteccion from './Ataque.js';
 import Enemy from './Enemy.js';
 import Torreta from './Torreta.js';
 import Puerta from './Puerta.js';
+import Bonus from './Bonus.js';
 
 export default class Level2 extends Phaser.Scene {
 
@@ -18,6 +19,10 @@ export default class Level2 extends Phaser.Scene {
      this.MaxTime= '1:00';
      this.pieces = 0;
      this.lives = 3;
+     //Constantes del juego
+     this.POINTS_PER_KEY=15;
+     this.POINTS_PER_COIN=5;
+     this.POINTS_PER_BONUS=50;
   }
   
 
@@ -81,6 +86,9 @@ export default class Level2 extends Phaser.Scene {
     this.llaves.add(this.llave2);
     this.llaves.add(this.llave3);
 
+    //Bonus
+    this.bonus1= new Bonus(this, 40, 408, 'bonus', this.POINTS_PER_BONUS);
+
     //enemigos
     //grupos
     this.Enemigos = this.add.group();
@@ -119,7 +127,10 @@ export default class Level2 extends Phaser.Scene {
     this.physics.add.collider(this.player,this.Detecciones,this.ColAtaque,null,this);
     this.physics.add.collider(this.player,this.puerta,this.ColPuerta,null,this);
     this.physics.add.collider(this.player,this.llaves,this.ColLlave, null, this);
-    this.physics.add.overlap(this.player,this.Containers,this.ColEnemigo,null,this)
+    this.physics.add.overlap(this.player,this.Containers,this.ColEnemigo,null,this);
+
+    this.physics.add.collider(this.player,this.bonus1,this.ColBonus,null, this);
+
 
     this.physics.add.collider(this.player,this.map,);
     
@@ -236,6 +247,7 @@ export default class Level2 extends Phaser.Scene {
   {
     this.score=this.score + 5;
     this.pieces=this.pieces+1;
+    this.sound.play("key_sound",{loop: false , volume: 0.50});
     this.ActualizaHUD();
     object1.ChangeSpawn();
     object2.destroy();
@@ -250,6 +262,15 @@ export default class Level2 extends Phaser.Scene {
       //this.ActualizaHUD();
     }
     this.ActualizaHUD();
+  }
+  ColBonus(object1, object2){
+    this.score=this.score + this.POINTS_PER_BONUS;
+    //this.score= object2.AddPoints(this.score);
+    //this.pieces=this.pieces+1;
+    this.sound.play("key_sound",{loop: false , volume: 0.50});
+    this.ActualizaHUD();
+    //object1.ChangeSpawn();
+    object2.destroy();
   }
 
   ColEnemigo(object1, object2)
