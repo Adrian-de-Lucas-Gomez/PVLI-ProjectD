@@ -140,16 +140,24 @@ export default class Level1 extends Phaser.Scene {
     this.Enemigos.add(this.patrulla2.enemigo);
     this.Enemigos.add(this.patrulla3.enemigo);
     this.Enemigos.add(this.patrulla4.enemigo);
+    this.Enemigos.add(this.torreta.enemigo);
+    this.Enemigos.add(this.mago.enemigo);
+    this.Enemigos.add(this.ojo.enemigo);
+
     this.Detecciones.add(this.patrulla1.deteccion);
     this.Detecciones.add(this.patrulla2.deteccion);
     this.Detecciones.add(this.patrulla3.deteccion);
     this.Detecciones.add(this.patrulla4.deteccion);
     this.Detecciones.add(this.torreta.deteccion);
+    this.Detecciones.add(this.ojo.deteccion);
+    this.Detecciones.add(this.mago.deteccion);
+    
+
     this.Triggers.add(this.patrulla1);
     this.Triggers.add(this.patrulla2);
     this.Triggers.add(this.patrulla3);
     this.Triggers.add(this.patrulla4);
-    this.Triggers.add(this.torreta);
+
     this.Cuerpos.add(this.ojo.cuerpo);
 
     
