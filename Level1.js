@@ -432,13 +432,4 @@ export default class Level1 extends Phaser.Scene {
    
   }
 
-  //CambiaBaldosa()
-  //{
-    //setTimeout(() => {
-    //  this.baldosa = this.rnd.pick(this.Baldosas);
-
- // },this.TimeBaldosa);
-
-  
-  //}
 }

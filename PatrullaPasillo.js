@@ -10,7 +10,6 @@ export default class PatrullaPasillo extends Enemy
         this.Pos2Y = y2;
         this.PosX = this.Pos2X;
         this.PosY = this.Pos2Y;
-        this.giro=true;
         this.horizontal = horizontal;
         this.knockOutTime=4000; //3 segundos de estar KO
     }
@@ -19,7 +18,6 @@ export default class PatrullaPasillo extends Enemy
          //suponemos que siempre empieza a moverse hacia la derecha y arriba
         //pos1x < pos2x
         this.escena.physics.moveTo(this,this.PosX,this.PosY,this.velocidad)
-        this.enemigo.flipX=this.giro;
         
         if(this.horizontal)
         {
@@ -38,43 +36,42 @@ export default class PatrullaPasillo extends Enemy
 
     moverH()
     {
-
-        this.deteccion.flipY= !this.giro;
-        //scene.physics.moveTo(scene,x,y,speed,maxtime)
             if(this.x <= this.Pos1X)
             {
                 this.PosX = this.Pos2X
                 this.PosY = this.Pos2Y 
-                this.giro = !this.giro;
                 this.deteccion.x = 60;
+                 this.enemigo.flipX=true;
+                 this.deteccion.flipY= false;
                 
             }
             if(this.x >= this.Pos2X)
             {
                 this.PosX = this.Pos1X
                 this.PosY = this.Pos1Y 
-                this.giro=!this.giro;
                 this.deteccion.x = -20;
+                this.enemigo.flipX=false;
+                this.deteccion.flipY= true;
                 
             }
-        //this.escena.physics.moveTo(this,300,300,20)
+        
     }
     moverV()
     {
-        this.deteccion.flipY= this.giro;
+        
         if(this.y <= this.Pos1Y)
         {
             this.PosX = this.Pos2X
-            this.PosY = this.Pos2Y 
-            this.giro=!this.giro;
+            this.PosY = this.Pos2Y           
             this.deteccion.y = 60;
+            this.deteccion.flipY= false;
         }
         if(this.y >= this.Pos2Y)
         {
             this.PosX = this.Pos1X
-            this.PosY = this.Pos1Y 
-            this.giro=!this.giro;
+            this.PosY = this.Pos1Y          
             this.deteccion.y = -20;
+            this.deteccion.flipY= true;
         }
     }
 
