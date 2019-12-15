@@ -39,16 +39,17 @@ export default class Level1 extends Phaser.Scene {
     
     this.load.image('sprite', './D.png');
 
-    this.load.image('llave','./llave.png')
-    this.load.image('enemigo','./enemigo.png')
-    this.load.image('Deteccion', './Deteccion.png')
-    this.load.image('puerta', './puerta.png')
-    this.load.image('ojo', './Ojo.png')
+    this.load.image('llave','./llave.png');
+    this.load.image('enemigo','./enemigo.png');
+    this.load.image('Deteccion', './Deteccion.png');
+    this.load.image('puerta', './puerta.png');
+    this.load.image('ojo', './Ojo2.png');
+    this.load.image('cuerpo', './CuerpoOjo.png')
     this.load.image('bonus', './Bonus.png');
     this.load.image('baldosa', './Baldosa.jpg')
-    this.load.image('mago','./mago.png');
+    this.load.image('mago','./Mago.png');
 
-    //this.load.spritesheet('anim','./mago.png',291,513);
+    this.load.spritesheet('Danim','./Danim.png',{frameWidth: 10, frameHeight: 14});
     this.load.tilemapTiledJSON('tilemap1', './Level1.json');
     this.load.image('Dungeon', './MapaJuego/TileSet/0x72_16x16DungeonTileset.v4.png');
     this.load.audio('level1_music','./Sounds/DangerousDungeon.ogg');
@@ -65,6 +66,11 @@ export default class Level1 extends Phaser.Scene {
 
   create() {
     //console.log(Phaser.Input.Keyboard.KeyCodes)
+    this.anims.create({key: 'run',
+    frames: this.anims.generateFrameNumbers('Danim'),
+    frameRate: 5,
+    repeat: -1
+    });
 
     // generador de randoms
     this.rnd = Phaser.Math.RND;
@@ -83,6 +89,7 @@ export default class Level1 extends Phaser.Scene {
     
     //player
     this.player = new Player(this,50,100,'sprite');
+    //this.add.sprite(100,100,'Danim').play('run');
 
     //physics
     //this.physics.add.existing(this);
@@ -114,12 +121,12 @@ export default class Level1 extends Phaser.Scene {
     this.llaves.add(this.llave3);
 
     //baldosas del nivel
-    this.baldosa1 = new Baldosa(this,600,100,'baldosa')
-    this.baldosa2 = new Baldosa(this,700,100,'baldosa')
-    this.baldosa3 = new Baldosa(this,600,300,'baldosa')
+    this.baldosa1 = new Baldosa(this,600,100,'baldosa');
+    this.baldosa2 = new Baldosa(this,700,100,'baldosa');
+    this.baldosa3 = new Baldosa(this,600,300,'baldosa');
     this.baldosa = this.baldosa1;
     //array de baldosas
-    this.Baldosas = [this.baldosa1,this.baldosa2,this.baldosa3]
+    this.Baldosas = [this.baldosa1,this.baldosa2,this.baldosa3];
 
     //Bonus
     this.bonus1= new Bonus(this, 40, 408, 'bonus', this.POINTS_PER_BONUS);
@@ -132,12 +139,12 @@ export default class Level1 extends Phaser.Scene {
     this.Cuerpos = this.add.group();
 
     //declaracion de enemigos
-    this.patrulla1 = new PatrullaPasillo(this,150,120,350,120,true);
-    this.patrulla2 = new PatrullaPasillo(this,135,150,135,300,false);
-    this.patrulla3 = new PatrullaPasillo(this,150,370,320,370,true);
-    this.patrulla4 = new PatrullaPasillo(this,440,470,580,470,true);
+    this.patrulla1 = new PatrullaPasillo(this,150,120,350,120,true,'enemigo');
+    this.patrulla2 = new PatrullaPasillo(this,135,150,135,300,false,'enemigo');
+    this.patrulla3 = new PatrullaPasillo(this,150,370,320,370,true,'enemigo');
+    this.patrulla4 = new PatrullaPasillo(this,440,470,580,470,true,'enemigo');
     this.torreta = new Torreta(this,540,270,'enemigo');
-    this.ojo = new Ojo(this,300,100,'ojo',500,120);
+    this.ojo = new Ojo(this,300,100,'ojo',500,120,'cuerpo');
     this.mago = new Mago(this,this.baldosa1.x, this.baldosa1.y,'mago')
 
   

@@ -10,16 +10,25 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
         this.posX=this.x;
         this.posY=this.y;
+
+        this.play('run');
     }
     create()
     {
          
     }
 
-    preUpdate()
+    preUpdate(t,d)
     {
         this.setScale(2);
+        super.preUpdate(t,d);   //Para que funcione la animacion
         //this.setCollideWorldBounds(true);
+        if(this.body.velocity.x==0 && this.body.velocity.y==0){
+            this.anims.pause();
+        }
+        else{
+            this.anims.resume();
+        }
         
     }
     

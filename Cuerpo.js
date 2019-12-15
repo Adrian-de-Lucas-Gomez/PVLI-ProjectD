@@ -5,5 +5,6 @@ export default class Cuerpo extends Enemigo
     {
         super(scene, x, y, type)
         this.atacado = false;
+        this.setScale(2);
     }
 }

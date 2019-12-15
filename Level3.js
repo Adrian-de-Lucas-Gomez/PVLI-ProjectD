@@ -1,12 +1,16 @@
-
 import Player from './Player.js';
 import Llave from './Llave.js';
-import Enemigo from './Enemigo.js';
-import Deteccion from './Ataque.js';
+//import Enemigo from './Enemigo.js';
+//import Deteccion from './Ataque.js';
 import Enemy from './Enemy.js';
 import Torreta from './Torreta.js';
 import Puerta from './Puerta.js';
+//import Trigger from './Trigger.js';
+import Ojo from './Ojo.js';
 import Bonus from './Bonus.js';
+import Baldosa from './Baldosa.js';
+import PatrullaPasillo from './PatrullaPasillo.js';
+import Mago from './Mago.js';
 
 export default class Level3 extends Phaser.Scene {
 
@@ -99,26 +103,31 @@ export default class Level3 extends Phaser.Scene {
     this.Enemigos = this.add.group();
     this.Detecciones = this.add.group();
     this.Containers=this.add.group();
+    this.Triggers=this.add.group();
   
-    this.patrulla1 = new Enemy(this,100,200);
-    this.patrulla2 = new Enemy(this,100,300);
-    this.patrulla3 = new Enemy(this,100,400);
-    this.torreta = new Torreta(this,400,400);
+    this.patrulla1 = new PatrullaPasillo(this,150,120,350,120,true,'enemigo');
+    this.patrulla2 = new PatrullaPasillo(this,135,150,135,300,false,'enemigo');
+    this.patrulla3 = new PatrullaPasillo(this,150,370,320,370,true,'enemigo');
+    this.torreta = new Torreta(this,540,270,'enemigo');
+
     this.Enemigos.add(this.patrulla1.enemigo);
     this.Enemigos.add(this.patrulla2.enemigo);
     this.Enemigos.add(this.patrulla3.enemigo);
-    this.Enemigos.add(this.torreta.enemigo)
+    this.Enemigos.add(this.torreta.enemigo);
+
+
     this.Detecciones.add(this.patrulla1.deteccion);
     this.Detecciones.add(this.patrulla2.deteccion);
     this.Detecciones.add(this.patrulla3.deteccion);
     this.Detecciones.add(this.torreta.deteccion);
-    this.Containers.add(this.patrulla1);
-    this.Containers.add(this.patrulla2);
-    this.Containers.add(this.patrulla3);
-    this.Containers.add(this.torreta);
+    
+
+    this.Triggers.add(this.patrulla1);
+    this.Triggers.add(this.patrulla2);
+    this.Triggers.add(this.patrulla3);
 
     //puerta
-    this.puerta = new Puerta(this,750,300,'puerta')
+    this.puerta = new Puerta(this,440,150,'puerta')
 
 
     //this.camera.follow(this.player);

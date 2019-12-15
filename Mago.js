@@ -6,7 +6,7 @@ export default class Mago extends Enemy
         super(scene,x,y,type);
         this.baldosa = scene.baldosa;
         this.TimeChangePosition = 3000;
-        this.enemigo.setScale(0.06)
+        this.enemigo.setScale(2)
         //this.timer = scene.time.addEvent({
           //  delay: 3000,  
            // callback: ChangePosition,

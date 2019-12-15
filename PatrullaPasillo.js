@@ -1,9 +1,9 @@
 import Enemy from './Enemy.js';
 export default class PatrullaPasillo extends Enemy
 {
-    constructor(scene,x,y,x2,y2,horizontal)
+    constructor(scene,x,y,x2,y2,horizontal,type)
     {
-        super(scene,x,y,'enemigo');
+        super(scene,x,y,type);
         this.Pos1X =x;
         this.Pos1Y = y;
         this.Pos2X =x2;
@@ -12,7 +12,7 @@ export default class PatrullaPasillo extends Enemy
         this.PosY = this.Pos2Y;
         this.giro=true;
         this.horizontal = horizontal;
-        this.knockOutTime=3000; //3 segundos de estar KO
+        this.knockOutTime=4000; //3 segundos de estar KO
     }
     preUpdate()
     {
