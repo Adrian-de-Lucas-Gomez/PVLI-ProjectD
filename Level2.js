@@ -30,12 +30,7 @@ export default class Level2 extends Phaser.Scene {
   
 
   preload() {
-    //this.load.image('fondo', './MapaProvisional.png');
-    //this.load.image('sprite', './D.png');
-    //this.load.image('llave','./llave.png');
-    //this.load.image('enemigo','./enemigo.png');
-    //this.load.image('Deteccion', './Deteccion.png');
-    //this.load.image('puerta', './puerta.png');
+   
     this.load.tilemapTiledJSON('tilemap2', './Level2.json');
     this.load.image('Dungeon2', './MapaJuego/TileSet/0x72_16x16DungeonTileset_Sand.PNG');
     this.load.audio('level2_music','./Sounds/Level2.mp3')
