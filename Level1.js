@@ -111,19 +111,21 @@ export default class Level1 extends Phaser.Scene {
     //llaves
     this.llaves = this.add.group();
     this.llave1 = new Llave(this,50,530,'llave',this.POINTS_PER_KEY);
-    this.llave2 = new Llave(this, 400, 300, 'llave',this.POINTS_PER_KEY);
-    this.llave3 = new Llave(this,500,550,'llave',this.POINTS_PER_KEY);
+    this.llave2 = new Llave(this, 750, 80, 'llave',this.POINTS_PER_KEY);
+    this.llave3 = new Llave(this,570,560,'llave',this.POINTS_PER_KEY);
     this.llaves.add(this.llave1);
     this.llaves.add(this.llave2);
     this.llaves.add(this.llave3);
 
     //baldosas del nivel
-    this.baldosa1 = new Baldosa(this,600,100,'baldosa');
-    this.baldosa2 = new Baldosa(this,700,100,'baldosa');
-    this.baldosa3 = new Baldosa(this,600,300,'baldosa');
+    this.baldosa1 = new Baldosa(this,240,250,'baldosa');
+    this.baldosa2 = new Baldosa(this,75,525,'baldosa');
+    this.baldosa3 = new Baldosa(this,570,80,'baldosa');
+    this.baldosa4 = new Baldosa(this,670,300,'baldosa');
+    this.baldosa5 = new Baldosa(this,730,420,'baldosa');
     this.baldosa = this.baldosa1;
     //array de baldosas
-    this.Baldosas = [this.baldosa1,this.baldosa2,this.baldosa3];
+    this.Baldosas = [this.baldosa1,this.baldosa2,this.baldosa3,this.baldosa4,this.baldosa5];
 
     //Bonus
     this.bonus1= new Bonus(this, 40, 408, 'bonus', this.POINTS_PER_BONUS);
@@ -136,31 +138,22 @@ export default class Level1 extends Phaser.Scene {
     this.Cuerpos = this.add.group();
 
     //declaracion de enemigos
-    this.patrulla1 = new PatrullaRecorrido(this,135,125,180,110);
-    this.patrulla2 = new PatrullaRecorrido(this,135,250,180,115)
-    //this.patrulla3 = new PatrullaPasillo(this,150,370,320,370,true,'enemigo');
-    this.patrulla4 = new PatrullaPasillo(this,440,470,580,470,true,'enemigo');
-    this.patrulla5 = new PatrullaRecorrido(this,500,100,200,100);
+    this.patrulla1 = new PatrullaRecorrido(this,135,125,185,250);
+    this.patrulla2 = new PatrullaPasillo(this,440,470,580,470,true,'enemigo');
     this.torreta = new Torreta(this,540,270,'enemigo');
     //this.ojo = new Ojo(this,300,100,'ojo',500,120,'cuerpo');
-    //this.mago = new Mago(this,this.baldosa1.x, this.baldosa1.y,'mago')
+    this.mago = new Mago(this,this.baldosa1.x, this.baldosa1.y,'mago')
 
   
     // Añadir los enemigos a los grupos
     this.Enemigos.add(this.patrulla1.enemigo);
     this.Enemigos.add(this.patrulla2.enemigo);
-    this.Enemigos.add(this.patrulla3.enemigo);
-    this.Enemigos.add(this.patrulla4.enemigo);
-    this.Enemigos.add(this.patrulla5.enemigo);
     this.Enemigos.add(this.torreta.enemigo);
     //this.Enemigos.add(this.mago.enemigo);
     //this.Enemigos.add(this.ojo.enemigo);
 
     this.Detecciones.add(this.patrulla1.deteccion);
     this.Detecciones.add(this.patrulla2.deteccion);
-    this.Detecciones.add(this.patrulla3.deteccion);
-    this.Detecciones.add(this.patrulla4.deteccion);
-    this.Detecciones.add(this.patrulla5.deteccion);
     this.Detecciones.add(this.torreta.deteccion);
     //this.Detecciones.add(this.ojo.deteccion);
     //this.Detecciones.add(this.mago.deteccion);
@@ -168,9 +161,6 @@ export default class Level1 extends Phaser.Scene {
 
     this.Triggers.add(this.patrulla1);
     this.Triggers.add(this.patrulla2);
-    this.Triggers.add(this.patrulla3);
-    this.Triggers.add(this.patrulla4);
-    this.Triggers.add(this.patrulla5);
 
     //this.Cuerpos.add(this.ojo.cuerpo);
 
@@ -225,6 +215,29 @@ export default class Level1 extends Phaser.Scene {
     //Contador de un segundo
     this.timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this , loop: true});
     function onEvent(){this.actSec++;}
+
+       //contador para mover al mago
+    this.timerMago = this.time.addEvent({
+      delay: 5000,  
+      callback: ChangePosition,
+      callbackScope: this,
+      loop: true
+      });
+     function ChangePosition()
+     {
+       this.mago.ChangePosition();
+       let grados = this.rnd.pick([-90,0,90,180]);
+       this.mago.ChangeRotation(grados);
+      }
+  //contador para cambiar de baldosa   
+    this.timerBaldosa = this.time.addEvent({
+      delay: 1000,  
+      callback: ChangeBaldosa,
+      callbackScope: this,
+      loop: true
+      });
+     function ChangeBaldosa()
+     {this.baldosa = this.rnd.pick(this.Baldosas);}
 
   //Actualizacion del HUD
     this.ActualizaHUD();

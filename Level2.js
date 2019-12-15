@@ -49,7 +49,8 @@ export default class Level2 extends Phaser.Scene {
   }
 
   create() {
-    //console.log(Phaser.Input.Keyboard.KeyCodes);
+     // generador de randoms
+     this.rnd = Phaser.Math.RND;
 
     //carga del mapa
     //this.map = this.make.tilemap({ key: 'tilemap', tileWidth: 16, tileHeight: 16 });
