@@ -112,24 +112,31 @@ export default class Level2 extends Phaser.Scene {
     this.torreta2 = new Torreta(this,600,110,'enemigo')
     this.ojo = new Ojo(this,720,270,'ojo',640,200,'cuerpo');
 
-    //this.Enemigos.add(this.patrulla1.enemigo);
-    //this.Enemigos.add(this.patrulla2.enemigo);
-    //this.Enemigos.add(this.patrulla3.enemigo);
-    //this.Enemigos.add(this.torreta.enemigo);
+    this.Enemigos.add(this.patrulla1.enemigo);
+    this.Enemigos.add(this.patrulla2.enemigo);
+    this.Enemigos.add(this.patrulla3.enemigo);
+    this.Enemigos.add(this.patrulla4.enemigo);
+    this.Enemigos.add(this.torreta1.enemigo);
+    this.Enemigos.add(this.torreta2.enemigo);
 
 
-    //this.Detecciones.add(this.patrulla1.deteccion);
-    //this.Detecciones.add(this.patrulla2.deteccion);
-    //this.Detecciones.add(this.patrulla3.deteccion);
-    //this.Detecciones.add(this.torreta.deteccion);
+    this.Detecciones.add(this.patrulla1.deteccion);
+    this.Detecciones.add(this.patrulla2.deteccion);
+    this.Detecciones.add(this.patrulla3.deteccion);
+    this.Detecciones.add(this.patrulla4.deteccion);
+    this.Detecciones.add(this.torreta1.deteccion);
+    this.Detecciones.add(this.torreta2.deteccion);
     
 
-    //this.Triggers.add(this.patrulla1);
-    //this.Triggers.add(this.patrulla2);
-    //this.Triggers.add(this.patrulla3);
+    this.Triggers.add(this.patrulla1);
+    this.Triggers.add(this.patrulla2);
+    this.Triggers.add(this.patrulla3);
+    this.Triggers.add(this.patrulla4);
+
+    this.Cuerpos.add(this.ojo.cuerpo);
 
     //puerta
-    this.puerta = new Puerta(this,750,300,'puerta')
+    this.puerta = new Puerta(this,50,50,'puerta')
 
 
     //this.camera.follow(this.player);
