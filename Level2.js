@@ -1,8 +1,6 @@
+
 import Player from './Player.js';
 import Llave from './Llave.js';
-//import Enemigo from './Enemigo.js';
-//import Deteccion from './Ataque.js';
-import Enemy from './Enemy.js';
 import Torreta from './Torreta.js';
 import Puerta from './Puerta.js';
 //import Trigger from './Trigger.js';
@@ -11,6 +9,7 @@ import Bonus from './Bonus.js';
 import Baldosa from './Baldosa.js';
 import PatrullaPasillo from './PatrullaPasillo.js';
 import Mago from './Mago.js';
+import PatrullaRecorrido from './PatrullaRecorrido.js';
 
 export default class Level2 extends Phaser.Scene {
 
@@ -99,29 +98,35 @@ export default class Level2 extends Phaser.Scene {
     //grupos
     this.Enemigos = this.add.group();
     this.Detecciones = this.add.group();
-    this.Containers=this.add.group();
     this.Triggers=this.add.group();
-  
-    this.patrulla1 = new PatrullaPasillo(this,150,120,350,120,true,'enemigo');
-    this.patrulla2 = new PatrullaPasillo(this,135,150,135,300,false,'enemigo');
-    this.patrulla3 = new PatrullaPasillo(this,150,370,320,370,true,'enemigo');
-    this.torreta = new Torreta(this,540,270,'enemigo');
+    this.Cuerpos = this.add.group();
 
-    this.Enemigos.add(this.patrulla1.enemigo);
-    this.Enemigos.add(this.patrulla2.enemigo);
-    this.Enemigos.add(this.patrulla3.enemigo);
-    this.Enemigos.add(this.torreta.enemigo);
+    //this.patrulla1 = new PatrullaPasillo(this,150,120,350,120,true,'enemigo');
+    //this.patrulla2 = new PatrullaPasillo(this,135,150,135,300,false,'enemigo');
+    //this.patrulla3 = new PatrullaPasillo(this,150,370,320,370,true,'enemigo');
+    this.patrulla1 = new PatrullaRecorrido(this,135,80,150,100);
+    this.patrulla2 = new PatrullaRecorrido(this,30,180,150,130)
+    this.patrulla3 = new PatrullaPasillo(this,30,470,270,470,true,'enemigo')
+    this.patrulla4 = new PatrullaPasillo(this,370,430,580,430,true,'enemigo')
+    this.torreta1 = new Torreta(this,400,310,'enemigo');
+    this.torreta2 = new Torreta(this,600,110,'enemigo')
+    this.ojo = new Ojo(this,720,270,'ojo',640,200,'cuerpo');
+
+    //this.Enemigos.add(this.patrulla1.enemigo);
+    //this.Enemigos.add(this.patrulla2.enemigo);
+    //this.Enemigos.add(this.patrulla3.enemigo);
+    //this.Enemigos.add(this.torreta.enemigo);
 
 
-    this.Detecciones.add(this.patrulla1.deteccion);
-    this.Detecciones.add(this.patrulla2.deteccion);
-    this.Detecciones.add(this.patrulla3.deteccion);
-    this.Detecciones.add(this.torreta.deteccion);
+    //this.Detecciones.add(this.patrulla1.deteccion);
+    //this.Detecciones.add(this.patrulla2.deteccion);
+    //this.Detecciones.add(this.patrulla3.deteccion);
+    //this.Detecciones.add(this.torreta.deteccion);
     
 
-    this.Triggers.add(this.patrulla1);
-    this.Triggers.add(this.patrulla2);
-    this.Triggers.add(this.patrulla3);
+    //this.Triggers.add(this.patrulla1);
+    //this.Triggers.add(this.patrulla2);
+    //this.Triggers.add(this.patrulla3);
 
     //puerta
     this.puerta = new Puerta(this,750,300,'puerta')
@@ -172,30 +177,7 @@ export default class Level2 extends Phaser.Scene {
     this.timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this , loop: true});
     function onEvent(){this.actSec++;}
 
-        //contador para mover al mago
-    this.timerMago = this.time.addEvent({
-      delay: 5000,  
-      callback: ChangePosition,
-      callbackScope: this,
-      loop: true
-      });
-     function ChangePosition()
-     {
-       this.mago.ChangePosition();
-       let grados = this.rnd.pick([-90,0,90,180]);
-       this.mago.ChangeRotation(grados);
-      }
-  //contador para cambiar de baldosa   
-    this.timerBaldosa = this.time.addEvent({
-      delay: 1000,  
-      callback: ChangeBaldosa,
-      callbackScope: this,
-      loop: true
-      });
-     function ChangeBaldosa()
-     {this.baldosa = this.rnd.pick(this.Baldosas);}
-
-
+  
       //Actualizacion del HUD
     this.ActualizaHUD();
     }

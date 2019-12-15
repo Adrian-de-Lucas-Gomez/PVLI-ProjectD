@@ -167,7 +167,7 @@ export default class Level1 extends Phaser.Scene {
     
 
     //puerta
-    this.puerta = new Puerta(this,752,150,'puerta')
+    this.puerta = new Puerta(this,50,50,'puerta')
 
     //Colisiones con entidades
     this.physics.add.collider(this.player,this.Detecciones,this.ColAtaque,null,this);
