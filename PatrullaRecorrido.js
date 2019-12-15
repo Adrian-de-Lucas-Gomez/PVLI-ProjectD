@@ -26,7 +26,7 @@ export default class PatrullaRecorrido extends Enemy
 
     ChangeDirection()
     {
-        if(this.x <= this.Punto1[0] && this.y == this.Punto1[1] )
+        if(this.x <= this.Punto1[0] && this.y <= this.Punto1[1] )
         {
             this.PX = this.Punto2[0];
             this.PY = this.Punto2[1];
@@ -36,7 +36,7 @@ export default class PatrullaRecorrido extends Enemy
             this.deteccion.flipY = this.giro;
             
         }
-        else if( this.y >= this.Punto2[1] && this.x == this.Punto2[0])
+        else if( this.y >= this.Punto2[1] && this.x <= this.Punto2[0])
         {
             this.PX = this.Punto3[0];
             this.PY = this.Punto3[1];
@@ -47,7 +47,7 @@ export default class PatrullaRecorrido extends Enemy
             this.deteccion.flipY = !this.giro;
             
         }
-       else if(this.x >= this.Punto3[0]  &&  this.y == this.Punto3[1])
+       else if(this.x >= this.Punto3[0]  &&  this.y >= this.Punto3[1])
         {
             this.PX = this.Punto4[0];
             this.PY = this.Punto4[1];
@@ -55,8 +55,9 @@ export default class PatrullaRecorrido extends Enemy
             this.deteccion.y = -20;
             this.deteccion.setAngle(0);
             this.deteccion.flipY = this.giro;
+
         }
-       else if( this.y <= this.Punto4[1] && this.x == this.Punto4[0])
+       else if( this.y <= this.Punto4[1] && this.x >= this.Punto4[0])
         {
             this.PX = this.Punto1[0];
             this.PY = this.Punto1[1];

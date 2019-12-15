@@ -49,7 +49,7 @@ export default class Level2 extends Phaser.Scene {
   }
 
   create() {
-    console.log(Phaser.Input.Keyboard.KeyCodes);
+    //console.log(Phaser.Input.Keyboard.KeyCodes);
 
     //carga del mapa
     //this.map = this.make.tilemap({ key: 'tilemap', tileWidth: 16, tileHeight: 16 });
@@ -127,23 +127,16 @@ export default class Level2 extends Phaser.Scene {
 
 
     //this.camera.follow(this.player);
-    
-    
-    
-    
-    
+
     //Colisiones con entidades
-    this.physics.add.collider(this.player,this.Enemigos,);
     this.physics.add.collider(this.player,this.Detecciones,this.ColAtaque,null,this);
     this.physics.add.collider(this.player,this.puerta,this.ColPuerta,null,this);
     this.physics.add.collider(this.player,this.llaves,this.ColLlave, null, this);
-    this.physics.add.overlap(this.player,this.Containers,this.ColEnemigo,null,this);
 
+    this.physics.add.overlap(this.player,this.Triggers,this.ColEnemigo,null,this);
+    this.physics.add.collider(this.player,this.Cuerpos,this.colCuerpos,null,this);
     this.physics.add.collider(this.player,this.bonus1,this.ColBonus,null, this);
 
-
-    this.physics.add.collider(this.player,this.map,);
-    
       //teclas
       this.w = this.input.keyboard.addKey('W');
       this.a = this.input.keyboard.addKey('A');
@@ -178,6 +171,31 @@ export default class Level2 extends Phaser.Scene {
     this.timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this , loop: true});
     function onEvent(){this.actSec++;}
 
+        //contador para mover al mago
+    this.timerMago = this.time.addEvent({
+      delay: 5000,  
+      callback: ChangePosition,
+      callbackScope: this,
+      loop: true
+      });
+     function ChangePosition()
+     {
+       this.mago.ChangePosition();
+       let grados = this.rnd.pick([-90,0,90,180]);
+       this.mago.ChangeRotation(grados);
+      }
+  //contador para cambiar de baldosa   
+    this.timerBaldosa = this.time.addEvent({
+      delay: 1000,  
+      callback: ChangeBaldosa,
+      callbackScope: this,
+      loop: true
+      });
+     function ChangeBaldosa()
+     {this.baldosa = this.rnd.pick(this.Baldosas);}
+
+
+      //Actualizacion del HUD
     this.ActualizaHUD();
     }
 
@@ -207,26 +225,25 @@ export default class Level2 extends Phaser.Scene {
       this.player.body.setVelocityX(100)
     }
 
-    //Teclas para probar el guadado de spawn y la reaparicion
-    /*
-    else if( this.r.isDown){
-      this.player.ReturnToSpawn();
-    }
-    else if( this.t.isDown){
-      this.player.ChangeSpawn();
-    }
-    */
     else{
       this.player.body.setVelocityX(0)
     }
     
 
-    //Ataque del jugador al enemigo
-    if(this.physics.collide(this.player,this.Enemigos) || this.espacio.isDown )
-    {
-      this.Ataque = true;
-    }
+     //Ataque del jugador al enemigo
+     if(this.physics.collide(this.player,this.Enemigos) && this.espacio.isDown )
+     {
+       this.Ataque = true;
+     }
+     else{this.Ataque = false}
+     if(this.espacio.isDown)
+     {
+       this.AtaqueOjo= true;
+     }
+     else{this.AtaqueOjo = false;}
 
+
+     //tiempo
     if(this.actSec==60){
       this.actSec=0;
       this.actMin++;
@@ -234,6 +251,9 @@ export default class Level2 extends Phaser.Scene {
 
     this.hudTimer();
   }
+
+
+    //Metodos Auxiliares;
 
 
   hudTimer(){
@@ -288,7 +308,7 @@ export default class Level2 extends Phaser.Scene {
     if(this.Ataque)
     {
       object2.Atacado();
-      //object2.SubirDificultad(50);
+      
     }
     
   }
@@ -334,5 +354,15 @@ export default class Level2 extends Phaser.Scene {
       //collider.active = false;
       //scene.physics.world.removeCollider(collider);
     }
+  }
+
+  colCuerpos(object1,object2)
+  {
+    if(this.AtaqueOjo)
+    {
+      object2.atacado = true;
+    
+    }
+   
   }
 }

@@ -136,14 +136,14 @@ export default class Level1 extends Phaser.Scene {
     this.Cuerpos = this.add.group();
 
     //declaracion de enemigos
-    this.patrulla1 = new PatrullaPasillo(this,150,120,350,120,true,'enemigo');
-    this.patrulla2 = new PatrullaPasillo(this,135,150,135,300,false,'enemigo');
-    this.patrulla3 = new PatrullaPasillo(this,150,370,320,370,true,'enemigo');
+    this.patrulla1 = new PatrullaRecorrido(this,135,125,180,110);
+    this.patrulla2 = new PatrullaRecorrido(this,135,250,180,115)
+    //this.patrulla3 = new PatrullaPasillo(this,150,370,320,370,true,'enemigo');
     this.patrulla4 = new PatrullaPasillo(this,440,470,580,470,true,'enemigo');
     this.patrulla5 = new PatrullaRecorrido(this,500,100,200,100);
     this.torreta = new Torreta(this,540,270,'enemigo');
-    this.ojo = new Ojo(this,300,100,'ojo',500,120,'cuerpo');
-    this.mago = new Mago(this,this.baldosa1.x, this.baldosa1.y,'mago')
+    //this.ojo = new Ojo(this,300,100,'ojo',500,120,'cuerpo');
+    //this.mago = new Mago(this,this.baldosa1.x, this.baldosa1.y,'mago')
 
   
     // Añadir los enemigos a los grupos
@@ -153,8 +153,8 @@ export default class Level1 extends Phaser.Scene {
     this.Enemigos.add(this.patrulla4.enemigo);
     this.Enemigos.add(this.patrulla5.enemigo);
     this.Enemigos.add(this.torreta.enemigo);
-    this.Enemigos.add(this.mago.enemigo);
-    this.Enemigos.add(this.ojo.enemigo);
+    //this.Enemigos.add(this.mago.enemigo);
+    //this.Enemigos.add(this.ojo.enemigo);
 
     this.Detecciones.add(this.patrulla1.deteccion);
     this.Detecciones.add(this.patrulla2.deteccion);
@@ -162,8 +162,8 @@ export default class Level1 extends Phaser.Scene {
     this.Detecciones.add(this.patrulla4.deteccion);
     this.Detecciones.add(this.patrulla5.deteccion);
     this.Detecciones.add(this.torreta.deteccion);
-    this.Detecciones.add(this.ojo.deteccion);
-    this.Detecciones.add(this.mago.deteccion);
+    //this.Detecciones.add(this.ojo.deteccion);
+    //this.Detecciones.add(this.mago.deteccion);
     
 
     this.Triggers.add(this.patrulla1);
@@ -172,7 +172,7 @@ export default class Level1 extends Phaser.Scene {
     this.Triggers.add(this.patrulla4);
     this.Triggers.add(this.patrulla5);
 
-    this.Cuerpos.add(this.ojo.cuerpo);
+    //this.Cuerpos.add(this.ojo.cuerpo);
 
     
 
@@ -180,7 +180,6 @@ export default class Level1 extends Phaser.Scene {
     this.puerta = new Puerta(this,752,150,'puerta')
 
     //Colisiones con entidades
-    //this.physics.add.collider(this.player,this.Enemigos);
     this.physics.add.collider(this.player,this.Detecciones,this.ColAtaque,null,this);
     this.physics.add.collider(this.player,this.puerta,this.ColPuerta,null,this);
     this.physics.add.collider(this.player,this.llaves,this.ColLlave, null, this);
@@ -227,31 +226,6 @@ export default class Level1 extends Phaser.Scene {
     this.timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this , loop: true});
     function onEvent(){this.actSec++;}
 
-    //contador para mover al mago
-    this.timerMago = this.time.addEvent({
-      delay: 5000,  
-      callback: ChangePosition,
-      callbackScope: this,
-      loop: true
-      });
-     function ChangePosition()
-     {
-       this.mago.ChangePosition();
-       let grados = this.rnd.pick([-90,0,90,180]);
-       this.mago.ChangeRotation(grados);
-      }
-  //contador para cambiar de baldosa
-        //contador para mover al mago
-    this.timerBaldosa = this.time.addEvent({
-      delay: 1000,  
-      callback: ChangeBaldosa,
-      callbackScope: this,
-      loop: true
-      });
-     function ChangeBaldosa()
-     {this.baldosa = this.rnd.pick(this.Baldosas);}
-  
-
   //Actualizacion del HUD
     this.ActualizaHUD();
   }
@@ -280,15 +254,7 @@ export default class Level1 extends Phaser.Scene {
     {
       this.player.body.setVelocityX(100)
     }
-    //Teclas para probar el guadado de spawn y la reaparicion
-    /*
-    else if( this.r.isDown){
-      this.player.ReturnToSpawn();
-    }
-    else if( this.t.isDown){
-      this.player.ChangeSpawn();
-    }
-    */
+
     else{
       this.player.body.setVelocityX(0)
     }
@@ -314,8 +280,6 @@ export default class Level1 extends Phaser.Scene {
       //this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + this.actSec; 
       this.hudTimer();
 
-      // baldosas
-      //this.CambiaBaldosa();
   }
 
 
@@ -376,7 +340,7 @@ export default class Level1 extends Phaser.Scene {
     if(this.Ataque)
     {
       object2.Atacado();
-      //object2.SubirDificultad(50);
+      
     }
     
   }
@@ -424,11 +388,11 @@ export default class Level1 extends Phaser.Scene {
   }
 
   colCuerpos(object1,object2)
-  { //console.log("ataque: " + this.AtaqueOjo)
+  {
     if(this.AtaqueOjo)
     {
       object2.atacado = true;
-      //console.log("Atacado: " + object2.atacado)
+    
     }
    
   }
