@@ -107,8 +107,8 @@ export default class Level3 extends Phaser.Scene {
     //grupos
     this.Enemigos = this.add.group();
     this.Detecciones = this.add.group();
-    this.Containers=this.add.group();
     this.Triggers=this.add.group();
+    this.Cuerpos = this.add.group();
   
     this.patrulla1 = new PatrullaRecorrido(this,80,300,220,180);
     this.patrulla2 = new PatrullaPasillo(this,520,90,710,90,true,'enemigo');
@@ -122,17 +122,28 @@ export default class Level3 extends Phaser.Scene {
     this.Enemigos.add(this.patrulla2.enemigo);
     this.Enemigos.add(this.patrulla3.enemigo);
     this.Enemigos.add(this.torreta1.enemigo);
+    this.Enemigos.add(this.torreta2.enemigo);
+    this.Enemigos.add(this.mago.enemigo);
+    this.Enemigos.add(this.ojo.enemigo);
+    
 
 
     this.Detecciones.add(this.patrulla1.deteccion);
     this.Detecciones.add(this.patrulla2.deteccion);
     this.Detecciones.add(this.patrulla3.deteccion);
     this.Detecciones.add(this.torreta1.deteccion);
+    this.Detecciones.add(this.torreta1.deteccion);
+    this.Detecciones.add(this.mago.deteccion);
+    this.Detecciones.add(this.ojo.deteccion);
     
 
     this.Triggers.add(this.patrulla1);
     this.Triggers.add(this.patrulla2);
     this.Triggers.add(this.patrulla3);
+
+    this.Cuerpos.add(this.ojo.cuerpo);
+
+  
 
     //puerta
     this.puerta = new Puerta(this,440,150,'puerta')

@@ -141,7 +141,6 @@ export default class Level1 extends Phaser.Scene {
     this.patrulla1 = new PatrullaRecorrido(this,135,125,185,250);
     this.patrulla2 = new PatrullaPasillo(this,440,470,580,470,true,'enemigo');
     this.torreta = new Torreta(this,540,270,'enemigo');
-    //this.ojo = new Ojo(this,300,100,'ojo',500,120,'cuerpo');
     this.mago = new Mago(this,this.baldosa1.x, this.baldosa1.y,'mago')
 
   
@@ -149,20 +148,17 @@ export default class Level1 extends Phaser.Scene {
     this.Enemigos.add(this.patrulla1.enemigo);
     this.Enemigos.add(this.patrulla2.enemigo);
     this.Enemigos.add(this.torreta.enemigo);
-    //this.Enemigos.add(this.mago.enemigo);
-    //this.Enemigos.add(this.ojo.enemigo);
+    this.Enemigos.add(this.mago.enemigo);
 
     this.Detecciones.add(this.patrulla1.deteccion);
     this.Detecciones.add(this.patrulla2.deteccion);
     this.Detecciones.add(this.torreta.deteccion);
-    //this.Detecciones.add(this.ojo.deteccion);
-    //this.Detecciones.add(this.mago.deteccion);
+    this.Detecciones.add(this.mago.deteccion);
     
 
     this.Triggers.add(this.patrulla1);
     this.Triggers.add(this.patrulla2);
 
-    //this.Cuerpos.add(this.ojo.cuerpo);
 
     
 

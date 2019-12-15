@@ -113,6 +113,7 @@ export default class Level2 extends Phaser.Scene {
     this.Enemigos.add(this.patrulla4.enemigo);
     this.Enemigos.add(this.torreta1.enemigo);
     this.Enemigos.add(this.torreta2.enemigo);
+    this.Enemigos.add(this.ojo.enemigo);
 
 
     this.Detecciones.add(this.patrulla1.deteccion);
@@ -121,6 +122,7 @@ export default class Level2 extends Phaser.Scene {
     this.Detecciones.add(this.patrulla4.deteccion);
     this.Detecciones.add(this.torreta1.deteccion);
     this.Detecciones.add(this.torreta2.deteccion);
+    this.Detecciones.add(this.ojo.deteccion);
     
 
     this.Triggers.add(this.patrulla1);
