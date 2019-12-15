@@ -202,7 +202,8 @@ export default class Level1 extends Phaser.Scene {
       
 
       // HUD
-      this.scoreText = this.add.text(16, 16, 'score:' + this.score, {font:' 40px calibri',fontSize: '40px', fill: '#0bfc03' });
+      this.scoreText = this.add.text(16, 16, 'score:' + this.score, {fontFamily:'Comic Sans MS',fontSize: '40px', fill: '#0bfc03' });
+      //this.scoreText.setFont('60px monaco')
       this.livesText = this.add.text(700, 40, 'lives:' + this.lives, { fontSize: '15px', fill: '#0bfc03' });
       this.keysText = this.add.text(650, 10, 'Pieces:'+ this.pieces+'/' + this.LLavesMax, { fontSize: '22px', fill: '#0bfc03' });
       this.TimeText = this.add.text(300, 16, ' ', { fontSize: '40px', fill: '#0bfc03' });
