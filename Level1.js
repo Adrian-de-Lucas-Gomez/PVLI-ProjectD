@@ -89,8 +89,7 @@ export default class Level1 extends Phaser.Scene {
     this.player = new Player(this,50,100,'sprite');
     //this.add.sprite(100,100,'Danim').play('run');
 
-    //physics
-    //this.physics.add.existing(this);
+    
     //Colisiones con Layers del Tilemap
     
     //this.wallLayer.setCollisionByExclusion([19], false);
@@ -203,7 +202,7 @@ export default class Level1 extends Phaser.Scene {
       
 
       // HUD
-      this.scoreText = this.add.text(16, 16, 'score:' + this.score, {font:'40px Arial',fontSize: '40px', fill: '#0bfc03' });
+      this.scoreText = this.add.text(16, 16, 'score:' + this.score, {font:' 40px calibri',fontSize: '40px', fill: '#0bfc03' });
       this.livesText = this.add.text(700, 40, 'lives:' + this.lives, { fontSize: '15px', fill: '#0bfc03' });
       this.keysText = this.add.text(650, 10, 'Pieces:'+ this.pieces+'/' + this.LLavesMax, { fontSize: '22px', fill: '#0bfc03' });
       this.TimeText = this.add.text(300, 16, ' ', { fontSize: '40px', fill: '#0bfc03' });
