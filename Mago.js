@@ -6,7 +6,7 @@ export default class Mago extends Enemy
         super(scene,x,y,type);
         this.baldosa = scene.baldosa;
         this.TimeChangePosition = 3000;
-        this.enemigo.setScale(2)
+        this.enemigo.setScale(1.5)
         this.enemigo.setPosition(0,0);
         this.deteccion.setPosition(40,0)
         //this.setAngle(180);

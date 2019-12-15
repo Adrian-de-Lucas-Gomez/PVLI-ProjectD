@@ -6,10 +6,11 @@ export default class Bonus extends Llave
         super(scene, x, y , type, points);
         scene.add.existing(this);
         scene.physics.world.enable(this);
+        this.setScale(1.12);
     }
     create()
     {
-        this.setScale(0.8);
+        
         
     }
     preUpdate()

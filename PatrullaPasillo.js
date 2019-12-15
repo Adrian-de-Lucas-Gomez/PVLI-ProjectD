@@ -11,7 +11,7 @@ export default class PatrullaPasillo extends Enemy
         this.PosX = this.Pos2X;
         this.PosY = this.Pos2Y;
         this.horizontal = horizontal;
-        this.knockOutTime=4000; //3 segundos de estar KO
+        this.knockOutTime=4000; //4 segundos de estar KO
     }
     preUpdate()
     {

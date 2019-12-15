@@ -7,7 +7,8 @@ export default class Torreta extends Enemy
         super(scene,x,y,type);
         this.enemigo.setPosition(0,0);
         this.deteccion.setPosition(40,0)
-
+        this.enemigo.setScale(2);
+        this.enemigo.flipX=true;
         //this.setInteractive(new Phaser.Geom.Circle(0, 0, 50), Phaser.Geom.Circle.Contains);
         
        

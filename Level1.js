@@ -3,7 +3,6 @@ import Player from './Player.js';
 import Llave from './Llave.js';
 import Torreta from './Torreta.js';
 import Puerta from './Puerta.js';
-//import Trigger from './Trigger.js';
 import Ojo from './Ojo.js';
 import Bonus from './Bonus.js';
 import Baldosa from './Baldosa.js';
@@ -34,26 +33,10 @@ export default class Level1 extends Phaser.Scene {
   
 
   preload() {
-    
-    this.load.image('sprite', './D.png');
-
-    this.load.image('llave','./llave.png');
-    this.load.image('enemigo','./enemigo.png');
-    this.load.image('Deteccion', './Deteccion.png');
-    this.load.image('puerta', './puerta.png');
-    this.load.image('ojo', './Ojo2.png');
-    this.load.image('cuerpo', './CuerpoOjo.png')
-    this.load.image('bonus', './Bonus.png');
-    this.load.image('baldosa', './Baldosa.jpg')
-    this.load.image('mago','./Mago.png');
-
-    this.load.spritesheet('Danim','./Danim.png',{frameWidth: 10, frameHeight: 14});
     this.load.tilemapTiledJSON('tilemap1', './Level1.json');
     this.load.image('Dungeon', './MapaJuego/TileSet/0x72_16x16DungeonTileset.v4.png');
     this.load.audio('level1_music','./Sounds/DangerousDungeon.ogg');
-    this.load.audio('coin_sound','./Sounds/Pickup_Coin.wav');
-    this.load.audio('catch_sound','./Sounds/Powerup2.wav');
-    this.load.audio('key_sound','./Sounds/KeyPick.wav');
+    
   }
 
   init(data){
@@ -82,53 +65,34 @@ export default class Level1 extends Phaser.Scene {
     this.wallLayer = this.map.createStaticLayer('paredes',[this.tiles]);
     this.TopWallLayer = this.map.createStaticLayer('TopesMuros',[this.tiles]);
     this.coinLayer = this.map.createDynamicLayer('monedas',[this.tiles]);
-    
-    
-    
-    //player
-    this.player = new Player(this,50,100,'sprite');
-    //this.add.sprite(100,100,'Danim').play('run');
-
-    
-    //Colisiones con Layers del Tilemap
-    
-    //this.wallLayer.setCollisionByExclusion([19], false);
-    this.physics.add.collider(this.player, this.wallLayer);
-    this.wallLayer.setCollisionByProperty({ Colision: true });
-    this.wallLayer.setCollision([17,18,19]);
-    //this.physics.add.existing(this.wallLayer);
-    
-    //monedas
-    this.coinLayer.setCollisionByProperty({ Colision: true });
-    this.coinLayer.setCollision([220,221]);
-
-    this.coins=this.add.group();
-    this.coins.add(this.coinLayer);
-
-    this.physics.add.overlap(this.player, this.coins, this.ColCoin,null,this);
-    
 
     //llaves
     this.llaves = this.add.group();
-    this.llave1 = new Llave(this,50,530,'llave',this.POINTS_PER_KEY);
-    this.llave2 = new Llave(this, 750, 80, 'llave',this.POINTS_PER_KEY);
-    this.llave3 = new Llave(this,570,560,'llave',this.POINTS_PER_KEY);
+    this.llave1 = new Llave(this,50,540,'llave',this.POINTS_PER_KEY);
+    this.llave2 = new Llave(this, 760, 90, 'llave',this.POINTS_PER_KEY);
+    this.llave3 = new Llave(this,570,570,'llave',this.POINTS_PER_KEY);
     this.llaves.add(this.llave1);
     this.llaves.add(this.llave2);
     this.llaves.add(this.llave3);
 
     //baldosas del nivel
-    this.baldosa1 = new Baldosa(this,240,250,'baldosa');
-    this.baldosa2 = new Baldosa(this,75,525,'baldosa');
-    this.baldosa3 = new Baldosa(this,570,80,'baldosa');
-    this.baldosa4 = new Baldosa(this,670,300,'baldosa');
-    this.baldosa5 = new Baldosa(this,730,420,'baldosa');
+    this.baldosa1 = new Baldosa(this,240,255,'baldosa');
+    this.baldosa2 = new Baldosa(this,125,507,'baldosa');
+    this.baldosa3 = new Baldosa(this,575,80,'baldosa');
+    this.baldosa4 = new Baldosa(this,670,290,'baldosa');
+    this.baldosa5 = new Baldosa(this,735,420,'baldosa');
     this.baldosa = this.baldosa1;
     //array de baldosas
     this.Baldosas = [this.baldosa1,this.baldosa2,this.baldosa3,this.baldosa4,this.baldosa5];
 
     //Bonus
-    this.bonus1= new Bonus(this, 40, 408, 'bonus', this.POINTS_PER_BONUS);
+    this.Bonus = this.add.group();
+    this.bonus1= new Bonus(this, 40, 160, 'bonus', this.POINTS_PER_BONUS);
+    this.bonus2= new Bonus(this, 40, 408, 'bonus', this.POINTS_PER_BONUS);
+    this.bonus3= new Bonus(this, 690, 570, 'bonus', this.POINTS_PER_BONUS);
+    this.Bonus.add(this.bonus1);
+    this.Bonus.add(this.bonus2);
+    this.Bonus.add(this.bonus3);
 
     //enemigos
     //grupos
@@ -140,7 +104,7 @@ export default class Level1 extends Phaser.Scene {
     //declaracion de enemigos
     this.patrulla1 = new PatrullaRecorrido(this,135,125,185,250);
     this.patrulla2 = new PatrullaPasillo(this,440,470,580,470,true,'enemigo');
-    this.torreta = new Torreta(this,540,270,'enemigo');
+    this.torreta = new Torreta(this,540,270,'fantasma');
     this.mago = new Mago(this,this.baldosa1.x, this.baldosa1.y,'mago')
 
   
@@ -159,11 +123,28 @@ export default class Level1 extends Phaser.Scene {
     this.Triggers.add(this.patrulla1);
     this.Triggers.add(this.patrulla2);
 
-
+    //player
+    this.player = new Player(this,50,100,'sprite');
     
+    //Colisiones con Layers del Tilemap
+    
+    //this.wallLayer.setCollisionByExclusion([19], false);
+    this.physics.add.collider(this.player, this.wallLayer);
+    this.wallLayer.setCollisionByProperty({ Colision: true });
+    this.wallLayer.setCollision([17,18,19]);
+    //this.physics.add.existing(this.wallLayer);
+    
+    //monedas
+    this.coinLayer.setCollisionByProperty({ Colision: true });
+    this.coinLayer.setCollision([220,221]);
+
+    this.coins=this.add.group();
+    this.coins.add(this.coinLayer);
+
+    this.physics.add.overlap(this.player, this.coins, this.ColCoin,null,this);
 
     //puerta
-    this.puerta = new Puerta(this,50,50,'puerta')
+    this.puerta = new Puerta(this,752,150,'puerta');
 
     //Colisiones con entidades
     this.physics.add.collider(this.player,this.Detecciones,this.ColAtaque,null,this);
@@ -172,7 +153,8 @@ export default class Level1 extends Phaser.Scene {
 
     this.physics.add.overlap(this.player,this.Triggers,this.ColEnemigo,null,this);
     this.physics.add.collider(this.player,this.Cuerpos,this.colCuerpos,null,this);
-    this.physics.add.collider(this.player,this.bonus1,this.ColBonus,null, this);
+
+    this.physics.add.collider(this.player,this.Bonus,this.ColBonus,null, this);
 
     
       //teclas
@@ -187,17 +169,16 @@ export default class Level1 extends Phaser.Scene {
       
 
       // HUD
-      this.scoreText = this.add.text(16, 16, 'score:' + this.score, {fontFamily:'Comic Sans MS',fontSize: '40px', fill: '#0bfc03' });
-      //this.scoreText.setFont('60px monaco')
-      this.livesText = this.add.text(700, 40, 'lives:' + this.lives, { fontSize: '15px', fill: '#0bfc03' });
-      this.keysText = this.add.text(650, 10, 'Pieces:'+ this.pieces+'/' + this.LLavesMax, { fontSize: '22px', fill: '#0bfc03' });
-      this.TimeText = this.add.text(300, 16, ' ', { fontSize: '40px', fill: '#0bfc03' });
+      this.scoreText = this.add.text(16, 16, 'score:' + this.score, { fontSize: '40px', fill: '#FFFFFF' });
+      this.livesText = this.add.text(700, 40, 'lives:' + this.lives, { fontSize: '15px', fill: '#FFFFFF' });
+      this.keysText = this.add.text(650, 10, 'Pieces:'+ this.pieces+'/3', { fontSize: '22px', fill: '#FFFFFF' });
+      this.TimeText = this.add.text(300, 16, ' ', { fontSize: '40px', fill: '#FFFFFF' });
       //Variables del tiempo
       this.actMin=0;
       this.actSec=0;
 
       this.sound.stopAll();
-      this.sound.play("level1_music",{loop: true , volume: 0.05})
+      this.sound.play("level1_music",{loop: true , volume: 0.01})
 
 
       // camera
@@ -221,6 +202,7 @@ export default class Level1 extends Phaser.Scene {
       });
      function ChangePosition()
      {
+      this.sound.play("wizard_sound",{loop: false , volume: 0.15});
        this.mago.ChangePosition();
        let grados = this.rnd.pick([-90,0,90,180]);
        this.mago.ChangeRotation(grados);
@@ -257,15 +239,17 @@ export default class Level1 extends Phaser.Scene {
     }
      if(this.a.isDown || this.cursor.left.isDown)
      {
-      this.player.body.setVelocityX(-100)
+      this.player.body.setVelocityX(-100);
+      this.player.flipX=false;
     }
     else if ( this.d.isDown || this.cursor.right.isDown)
     {
-      this.player.body.setVelocityX(100)
+      this.player.body.setVelocityX(100);
+      this.player.flipX=true;
     }
 
     else{
-      this.player.body.setVelocityX(0)
+      this.player.body.setVelocityX(0);
     }
     
 
@@ -274,7 +258,8 @@ export default class Level1 extends Phaser.Scene {
     {
       this.Ataque = true;
     }
-    else{this.Ataque = false}
+    else{this.Ataque = false;}
+    //Ataque del jugador al enemigo Ojo
     if(this.espacio.isDown)
     {
       this.AtaqueOjo= true;
@@ -330,7 +315,7 @@ export default class Level1 extends Phaser.Scene {
     if(object2.index==221 && object2.visible==true){
       object2.visible = false;
       this.score=this.score + this.POINTS_PER_COIN;
-      this.sound.play("coin_sound",{loop: false , volume: 0.15});
+      this.sound.play("coin_sound",{loop: false , volume: 0.05});
       this.ActualizaHUD();
     }
   }
@@ -355,7 +340,7 @@ export default class Level1 extends Phaser.Scene {
   }
   ColAtaque(object1,object2)
   {
-    this.sound.play("catch_sound",{loop: false , volume: 0.15});
+    this.sound.play("catch_sound",{loop: false , volume: 0.05});
     console.log("Chocaste con el enemigo");
     this.lives--;
     this.ActualizaHUD();

@@ -3,7 +3,7 @@ export default class PatrullaRecorrido extends Enemy
 {
     constructor(scene,px,py,dx,dy)
     {
-        super(scene,px,py,'enemigo');
+        super(scene,px,py,'circu');
         this.Punto1= [px ,py];
         this.Punto2= [px , py + dy];
         this.Punto3= [px + dx , py + dy];
@@ -12,7 +12,7 @@ export default class PatrullaRecorrido extends Enemy
         this.PY = this.Punto2[1];
         this.giro=true;
         this.knockOutTime=4000;
-
+        
     }
 
     preUpdate()

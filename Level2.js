@@ -3,7 +3,6 @@ import Player from './Player.js';
 import Llave from './Llave.js';
 import Torreta from './Torreta.js';
 import Puerta from './Puerta.js';
-//import Trigger from './Trigger.js';
 import Ojo from './Ojo.js';
 import Bonus from './Bonus.js';
 import Baldosa from './Baldosa.js';
@@ -18,8 +17,8 @@ export default class Level2 extends Phaser.Scene {
      // variable
      
      //this.llavesRecogidas = 0;
-     this.LLavesMax = 3
-     this.MaxTime= '1:00';
+     this.LLavesMax = 4;
+     this.MaxTime= '2:30';
      this.pieces = 0;
      this.lives = 3;
      //Constantes del juego
@@ -57,37 +56,30 @@ export default class Level2 extends Phaser.Scene {
     this.coinLayer = this.map.createDynamicLayer('monedas',[this.tiles]);
 
     
-    //player
-    this.player = new Player(this,50,100,'sprite');
-
-    //physics
-    this.physics.add.collider(this.player, this.wallLayer);
-
-    this.wallLayer.setCollisionByProperty({ Colision: true });
-    this.wallLayer.setCollision([17,18,19]);
-
-      //monedas
-      this.coinLayer.setCollisionByProperty({ Colision: true });
-      this.coinLayer.setCollision([220,221]);
-  
-      this.coins=this.add.group();
-      this.coins.add(this.coinLayer);
-  
-      this.physics.add.overlap(this.player, this.coins, this.ColCoin,null,this);
+    
       
     
     
     //llaves
     this.llaves = this.add.group();
-    this.llave1 = new Llave(this,100,350,'llave');
-    this.llave2 = new Llave(this, 400, 300, 'llave')
-    this.llave3 = new Llave(this,500,550,'llave');
+    this.llave1 = new Llave(this,55,545,'llave');
+    this.llave2 = new Llave(this, 400, 440, 'llave')
+    this.llave3 = new Llave(this,730,420,'llave');
+    this.llave4 = new Llave(this,480,130,'llave');
     this.llaves.add(this.llave1);
     this.llaves.add(this.llave2);
     this.llaves.add(this.llave3);
+    this.llaves.add(this.llave4);
 
+    
     //Bonus
-    this.bonus1= new Bonus(this, 40, 408, 'bonus', this.POINTS_PER_BONUS);
+    this.Bonus = this.add.group();
+    this.bonus1= new Bonus(this, 392, 85, 'bonus', this.POINTS_PER_BONUS);
+    this.bonus2= new Bonus(this, 55, 445, 'bonus', this.POINTS_PER_BONUS);
+    this.bonus3= new Bonus(this, 730, 540, 'bonus', this.POINTS_PER_BONUS);
+    this.Bonus.add(this.bonus1);
+    this.Bonus.add(this.bonus2);
+    this.Bonus.add(this.bonus3);
 
     //enemigos
     //grupos
@@ -103,9 +95,9 @@ export default class Level2 extends Phaser.Scene {
     this.patrulla2 = new PatrullaRecorrido(this,30,180,150,130)
     this.patrulla3 = new PatrullaPasillo(this,30,470,270,470,true,'enemigo')
     this.patrulla4 = new PatrullaPasillo(this,370,430,580,430,true,'enemigo')
-    this.torreta1 = new Torreta(this,400,310,'enemigo');
-    this.torreta2 = new Torreta(this,600,110,'enemigo')
-    this.ojo = new Ojo(this,720,270,'ojo',640,200,'cuerpo');
+    this.torreta1 = new Torreta(this,395,315,'fantasma');
+    this.torreta2 = new Torreta(this,600,110,'fantasma')
+    this.ojo = new Ojo(this,725,270,'ojo',640,200,'cuerpo');
 
     this.Enemigos.add(this.patrulla1.enemigo);
     this.Enemigos.add(this.patrulla2.enemigo);
@@ -132,11 +124,27 @@ export default class Level2 extends Phaser.Scene {
 
     this.Cuerpos.add(this.ojo.cuerpo);
 
+//player
+    this.player = new Player(this,50,100,'sprite');
+
+    //physics
+    this.physics.add.collider(this.player, this.wallLayer);
+
+    this.wallLayer.setCollisionByProperty({ Colision: true });
+    this.wallLayer.setCollision([17,18,19]);
+
+      //monedas
+      this.coinLayer.setCollisionByProperty({ Colision: true });
+      this.coinLayer.setCollision([220,221]);
+  
+      this.coins=this.add.group();
+      this.coins.add(this.coinLayer);
+  
+      this.physics.add.overlap(this.player, this.coins, this.ColCoin,null,this);
+
+
     //puerta
-    this.puerta = new Puerta(this,50,50,'puerta')
-
-
-    //this.camera.follow(this.player);
+    this.puerta = new Puerta(this,728,110,'puerta');
 
     //Colisiones con entidades
     this.physics.add.collider(this.player,this.Detecciones,this.ColAtaque,null,this);
@@ -145,7 +153,7 @@ export default class Level2 extends Phaser.Scene {
 
     this.physics.add.overlap(this.player,this.Triggers,this.ColEnemigo,null,this);
     this.physics.add.collider(this.player,this.Cuerpos,this.colCuerpos,null,this);
-    this.physics.add.collider(this.player,this.bonus1,this.ColBonus,null, this);
+    this.physics.add.collider(this.player,this.Bonus,this.ColBonus,null, this);
 
       //teclas
       this.w = this.input.keyboard.addKey('W');
@@ -159,10 +167,10 @@ export default class Level2 extends Phaser.Scene {
       console.log(this.espacio);
 
       // HUD
-      this.scoreText = this.add.text(16, 16, 'score:' + this.score, { fontSize: '40px', fill: '#0bfc03' });
-      this.livesText = this.add.text(700, 40, 'lives:' + this.lives, { fontSize: '15px', fill: '#0bfc03' });
-      this.keysText = this.add.text(650, 10, 'Pieces:'+ this.pieces+'/3', { fontSize: '22px', fill: '#0bfc03' });
-      this.TimeText = this.add.text(300, 16, ' ', { fontSize: '40px', fill: '#0bfc03' });
+      this.scoreText = this.add.text(16, 16, 'score:' + this.score, { fontSize: '40px', fill: '#FFFFFF' });
+      this.livesText = this.add.text(700, 40, 'lives:' + this.lives, { fontSize: '15px', fill: '#FFFFFF' });
+      this.keysText = this.add.text(650, 10, 'Pieces:'+ this.pieces+'/3', { fontSize: '22px', fill: '#FFFFFF' });
+      this.TimeText = this.add.text(300, 16, ' ', { fontSize: '40px', fill: '#FFFFFF' });
       //Variables de tiempo
       this.actMin=0;
       this.actSec=0;
@@ -202,15 +210,16 @@ export default class Level2 extends Phaser.Scene {
     {
       this.player.body.setVelocityY(0);
     }
-     if(this.a.isDown || this.cursor.left.isDown)
+    if(this.a.isDown || this.cursor.left.isDown)
     {
-    
-      this.player.body.setVelocityX(-100)
-    }
-    else if ( this.d.isDown || this.cursor.right.isDown)
-    {
-      this.player.body.setVelocityX(100)
-    }
+     this.player.body.setVelocityX(-100);
+     this.player.flipX=false;
+   }
+   else if ( this.d.isDown || this.cursor.right.isDown)
+   {
+     this.player.body.setVelocityX(100);
+     this.player.flipX=true;
+   }
 
     else{
       this.player.body.setVelocityX(0)
@@ -223,6 +232,7 @@ export default class Level2 extends Phaser.Scene {
        this.Ataque = true;
      }
      else{this.Ataque = false}
+     //Ataque del jugador al enemigo Ojo
      if(this.espacio.isDown)
      {
        this.AtaqueOjo= true;
@@ -275,7 +285,7 @@ export default class Level2 extends Phaser.Scene {
     if(object2.index==221 && object2.visible==true){
       object2.visible = false;
       this.score=this.score + this.POINTS_PER_COIN;
-      this.sound.play("coin_sound",{loop: false , volume: 0.15});
+      this.sound.play("coin_sound",{loop: false , volume: 0.05});
       //this.ActualizaHUD();
     }
     this.ActualizaHUD();
@@ -301,7 +311,7 @@ export default class Level2 extends Phaser.Scene {
   }
   ColAtaque(object1,object2)
   {
-    this.sound.play("catch_sound",{loop: false , volume: 0.15});
+    this.sound.play("catch_sound",{loop: false , volume: 0.05});
     console.log("Chocaste con el enemigo");
     this.lives--;
     this.ActualizaHUD();

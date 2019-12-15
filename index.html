@@ -32,7 +32,8 @@
         import Level2 from './Level2.js';
         import Level3 from './Level3.js';
         import Menu from './Menu.js';
-        import GameOver from './GameOver.js'
+        import GameOver from './GameOver.js';
+        import EndGame from './EndGame.js';
         var config = {
             type: Phaser.AUTO,
             width: 800,
@@ -45,7 +46,7 @@
                 mode: Phaser.Scale.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
-            scene: [ Menu, Level1 ,Level2, Level3, GameOver],
+            scene: [ Menu, Level1 ,Level2, Level3, GameOver, EndGame],
             physics: { default: 'arcade', arcade: { gravity: { y: 0 }, debug: true } }
         };
         const game = new Phaser.Game(config);
