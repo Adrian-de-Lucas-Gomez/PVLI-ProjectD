@@ -375,8 +375,6 @@ export default class Level3 extends Phaser.Scene {
       object2.body.enable = false;
       this.sound.stopAll();
       this.scene.start('EndGame',{puntuacion : this.score});
-      //collider.active = false;
-      //scene.physics.world.removeCollider(collider);
     }
   }
 
