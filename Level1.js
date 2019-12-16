@@ -46,10 +46,12 @@ export default class Level1 extends Phaser.Scene {
     this.load.image('puerta', './Personajes/Objetos/puerta.png');
     
     this.load.image('bonus', './Personajes/Objetos/Bonus.png');
-    this.load.image('baldosa', './Personajes/Objetos/Baldosa.png');
+    this.load.image('baldosa', './Personajes/Objetos/baldosa.png');
     this.load.image('mago','./Personajes/Enemigos/mago.png');
-    this.load.image('fantasma','./Personajes/Enemigos/torreta.png');
+    this.load.image('fantasma','./Personajes/Enemigos/Torreta.png');
     this.load.image('circu','./Personajes/Enemigos/Patrullacircular.png');
+   
+
     
     this.load.audio('coin_sound','./Sounds/Pickup_Coin.wav');
     this.load.audio('catch_sound','./Sounds/Powerup2.wav');
