@@ -4,9 +4,9 @@ export default class EndGame extends Phaser.Scene {
     this.FinalScore=0;
   }
   preload(){
-      this.load.image('fondico','./FondoMenu.jpg');
-      this.load.image('End','./GAMEover.png')
-      this.load.image('botonfin','./ReturnButton.png');
+      this.load.image('fondico','./Imagenes/Fondos_Botones/FondoMenu.jpg');
+      this.load.image('Logo','./Imagenes/Fondos_Botones/DproyectLogoWhite.png');
+      this.load.image('botonfin','./Imagenes/Fondos_Botones/ReturnButton.png');
       this.load.audio('GO_music','./Sounds/NewHope.ogg')
       //this.load.image('fondico','./FondoMenu.jpg');
   }
@@ -21,16 +21,16 @@ export default class EndGame extends Phaser.Scene {
     let image = this.add.image(400, 300, 'fondico');
     image.setScale(0.80);
 
-    this.GOText = this.add.text(90, 120, '¡Enhorabuena! Lograste terminar' , { fontSize: '35px', fill: '#FFFFFF'});
+    this.GOText = this.add.text(70, 120, '¡Enhorabuena! Lograste terminar' , { fontSize: '35px', fill: '#FFFFFF'});
     let image2 = this.add.image(400, 225, 'Logo');
     image2.setScale(0.30);
 
     let boton = this.add.image(400, 500, 'botonfin');
     boton.setScale(0.10);
     //let image = this.add.image(400, 300, 'fondo');
-    this.ScoreText = this.add.text(150, 300, 'Puntuacion final: ' + this.FinalScore, { fontSize: '40px', fill: '#FFFFFF'});
+    this.ScoreText = this.add.text(150, 300, 'Puntuación final: ' + this.FinalScore, { fontSize: '40px', fill: '#FFFFFF'});
 
-    this.sound.play("GO_music",{loop: true , volume: 0.01})
+    this.sound.play("GO_music",{loop: true , volume: 0.05})
 
     boton.setInteractive();
     boton.on("pointerover", ()=>{boton.setScale(0.11)})

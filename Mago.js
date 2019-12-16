@@ -1,9 +1,9 @@
 import Enemy from './Enemy.js';
 export default class Mago extends Enemy
 {
-    constructor(scene,x,y,type)
+    constructor(scene,x,y)
     {
-        super(scene,x,y,type);
+        super(scene,x,y,'mago');
         this.baldosa = scene.baldosa;
         this.TimeChangePosition = 3000;
         this.enemigo.setScale(1.5)

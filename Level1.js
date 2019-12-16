@@ -36,7 +36,26 @@ export default class Level1 extends Phaser.Scene {
     this.load.tilemapTiledJSON('tilemap1', './Level1.json');
     this.load.image('Dungeon', './MapaJuego/TileSet/0x72_16x16DungeonTileset.v4.png');
     this.load.audio('level1_music','./Sounds/DangerousDungeon.ogg');
+
     
+    this.load.image('sprite', './Personajes/Jugador/D.png');
+
+    this.load.image('llave','./Personajes/Objetos/llave.png');
+    this.load.image('enemigo','./Personajes/Enemigos/enemigo.png');
+    this.load.image('Deteccion', './Personajes/Objetos/Deteccion.png');
+    this.load.image('puerta', './Personajes/Objetos/puerta.png');
+    
+    this.load.image('bonus', './Personajes/Objetos/Bonus.png');
+    this.load.image('baldosa', './Personajes/Objetos/Baldosa.png');
+    this.load.image('mago','./Personajes/Enemigos/Mago.png');
+    this.load.image('fantasma','./Personajes/Enemigos/torreta.png');
+    this.load.image('circu','./Personajes/Enemigos/Patrullacircular.png');
+    
+    this.load.audio('coin_sound','./Sounds/Pickup_Coin.wav');
+    this.load.audio('catch_sound','./Sounds/Powerup2.wav');
+    this.load.audio('key_sound','./Sounds/KeyPick.wav');
+    this.load.audio('wizard_sound','./Sounds/MagoDash.wav');
+    this.load.spritesheet('Danim','./Personajes/Jugador/Danim.png',{frameWidth: 10, frameHeight: 14});
   }
 
   init(data){
@@ -76,11 +95,11 @@ export default class Level1 extends Phaser.Scene {
     this.llaves.add(this.llave3);
 
     //baldosas del nivel
-    this.baldosa1 = new Baldosa(this,240,255,'baldosa');
-    this.baldosa2 = new Baldosa(this,125,507,'baldosa');
-    this.baldosa3 = new Baldosa(this,575,80,'baldosa');
-    this.baldosa4 = new Baldosa(this,670,290,'baldosa');
-    this.baldosa5 = new Baldosa(this,735,420,'baldosa');
+    this.baldosa1 = new Baldosa(this,240,255);
+    this.baldosa2 = new Baldosa(this,125,507);
+    this.baldosa3 = new Baldosa(this,575,80);
+    this.baldosa4 = new Baldosa(this,670,290);
+    this.baldosa5 = new Baldosa(this,735,420);
     this.baldosa = this.baldosa1;
     //array de baldosas
     this.Baldosas = [this.baldosa1,this.baldosa2,this.baldosa3,this.baldosa4,this.baldosa5];
@@ -103,9 +122,9 @@ export default class Level1 extends Phaser.Scene {
 
     //declaracion de enemigos
     this.patrulla1 = new PatrullaRecorrido(this,135,125,185,250);
-    this.patrulla2 = new PatrullaPasillo(this,440,470,580,470,true,'enemigo');
+    this.patrulla2 = new PatrullaPasillo(this,440,470,580,470,true);
     this.torreta = new Torreta(this,540,270,'fantasma');
-    this.mago = new Mago(this,this.baldosa1.x, this.baldosa1.y,'mago')
+    this.mago = new Mago(this,this.baldosa1.x, this.baldosa1.y);
 
   
     // Añadir los enemigos a los grupos
@@ -178,7 +197,7 @@ export default class Level1 extends Phaser.Scene {
       this.actSec=0;
 
       this.sound.stopAll();
-      this.sound.play("level1_music",{loop: true , volume: 0.01})
+      this.sound.play("level1_music",{loop: true , volume: 0.05});
 
 
       // camera
@@ -271,7 +290,7 @@ export default class Level1 extends Phaser.Scene {
       this.actSec=0;
       this.actMin++;
     }
-      //this.TimeText.text= this.MaxTime + ' / '+this.actMin + ':' + this.actSec; 
+      
       this.hudTimer();
 
   }

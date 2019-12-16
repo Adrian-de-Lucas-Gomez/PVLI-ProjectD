@@ -3,7 +3,7 @@ export default class PatrullaPasillo extends Enemy
 {
     constructor(scene,x,y,x2,y2,horizontal,type)
     {
-        super(scene,x,y,type);
+        super(scene,x,y,'enemigo');
         this.Pos1X =x;
         this.Pos1Y = y;
         this.Pos2X =x2;

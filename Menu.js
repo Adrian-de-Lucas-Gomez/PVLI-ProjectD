@@ -3,30 +3,11 @@ export default class Menu extends Phaser.Scene {
     super({ key: 'Menu' });
   }
   preload(){
-      this.load.image('fondico','./FondoMenu.jpg');
-      this.load.image('boton','./StartButton.png');
-      this.load.image('Logo','./DproyectLogoWhite.png');
-      this.load.audio('title_music','./Sounds/Menu.ogg')
-      //this.load.image('fondico','./FondoMenu.jpg');
-      this.load.image('sprite', './D.png');
-
-    this.load.image('llave','./llave.png');
-    this.load.image('enemigo','./enemigo.png');
-    this.load.image('Deteccion', './Deteccion.png');
-    this.load.image('puerta', './puerta.png');
-    this.load.image('ojo', './Ojo2.png');
-    this.load.image('cuerpo', './CuerpoOjo.png')
-    this.load.image('bonus', './Bonus.png');
-    this.load.image('baldosa', './Baldosa.png')
-    this.load.image('mago','./Mago.png');
-    this.load.image('fantasma','./torreta.png');
-    this.load.image('circu','./Patrullacircular.png');
-    
-    this.load.audio('coin_sound','./Sounds/Pickup_Coin.wav');
-    this.load.audio('catch_sound','./Sounds/Powerup2.wav');
-    this.load.audio('key_sound','./Sounds/KeyPick.wav');
-    this.load.audio('wizard_sound','./Sounds/MagoDash.wav');
-    this.load.spritesheet('Danim','./Danim.png',{frameWidth: 10, frameHeight: 14});
+      this.load.image('fondico','./Imagenes/Fondos_Botones/FondoMenu.jpg');
+      this.load.image('boton','./Imagenes/Fondos_Botones/StartButton.png');
+      this.load.image('Logo','./Imagenes/Fondos_Botones/DproyectLogoWhite.png');
+      this.load.audio('title_music','./Sounds/Menu.ogg');
+      
   }
 
   create(){
@@ -38,7 +19,6 @@ export default class Menu extends Phaser.Scene {
 
     let boton = this.add.image(400, 450, 'boton');
     boton.setScale(0.10);
-    //let image = this.add.image(400, 300, 'fondo');
 
     this.sound.stopAll();
     this.sound.play("title_music",{loop: true , volume: 0.05})

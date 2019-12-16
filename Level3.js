@@ -31,7 +31,27 @@ export default class Level3 extends Phaser.Scene {
   
     this.load.tilemapTiledJSON('tilemap3', './Level3.json');
     this.load.image('Dungeon3', './MapaJuego/TileSet/0x72_16x16DungeonTileset(Blue).png');
-    this.load.audio('level3_music','./Sounds/BiologicalWeapon.ogg')
+    this.load.audio('level3_music','./Sounds/BiologicalWeapon.ogg');
+
+    this.load.image('sprite', './Personajes/Jugador/D.png');
+
+    this.load.image('llave','./Personajes/Objetos/llave.png');
+    this.load.image('enemigo','./Personajes/Enemigos/enemigo.png');
+    this.load.image('Deteccion', './Personajes/Objetos/Deteccion.png');
+    this.load.image('puerta', './Personajes/Objetos/puerta.png');
+    this.load.image('ojo', './Personajes/Enemigos/Ojo2.png');
+    this.load.image('cuerpo', './Personajes/Enemigos/CuerpoOjo.png');
+    this.load.image('bonus', './Personajes/Objetos/Bonus.png');
+    this.load.image('baldosa', './Personajes/Objetos/Baldosa.png');
+    this.load.image('mago','./Personajes/Enemigos/Mago.png');
+    this.load.image('fantasma','./Personajes/Enemigos/torreta.png');
+    this.load.image('circu','./Personajes/Enemigos/Patrullacircular.png');
+    
+    this.load.audio('coin_sound','./Sounds/Pickup_Coin.wav');
+    this.load.audio('catch_sound','./Sounds/Powerup2.wav');
+    this.load.audio('key_sound','./Sounds/KeyPick.wav');
+    this.load.audio('wizard_sound','./Sounds/MagoDash.wav');
+    this.load.spritesheet('Danim','./Personajes/Jugador/Danim.png',{frameWidth: 10, frameHeight: 14});
   }
 
   init(data){
@@ -68,12 +88,12 @@ export default class Level3 extends Phaser.Scene {
     this.llaves.add(this.llave5);
 
     //baldosas del nivel
-    this.baldosa1 = new Baldosa(this,70,120,'baldosa');
-    this.baldosa2 = new Baldosa(this,320,180,'baldosa');
-    this.baldosa3 = new Baldosa(this,280,385,'baldosa');
-    this.baldosa4 = new Baldosa(this,103,463,'baldosa');
-    this.baldosa5 = new Baldosa(this,630,410,'baldosa');
-    this.baldosa6 = new Baldosa(this,625,260,'baldosa');
+    this.baldosa1 = new Baldosa(this,70,120);
+    this.baldosa2 = new Baldosa(this,320,180);
+    this.baldosa3 = new Baldosa(this,280,385);
+    this.baldosa4 = new Baldosa(this,103,463);
+    this.baldosa5 = new Baldosa(this,630,410);
+    this.baldosa6 = new Baldosa(this,625,260);
     this.baldosa = this.baldosa1;
     //array de baldosas
     this.Baldosas = [this.baldosa1,this.baldosa2,this.baldosa3,this.baldosa4,this.baldosa5,this.baldosa6];
@@ -98,12 +118,12 @@ export default class Level3 extends Phaser.Scene {
     this.Cuerpos = this.add.group();
   
     this.patrulla1 = new PatrullaRecorrido(this,80,300,220,180);
-    this.patrulla2 = new PatrullaPasillo(this,520,90,640,90,true,'enemigo');
-    this.patrulla3 = new PatrullaPasillo(this,730,170,730,300,false,'enemigo');
+    this.patrulla2 = new PatrullaPasillo(this,520,90,640,90,true);
+    this.patrulla3 = new PatrullaPasillo(this,730,170,730,300,false);
     this.torreta1 = new Torreta(this,185,200,'fantasma');
     this.torreta2 = new Torreta(this,633 ,503,'fantasma');
-    this.mago = new Mago(this,this.baldosa1.x, this.baldosa1.y,'mago')
-    this.ojo = new Ojo(this,442,345,'ojo',375,400,'cuerpo');
+    this.mago = new Mago(this,this.baldosa1.x, this.baldosa1.y)
+    this.ojo = new Ojo(this,442,345,375,400);
 
     this.Enemigos.add(this.patrulla1.enemigo);
     this.Enemigos.add(this.patrulla2.enemigo);
@@ -185,7 +205,7 @@ export default class Level3 extends Phaser.Scene {
       this.actSec=0;
       //Musica
       this.sound.stopAll();
-      this.sound.play("level3_music",{loop: true , volume: 0.01})
+      this.sound.play("level3_music",{loop: true , volume: 0.05})
 
 
       // camera
@@ -193,11 +213,6 @@ export default class Level3 extends Phaser.Scene {
     this.cameras.main.setViewport(0, 0, 800, 600);
     this.cameras.main.startFollow(this.player);
     this.camera.setBounds(0, 0, 800, 600);
-
-
-    //Contador de un segundo
-    this.timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this , loop: true});
-    function onEvent(){this.actSec++;}
 
       //Contador de un segundo
       this.timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this , loop: true});
@@ -279,12 +294,14 @@ export default class Level3 extends Phaser.Scene {
      }
      else{this.AtaqueOjo = false;}
 
+    //tiempo
     if(this.actSec==60){
       this.actSec=0;
       this.actMin++;
     }
-
-    this.hudTimer();
+      
+      this.hudTimer();
+      
   }
   hudTimer(){
     if(this.actSec<10){

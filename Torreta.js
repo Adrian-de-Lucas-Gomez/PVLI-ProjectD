@@ -2,7 +2,7 @@ import Enemy from './Enemy.js';
 
 export default class Torreta extends Enemy
 {
-    constructor(scene,x,y, type)
+    constructor(scene,x,y,type)
     {
         super(scene,x,y,type);
         this.enemigo.setPosition(0,0);

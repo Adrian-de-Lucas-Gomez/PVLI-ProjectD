@@ -32,7 +32,27 @@ export default class Level2 extends Phaser.Scene {
    
     this.load.tilemapTiledJSON('tilemap2', './Level2.json');
     this.load.image('Dungeon2', './MapaJuego/TileSet/0x72_16x16DungeonTileset_Sand.PNG');
-    this.load.audio('level2_music','./Sounds/Level2.mp3')
+    this.load.audio('level2_music','./Sounds/Level2.mp3');
+
+    this.load.image('sprite', './Personajes/Jugador/D.png');
+
+    this.load.image('llave','./Personajes/Objetos/llave.png');
+    this.load.image('enemigo','./Personajes/Enemigos/enemigo.png');
+    this.load.image('Deteccion', './Personajes/Objetos/Deteccion.png');
+    this.load.image('puerta', './Personajes/Objetos/puerta.png');
+    this.load.image('ojo', './Personajes/Enemigos/Ojo2.png');
+    this.load.image('cuerpo', './Personajes/Enemigos/CuerpoOjo.png');
+    this.load.image('bonus', './Personajes/Objetos/Bonus.png');
+    this.load.image('baldosa', './Personajes/Objetos/Baldosa.png');
+    this.load.image('mago','./Personajes/Enemigos/Mago.png');
+    this.load.image('fantasma','./Personajes/Enemigos/torreta.png');
+    this.load.image('circu','./Personajes/Enemigos/Patrullacircular.png');
+    
+    this.load.audio('coin_sound','./Sounds/Pickup_Coin.wav');
+    this.load.audio('catch_sound','./Sounds/Powerup2.wav');
+    this.load.audio('key_sound','./Sounds/KeyPick.wav');
+    this.load.audio('wizard_sound','./Sounds/MagoDash.wav');
+    this.load.spritesheet('Danim','./Personajes/Jugador/Danim.png',{frameWidth: 10, frameHeight: 14});
   }
 
   init(data){
@@ -88,16 +108,14 @@ export default class Level2 extends Phaser.Scene {
     this.Triggers=this.add.group();
     this.Cuerpos = this.add.group();
 
-    //this.patrulla1 = new PatrullaPasillo(this,150,120,350,120,true,'enemigo');
-    //this.patrulla2 = new PatrullaPasillo(this,135,150,135,300,false,'enemigo');
-    //this.patrulla3 = new PatrullaPasillo(this,150,370,320,370,true,'enemigo');
+    
     this.patrulla1 = new PatrullaRecorrido(this,135,80,150,100);
-    this.patrulla2 = new PatrullaRecorrido(this,30,180,150,130)
-    this.patrulla3 = new PatrullaPasillo(this,30,470,270,470,true,'enemigo')
-    this.patrulla4 = new PatrullaPasillo(this,370,430,580,430,true,'enemigo')
+    this.patrulla2 = new PatrullaRecorrido(this,30,180,150,130);
+    this.patrulla3 = new PatrullaPasillo(this,30,470,270,470,true);
+    this.patrulla4 = new PatrullaPasillo(this,370,430,580,430,true);
     this.torreta1 = new Torreta(this,395,315,'fantasma');
-    this.torreta2 = new Torreta(this,600,110,'fantasma')
-    this.ojo = new Ojo(this,725,270,'ojo',640,200,'cuerpo');
+    this.torreta2 = new Torreta(this,600,110,'fantasma');
+    this.ojo = new Ojo(this,725,270,640,200);
 
     this.Enemigos.add(this.patrulla1.enemigo);
     this.Enemigos.add(this.patrulla2.enemigo);
