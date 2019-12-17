@@ -8,7 +8,7 @@ export default class Deteccion extends Phaser.Physics.Arcade.Sprite
         this.body.immovable = true;
         this.setAngle(-90);
         
-        
+        this.alpha=0.5;
     }
     create()
     {

@@ -9,6 +9,7 @@ export default class Baldosa extends Phaser.Physics.Arcade.Sprite
         this.setScale(0.90);
         //this.setAngle(0);
         this.body.immovable = true;
-
+        
+        this.alpha=0.65;
     }
 }

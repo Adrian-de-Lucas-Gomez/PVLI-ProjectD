@@ -9,7 +9,7 @@ export default class Puerta extends Phaser.Physics.Arcade.Sprite
         this.body.immovable = true;
 
         this.open = false;
-        this.setScale(0.05);
+        this.setScale(1);
     }
     create()
     {}
