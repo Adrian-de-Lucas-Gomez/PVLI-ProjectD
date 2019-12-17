@@ -26,7 +26,7 @@ export default class GameOver extends Phaser.Scene {
     let boton = this.add.image(400, 500, 'botonfin');
     boton.setScale(0.10);
 
-    this.ScoreText = this.add.text(225, 250, 'Puntuacion: ' + this.FinalScore, { fontSize: '40px', fill: '#FFFFFF'});
+    this.ScoreText = this.add.text(265, 250, 'Score: ' + this.FinalScore, { fontSize: '40px', fill: '#FFFFFF'});
 
     this.sound.play("GO_music",{loop: true , volume: 0.05})
 

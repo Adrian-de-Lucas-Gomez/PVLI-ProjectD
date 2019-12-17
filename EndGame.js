@@ -7,7 +7,7 @@ export default class EndGame extends Phaser.Scene {
       this.load.image('fondico','./Imagenes/Fondos_Botones/FondoMenu.jpg');
       this.load.image('Logo','./Imagenes/Fondos_Botones/DproyectLogoWhite.png');
       this.load.image('botonfin','./Imagenes/Fondos_Botones/ReturnButton.png');
-      this.load.audio('GO_music','./Sounds/NewHope.ogg')
+      this.load.audio('End_music','./Sounds/NewHope.ogg');
       //this.load.image('fondico','./FondoMenu.jpg');
   }
   init(data){
@@ -28,9 +28,9 @@ export default class EndGame extends Phaser.Scene {
     let boton = this.add.image(400, 500, 'botonfin');
     boton.setScale(0.10);
     //let image = this.add.image(400, 300, 'fondo');
-    this.ScoreText = this.add.text(150, 300, 'Puntuación final: ' + this.FinalScore, { fontSize: '40px', fill: '#FFFFFF'});
+    this.ScoreText = this.add.text(150, 300, 'Final score: ' + this.FinalScore, { fontSize: '40px', fill: '#FFFFFF'});
 
-    this.sound.play("GO_music",{loop: true , volume: 0.05})
+    this.sound.play("End_music",{loop: true , volume: 0.05})
 
     boton.setInteractive();
     boton.on("pointerover", ()=>{boton.setScale(0.11)})
